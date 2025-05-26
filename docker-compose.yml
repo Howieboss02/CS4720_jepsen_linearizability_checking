@@ -1,0 +1,143 @@
+services:
+  # Redis nodes
+  redis-n1:
+    image: redis:8.0
+    container_name: redis-n1
+    hostname: n1
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.10
+    ports:
+      - "6380:6379"
+      - "26380:26379"
+    volumes:
+      - ./docker/redis-n1.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/sentinel-n1.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-n2:
+    image: redis:8.0
+    container_name: redis-n2
+    hostname: n2
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.11
+    ports:
+      - "6381:6379"
+      - "26381:26379"
+    volumes:
+      - ./docker/redis-n2.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/sentinel-n2.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    depends_on:
+      - redis-n1
+
+  redis-n3:
+    image: redis:8.0
+    container_name: redis-n3
+    hostname: n3
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.12
+    ports:
+      - "6382:6379"
+      - "26382:26379"
+    volumes:
+      - ./docker/redis-n3.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/sentinel-n3.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    depends_on:
+      - redis-n1
+
+  redis-n4:
+    image: redis:8.0
+    container_name: redis-n4
+    hostname: n4
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.13
+    ports:
+      - "6383:6379"
+      - "26383:26379"
+    volumes:
+      - ./docker/redis-n4.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/sentinel-n4.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    depends_on:
+      - redis-n1
+
+  redis-n5:
+    image: redis:8.0
+    container_name: redis-n5
+    hostname: n5
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.14
+    ports:
+      - "6384:6379"
+      - "26384:26379"
+    volumes:
+      - ./docker/redis-n5.conf:/usr/local/etc/redis/redis.conf
+      - ./docker/sentinel-n5.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    depends_on:
+      - redis-n1
+
+  # Sentinel services
+  sentinel-n1:
+    image: redis:8.0
+    container_name: sentinel-n1
+    hostname: sentinel-n1
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.20
+    ports:
+      - "26390:26379"
+    volumes:
+      - ./docker/sentinel-n1.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    depends_on:
+      - redis-n1
+      - redis-n2
+      - redis-n3
+
+  sentinel-n2:
+    image: redis:8.0
+    container_name: sentinel-n2
+    hostname: sentinel-n2
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.21
+    ports:
+      - "26391:26379"
+    volumes:
+      - ./docker/sentinel-n2.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    depends_on:
+      - redis-n1
+      - redis-n2
+      - redis-n3
+
+  sentinel-n3:
+    image: redis:8.0
+    container_name: sentinel-n3
+    hostname: sentinel-n3
+    networks:
+      redis-net:
+        ipv4_address: 172.20.0.22
+    ports:
+      - "26392:26379"
+    volumes:
+      - ./docker/sentinel-n3.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    depends_on:
+      - redis-n1
+      - redis-n2
+      - redis-n3
+
+networks:
+  redis-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
