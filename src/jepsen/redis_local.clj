@@ -1,12 +1,9 @@
 (ns jepsen.redis-local
-    (:require [clojure.tools.logging :refer :all]
-              [clojure.string :as str]
-              [taoensso.carmine :as car :refer (wcar)]
-              [clojure.set :as set])
-    (:gen-class))
-
-;; Local Docker-based Redis test
-;; This version connects to Redis instances running in Docker containers
+  (:require [clojure.tools.logging :refer :all]
+            [clojure.string :as str]
+            [taoensso.carmine :as car :refer (wcar)]
+            [clojure.set :as set])
+  (:gen-class))
 
 (def redis-nodes
   {"n1" {:host "localhost" :port 6380}
@@ -37,42 +34,56 @@
   [sentinel-config]
   (try
     (info "Attempting to get master from sentinel at" (:host sentinel-config) ":" (:port sentinel-config))
-    (let [conn (sentinel-conn-spec sentinel-config)]
-      (info "Connected to sentinel, executing command...")
-      (let [result (wcar conn
-                         (car/redis-call ["SENTINEL" "get-master-addr-by-name" "mymaster"]))]
-        (info "Sentinel response:" result)
-        result))
+    (let [conn (sentinel-conn-spec sentinel-config)
+          result (wcar conn (car/redis-call ["SENTINEL" "get-master-addr-by-name" "mymaster"]))]
+      (info "Sentinel response:" result)
+      result)
     (catch Exception e
-      (warn "Failed to get master from sentinel:" (.getMessage e))
+      (warn e "Failed to get master from sentinel:" sentinel-config)
       nil)))
 
 (defn find-current-master
   "Find the current master by asking all sentinels"
   []
-  (info "Starting master discovery process...")
-  (loop [sentinels (vals sentinel-nodes)]
-    (when (seq sentinels)
-          (info "Trying sentinel:" (first sentinels))
-          (if-let [master-info (get-master-from-sentinel (first sentinels))]
-            (let [host (first master-info)
-                  port (Integer/parseInt (second master-info))]
-              (info "Found master at" host ":" port)
-              {:host host :port port})
-            (do
-              (info "No master found from current sentinel, trying next...")
-              (recur (rest sentinels)))))))
+  (info "Looking for master...")
+  (loop [sentinels (seq (vals sentinel-nodes))]
+    (if (empty? sentinels)
+      (do
+        (warn "No sentinels returned a master")
+        nil)
+      (let [sentinel (first sentinels)
+            result (get-master-from-sentinel sentinel)]
+        (if (and (vector? result) (= 2 (count result)))
+          (let [[host port-str] result]
+            (try
+              (let [port (Integer/parseInt port-str)]
+                (info "Found master at" host ":" port)
+                {:host host :port port})
+              (catch NumberFormatException e
+                (warn e "Invalid port in sentinel response:" port-str)
+                )))
+          (do
+            (info "No valid master from sentinel, trying next...")
+            ))))))
 
 (defn add-to-set
   "Add a value to the Redis set"
   [value]
   (try
     (if-let [master (find-current-master)]
-      (let [conn (redis-conn-spec master)]
-        (wcar conn (car/sadd "jepsen-test-set" (str value)))
-        {:success true :value value})
-      {:success false :error "No master found" :value value})
+      (try
+        (let [conn (redis-conn-spec master)]
+          (wcar conn (car/sadd "jepsen-test-set" (str value)))
+          (info "Added value" value "to set at" (:host master) ":" (:port master))
+          {:success true :value value})
+        (catch Exception e
+          (error e "Exception while connecting to Redis or writing")
+          {:success false :error (.getMessage e) :value value}))
+      (do
+        (info "No master found, cannot add value")
+        {:success false :error "No master found" :value value}))
     (catch Exception e
+      (error e "Unhandled exception in add-to-set")
       {:success false :error (.getMessage e) :value value})))
 
 (defn read-set
@@ -80,11 +91,19 @@
   []
   (try
     (if-let [master (find-current-master)]
-      (let [conn (redis-conn-spec master)]
-        (let [members (wcar conn (car/smembers "jepsen-test-set"))]
-          {:success true :value (set (map #(Integer/parseInt %) members))}))
-      {:success false :error "No master found"})
+      (try
+        (let [conn (redis-conn-spec master)
+              members (wcar conn (car/smembers "jepsen-test-set"))]
+          (info "Read set from" (:host master) ":" (:port master) "with members:" members)
+          {:success true :value (set (map #(Integer/parseInt %) members))})
+        (catch Exception e
+          (error e "Exception while reading from Redis")
+          {:success false :error (.getMessage e)}))
+      (do
+        (info "No master found, cannot read set")
+        {:success false :error "No master found"}))
     (catch Exception e
+      (error e "Unhandled exception in read-set")
       {:success false :error (.getMessage e)})))
 
 (defn clear-set
@@ -92,43 +111,42 @@
   []
   (try
     (if-let [master (find-current-master)]
-      (let [conn (redis-conn-spec master)]
-        (wcar conn (car/del "jepsen-test-set"))
-        {:success true})
-      {:success false :error "No master found"})
+      (try
+        (let [conn (redis-conn-spec master)]
+          (wcar conn (car/del "jepsen-test-set"))
+          (info "Cleared the Redis set at" (:host master) ":" (:port master))
+          {:success true})
+        (catch Exception e
+          (error e "Error clearing Redis set")
+          {:success false :error (.getMessage e)}))
+      (do
+        (info "No master found, cannot clear set")
+        {:success false :error "No master found"}))
     (catch Exception e
+      (error e "Unhandled exception in clear-set")
       {:success false :error (.getMessage e)})))
 
-(defn simulate-partition
-  "Simulate network partition by blocking connections to some nodes"
-  []
+(defn simulate-partition []
   (println "Simulating network partition...")
-  (println "In a real test, this would use iptables or Docker network manipulation")
-  (println "For this demo, we'll just note that partition is 'active'"))
+  (println "In a real test, this would use iptables or Docker network manipulation"))
 
-(defn heal-partition
-  "Heal the network partition"
-  []
+(defn heal-partition []
   (println "Healing network partition...")
   (println "In a real test, this would restore network connectivity"))
 
-(defn run-write-workload
-  "Run a workload that writes integers to the set"
-  [n-writes]
+(defn run-write-workload [n-writes]
   (println (str "Starting write workload: " n-writes " writes"))
   (let [results (atom [])]
     (doseq [i (range n-writes)]
       (let [result (add-to-set i)]
         (swap! results conj result)
-        (when (zero? (mod i 10))
-              (print "."))
-        (Thread/sleep 100))) ; 100ms between writes
+        (when (zero? (mod i 10)) (print "."))
+        (flush)
+        (Thread/sleep 100)))
     (println)
     @results))
 
-(defn analyze-results
-  "Analyze the test results"
-  [write-results final-set]
+(defn analyze-results [write-results final-set]
   (let [attempted (count write-results)
         acknowledged (count (filter :success write-results))
         successful-values (set (map :value (filter :success write-results)))
@@ -141,12 +159,10 @@
     (println (str acknowledged " writes acknowledged"))
     (println (str (count survivors) " writes survived"))
     (println (str (count lost) " acknowledged writes lost!"))
-
     (when (seq lost)
-          (println "Lost values:" (sort (take 20 lost))))
-
+      (println "Lost values:" (sort (take 20 lost))))
     (println (str "Acknowledgment rate: " (float (/ acknowledged attempted))))
-    (println (str "Loss rate: " (float (/ (count lost) acknowledged))))
+    (println (str "Loss rate: " (float (/ (count lost) (max 1 acknowledged)))))
 
     {:attempted attempted
      :acknowledged acknowledged
@@ -154,55 +170,38 @@
      :lost (count lost)
      :lost-values lost}))
 
-(defn demo-test
-  "Run a demonstration of the Redis partition test"
-  []
+(defn demo-test []
   (println "=== JEPSEN REDIS DEMO ===")
   (println "This demo simulates the Redis partition test locally using Docker")
-  (println)
-
-  ;; Clear any existing data
-  (println "Clearing existing data...")
+  (println "\nClearing existing data...")
   (clear-set)
 
-  ;; Initial write phase
   (println "Phase 1: Initial writes (no partition)")
   (let [initial-results (run-write-workload 50)]
     (Thread/sleep 1000)
 
-    ;; Simulate partition
     (println "\nPhase 2: Simulating network partition")
     (simulate-partition)
 
-    ;; Continue writing during partition
     (println "Phase 3: Writes during partition")
     (let [partition-results (run-write-workload 100)]
       (Thread/sleep 2000)
 
-      ;; Heal partition
       (println "\nPhase 4: Healing partition")
       (heal-partition)
       (Thread/sleep 2000)
 
-      ;; Final read
       (println "Phase 5: Final read")
       (let [final-set (read-set)
             all-results (concat initial-results partition-results)]
-
-        ;; Analyze results
         (analyze-results all-results final-set)))))
 
-(defn check-cluster-status
-  "Check the status of the Redis cluster"
-  []
+(defn check-cluster-status []
   (println "=== CLUSTER STATUS ===")
-
-  ;; Check master
   (if-let [master (find-current-master)]
     (println (str "Current master: " (:host master) ":" (:port master)))
     (println "No master found!"))
 
-  ;; Check each Redis node
   (println "\nRedis nodes:")
   (doseq [[name config] redis-nodes]
     (try
@@ -210,9 +209,9 @@
         (wcar conn (car/ping))
         (println (str "  " name " (" (:host config) ":" (:port config) ") - OK")))
       (catch Exception e
-        (println (str "  " name " (" (:host config) ":" (:port config) ") - ERROR: " (.getMessage e))))))
+        (println (str "  " name " - ERROR: " (.getMessage e)))
+        (error e "Error checking Redis node" name))))
 
-  ;; Check sentinels
   (println "\nSentinel nodes:")
   (doseq [[name config] sentinel-nodes]
     (try
@@ -220,17 +219,16 @@
         (wcar conn (car/ping))
         (println (str "  " name " (" (:host config) ":" (:port config) ") - OK")))
       (catch Exception e
-        (println (str "  " name " (" (:host config) ":" (:port config) ") - ERROR: " (.getMessage e)))))))
+        (println (str "  " name " - ERROR: " (.getMessage e)))
+        (error e "Error checking Sentinel node" name)))))
 
-(defn -main
-  "Main entry point"
-  [& args]
+(defn -main [& args]
   (case (first args)
-        "status" (check-cluster-status)
-        "demo" (demo-test)
-        "clear" (do (clear-set) (println "Set cleared"))
-        (do
-          (println "Usage:")
-          (println "  lein run local status  - Check cluster status")
-          (println "  lein run local demo    - Run demo test")
-          (println "  lein run local clear   - Clear test data"))))
+    "status" (check-cluster-status)
+    "demo"   (demo-test)
+    "clear"  (do (clear-set) (println "Set cleared"))
+    (do
+      (println "Usage:")
+      (println "  lein run local status  - Check cluster status")
+      (println "  lein run local demo    - Run demo test")
+      (println "  lein run local clear   - Clear test data"))))

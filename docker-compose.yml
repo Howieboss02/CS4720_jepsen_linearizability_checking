@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   # Redis nodes
   redis-n1:
@@ -9,10 +11,8 @@ services:
         ipv4_address: 172.20.0.10
     ports:
       - "6380:6379"
-      - "26380:26379"
     volumes:
       - ./docker/redis-n1.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n1.conf:/usr/local/etc/redis/sentinel.conf
     command: redis-server /usr/local/etc/redis/redis.conf
 
   redis-n2:
@@ -24,10 +24,8 @@ services:
         ipv4_address: 172.20.0.11
     ports:
       - "6381:6379"
-      - "26381:26379"
     volumes:
       - ./docker/redis-n2.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n2.conf:/usr/local/etc/redis/sentinel.conf
     command: redis-server /usr/local/etc/redis/redis.conf
     depends_on:
       - redis-n1
@@ -41,10 +39,8 @@ services:
         ipv4_address: 172.20.0.12
     ports:
       - "6382:6379"
-      - "26382:26379"
     volumes:
       - ./docker/redis-n3.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n3.conf:/usr/local/etc/redis/sentinel.conf
     command: redis-server /usr/local/etc/redis/redis.conf
     depends_on:
       - redis-n1
@@ -58,10 +54,8 @@ services:
         ipv4_address: 172.20.0.13
     ports:
       - "6383:6379"
-      - "26383:26379"
     volumes:
       - ./docker/redis-n4.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n4.conf:/usr/local/etc/redis/sentinel.conf
     command: redis-server /usr/local/etc/redis/redis.conf
     depends_on:
       - redis-n1
@@ -75,10 +69,8 @@ services:
         ipv4_address: 172.20.0.14
     ports:
       - "6384:6379"
-      - "26384:26379"
     volumes:
       - ./docker/redis-n5.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n5.conf:/usr/local/etc/redis/sentinel.conf
     command: redis-server /usr/local/etc/redis/redis.conf
     depends_on:
       - redis-n1
