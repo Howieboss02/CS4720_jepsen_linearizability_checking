@@ -101,5 +101,128 @@
         (log/error "Failover test failed:" (.getMessage e))
         (is false (str "Failover test failed: " (.getMessage e)))))))
 
-(defn -main []
-  (run-tests))
+(deftest linearizability-test
+  (testing "Redis operations maintain linearizability under concurrent access"
+    (let [histories (atom [])
+          key-name "linearizability-test-key"
+          num-threads 5
+          operations-per-thread 10]
+      
+      (try
+        ;; Initialize the key
+        (wcar primary-conn
+              (car/set key-name 0))
+        
+        ;; Record initial state
+        (swap! histories conj {:type :invoke :f :read :value nil :time (System/nanoTime) :process :init})
+        (let [initial-value (wcar primary-conn (car/get key-name))]
+          (swap! histories conj {:type :ok :f :read :value (Integer/parseInt initial-value) :time (System/nanoTime) :process :init}))
+        
+        ;; Run concurrent operations
+        (let [threads (for [thread-id (range num-threads)]
+                        (future
+                          (doseq [op-id (range operations-per-thread)]
+                            (let [process-id (keyword (str "thread-" thread-id))
+                                  operation (if (even? op-id) :write :read)]
+                              
+                              (if (= operation :write)
+                                ;; Write operation (increment)
+                                (let [invoke-time (System/nanoTime)]
+                                  (swap! histories conj {:type :invoke :f :write :value :increment :time invoke-time :process process-id})
+                                  (try
+                                    (let [new-value (wcar primary-conn (car/incr key-name))
+                                          ok-time (System/nanoTime)]
+                                      (swap! histories conj {:type :ok :f :write :value new-value :time ok-time :process process-id}))
+                                    (catch Exception e
+                                      (let [fail-time (System/nanoTime)]
+                                        (swap! histories conj {:type :fail :f :write :value :increment :time fail-time :process process-id :error (.getMessage e)}))))
+                                  (Thread/sleep 100))
+                                
+                                ;; Read operation
+                                (let [invoke-time (System/nanoTime)]
+                                  (swap! histories conj {:type :invoke :f :read :value nil :time invoke-time :process process-id})
+                                  (try
+                                    (let [value (wcar primary-conn (car/get key-name))
+                                          parsed-value (Integer/parseInt value)
+                                          ok-time (System/nanoTime)]
+                                      (swap! histories conj {:type :ok :f :read :value parsed-value :time ok-time :process process-id}))
+                                    (catch Exception e
+                                      (let [fail-time (System/nanoTime)]
+                                        (swap! histories conj {:type :fail :f :read :value nil :time fail-time :process process-id :error (.getMessage e)}))))))))))]
+          
+          ;; Wait for all threads to complete
+          (doseq [thread threads]
+            @thread))
+        
+        ;; Sort history by time
+        (let [sorted-history (sort-by :time @histories)]
+          (log/info "Total operations:" (count sorted-history))
+          (log/info "Sample operations:" (take 10 sorted-history))
+          
+          ;; Basic linearizability checks
+          (let [reads (filter #(= (:f %) :read) sorted-history)
+                writes (filter #(= (:f %) :write) sorted-history)
+                successful-reads (filter #(= (:type %) :ok) reads)
+                successful-writes (filter #(= (:type %) :ok) writes)]
+            
+            ;; Check that all reads return non-negative values
+            (doseq [read successful-reads]
+              (is (>= (:value read) 0) "All reads should return non-negative values"))
+            
+            ;; Check that reads are monotonic within each process
+            (doseq [process (distinct (map :process successful-reads))]
+              (let [process-reads (filter #(= (:process %) process) successful-reads)
+                    process-read-values (map :value process-reads)]
+                (is (apply <= process-read-values) 
+                    (format "Reads within process %s should be monotonic: %s" process process-read-values))))
+            
+            ;; Check that final read reflects all writes
+            (let [final-value (wcar primary-conn (car/get key-name))
+                  expected-final (count successful-writes)]
+              (is (= (Integer/parseInt final-value) expected-final)
+                  (format "Final value %s should equal number of successful writes %d" final-value expected-final)))
+            
+            ;; Check that no read returns a value greater than the number of writes at that time
+            (doseq [read successful-reads]
+              (let [writes-before (count (filter #(and (= (:f %) :write
+                                                        (= (:type %) :ok)
+                                                        (<= (:time %) (:time read))))
+                                                 sorted-history))]
+                (is (<= (:value read) writes-before)
+                    (format "Read value %d should not exceed writes completed by time %d (writes: %d)" 
+                            (:value read) (:time read) writes-before))))
+            
+            (log/info "Linearizability checks passed!")
+            (log/info "Successful reads:" (count successful-reads))
+            (log/info "Successful writes:" (count successful-writes))))
+        
+        ;; Cleanup
+        (finally
+          (wcar primary-conn
+                (car/del key-name)))))))
+
+(deftest simple-linearizability-test
+  (testing "Simple linearizability with sequential consistency"
+    (let [key-name "simple-linear-test"]
+      (try
+        ;; Test 1: Sequential writes and reads should be consistent
+        (wcar primary-conn (car/set key-name 1))
+        (let [value1 (Integer/parseInt (wcar primary-conn (car/get key-name)))]
+          (is (= 1 value1) "First read should return 1"))
+        
+        (wcar primary-conn (car/set key-name 2))
+        (let [value2 (Integer/parseInt (wcar primary-conn (car/get key-name)))]
+          (is (= 2 value2) "Second read should return 2"))
+        
+        ;; Test 2: Increment operations should be atomic
+        (wcar primary-conn (car/set key-name 0))
+        (dotimes [i 5]
+          (wcar primary-conn (car/incr key-name)))
+        
+        (let [final-value (Integer/parseInt (wcar primary-conn (car/get key-name)))]
+          (is (= 5 final-value) "After 5 increments, value should be 5"))
+        
+        (log/info "Simple linearizability test passed!")
+        
+        (finally
+          (wcar primary-conn (car/del key-name)))))))
