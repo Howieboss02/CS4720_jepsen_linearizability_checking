@@ -3,13 +3,13 @@
   (:require [clojure.tools.logging :as log]
             [clojure.string :as str]
             [jepsen [checker :as checker]
-                    [cli :as cli]
-                    [client :as client]
-                    [control :as c]
-                    [db :as db]
-                    [generator :as gen]
-                    [nemesis :as nemesis]
-                    [tests :as tests]]
+             [cli :as cli]
+             [client :as client]
+             [control :as c]
+             [db :as db]
+             [generator :as gen]
+             [nemesis :as nemesis]
+             [tests :as tests]]
             [jepsen.checker.timeline :as timeline]
             [jepsen.control.util :as cu]
             [jepsen.os.debian :as debian]
@@ -60,21 +60,24 @@
               (assoc op :type :fail :error result)))
 
           :cas
-          (let [[k old new] value]
-            (wcar (:conn-spec this)
-              (car/watch (str k))
-              (let [current (car/get (str k))
-                    current-val (when current (Long/parseLong current))]
-                (if (= current-val old)
-                  (let [[result] (car/multi
-                                   (car/set (str k) (str new)))]
-                    (if (= "OK" result)
-                      (assoc op :type :ok)
-                      (assoc op :type :fail :error "Transaction failed")))
-                  (do
-                    (car/unwatch)
-                    (assoc op :type :fail :error "Value mismatch"))))))
+          (wcar (:conn-spec this)
+                (car/watch (str (first value)))
+                (let [k (first value)
+                      old (second value)
+                      new (nth value 2)
+                      current (car/get (str k))
+                      current-val (when current (Long/parseLong current))]
+                  (if (= current-val old)
+                    (let [result (car/multi
+                                  (car/set (str k) (str new)))]
+                      (if (= "OK" (first result))
+                        (assoc op :type :ok)
+                        (assoc op :type :fail :error "Transaction failed")))
+                    (do
+                      (car/unwatch)
+                      (assoc op :type :fail :error "Value mismatch")))))
 
+          (assoc op :type :fail :error "Unknown operation"))
         (catch Exception e
           (log/warn e "Redis operation failed")
           (assoc op :type :fail :error (.getMessage e))))))
@@ -87,7 +90,7 @@
 (defn redis-client
   "Creates a new Redis client"
   []
-  (RedisClient. nil nil))
+  (->RedisClient nil nil))
 
 ;; Database setup (for containerized environment)
 (defn db
@@ -136,14 +139,17 @@
 (defn rw-gen
   "Generator for read/write operations"
   []
-  (gen/mix [gen/r gen/w]))
+  (gen/mix
+   [{:f :read :value (rand-int 5)}
+    {:f :write :value [(rand-int 5) (rand-int 100)]}]))
 
 (defn cas-gen
   "Generator for compare-and-swap operations"
   []
-  (->> (gen/mix [{:f :read :value (rand-int 5)}
-                 {:f :write :value [(rand-int 5) (rand-int 100)]}
-                 {:f :cas :value [(rand-int 5) (rand-int 100) (rand-int 100)]}])
+  (->> (gen/mix
+        [{:f :read :value (rand-int 5)}
+         {:f :write :value [(rand-int 5) (rand-int 100)]}
+         {:f :cas :value [(rand-int 5) (rand-int 100) (rand-int 100)]}])
        (gen/stagger 1/10)))
 
 ;; Workloads
@@ -158,12 +164,12 @@
                         :algorithm :linear})
               :timeline (timeline/html)})
    :generator (->> (cas-gen)
-                   (gen/stagger 1/10)
                    (gen/nemesis
-                    (gen/seq (cycle [(gen/sleep 5)
-                                     {:type :info :f :start}
-                                     (gen/sleep 5)
-                                     {:type :info :f :stop}])))
+                    (cycle
+                     [(gen/sleep 5)
+                      {:type :info :f :start}
+                      (gen/sleep 5)
+                      {:type :info :f :stop}]))
                    (gen/time-limit (:time-limit opts 60)))
    :nemesis (partition-nemesis)})
 
