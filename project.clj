@@ -24,3 +24,6 @@
              "-Xmx4g"
              "-XX:+UseG1GC"
              "-XX:MaxGCPauseMillis=50"])
+
+  :source-paths ["src"]
+  :test-paths ["test"]
