@@ -1,143 +1,167 @@
+# Docker Compose setup for Redis Sentinel Jepsen testing
+# Alternative to Vagrant for containerized testing environment
+
+version: '3.8'
+
 services:
-  # Redis nodes
-  redis-n1:
-    image: redis:8.0
-    container_name: redis-n1
-    hostname: n1
+  # Redis Primary
+  redis-primary:
+    image: redis:7.0.15-alpine
+    hostname: redis-primary
+    container_name: jepsen-redis-primary
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/redis-primary.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-primary-data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
     networks:
-      redis-net:
-        ipv4_address: 172.20.0.10
+      - redis-network
+    restart: unless-stopped
+
+  # Redis Replica 1
+  redis-replica1:
+    image: redis:7.0.15-alpine
+    hostname: redis-replica1
+    container_name: jepsen-redis-replica1
     ports:
       - "6380:6379"
-      - "26380:26379"
     volumes:
-      - ./docker/redis-n1.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n1.conf:/usr/local/etc/redis/sentinel.conf
+      - ./docker/redis-replica1.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-replica1-data:/data
     command: redis-server /usr/local/etc/redis/redis.conf
-
-  redis-n2:
-    image: redis:8.0
-    container_name: redis-n2
-    hostname: n2
     networks:
-      redis-net:
-        ipv4_address: 172.20.0.11
+      - redis-network
+    depends_on:
+      - redis-primary
+    restart: unless-stopped
+
+  # Redis Replica 2
+  redis-replica2:
+    image: redis:7.0.15-alpine
+    hostname: redis-replica2
+    container_name: jepsen-redis-replica2
     ports:
       - "6381:6379"
+    volumes:
+      - ./docker/redis-replica2.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-replica2-data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - redis-network
+    depends_on:
+      - redis-primary
+    restart: unless-stopped
+
+  # Sentinel 1
+  redis-sentinel1:
+    image: redis:7.0.15-alpine
+    hostname: redis-sentinel1
+    container_name: jepsen-redis-sentinel1
+    ports:
+      - "26379:26379"
+    volumes:
+      - ./docker/sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+    command: sh -c "cp /usr/local/etc/redis/sentinel.conf /tmp/sentinel.conf &&
+         redis-sentinel /tmp/sentinel.conf"
+    networks:
+      - redis-network
+    depends_on:
+      - redis-primary
+      - redis-replica1
+      - redis-replica2
+    restart: unless-stopped
+
+  # Sentinel 2
+  redis-sentinel2:
+    image: redis:7.0.15-alpine
+    hostname: redis-sentinel2
+    container_name: jepsen-redis-sentinel2
+    ports:
+      - "26380:26379"
+    volumes:
+      - ./docker/sentinel2.conf:/usr/local/etc/redis/sentinel.conf
+    command: sh -c "cp /usr/local/etc/redis/sentinel.conf /tmp/sentinel.conf &&
+         redis-sentinel /tmp/sentinel.conf"
+    networks:
+      - redis-network
+    depends_on:
+      - redis-primary
+      - redis-replica1
+      - redis-replica2
+    restart: unless-stopped
+
+  # Sentinel 3
+  redis-sentinel3:
+    image: redis:7.0.15-alpine
+    hostname: redis-sentinel3
+    container_name: jepsen-redis-sentinel3
+    ports:
       - "26381:26379"
     volumes:
-      - ./docker/redis-n2.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n2.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-server /usr/local/etc/redis/redis.conf
-    depends_on:
-      - redis-n1
-
-  redis-n3:
-    image: redis:8.0
-    container_name: redis-n3
-    hostname: n3
+      - ./docker/sentinel3.conf:/usr/local/etc/redis/sentinel.conf
+    command: sh -c "cp /usr/local/etc/redis/sentinel.conf /tmp/sentinel.conf &&
+         redis-sentinel /tmp/sentinel.conf"
     networks:
-      redis-net:
-        ipv4_address: 172.20.0.12
-    ports:
-      - "6382:6379"
-      - "26382:26379"
-    volumes:
-      - ./docker/redis-n3.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n3.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-server /usr/local/etc/redis/redis.conf
+      - redis-network
     depends_on:
-      - redis-n1
+      - redis-primary
+      - redis-replica1
+      - redis-replica2
+    restart: unless-stopped
 
-  redis-n4:
-    image: redis:8.0
-    container_name: redis-n4
-    hostname: n4
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.13
-    ports:
-      - "6383:6379"
-      - "26383:26379"
+  # Jepsen Control Node
+  jepsen-control:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.jepsen
+    hostname: jepsen-control
+    container_name: jepsen-control
     volumes:
-      - ./docker/redis-n4.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n4.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-server /usr/local/etc/redis/redis.conf
+      - .:/jepsen-redis
+      - jepsen-results:/results
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /jepsen-redis
+    networks:
+      - redis-network
     depends_on:
-      - redis-n1
+      - redis-primary
+      - redis-replica1
+      - redis-replica2
+      - redis-sentinel1
+      - redis-sentinel2
+      - redis-sentinel3
+    environment:
+      - REDIS_NODES=redis-primary,redis-replica1,redis-replica2
+      - SENTINEL_NODES=redis-sentinel1,redis-sentinel2,redis-sentinel3
+    command: tail -f /dev/null  # Keep container running
 
-  redis-n5:
-    image: redis:8.0
-    container_name: redis-n5
-    hostname: n5
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.14
-    ports:
-      - "6384:6379"
-      - "26384:26379"
+  # Chaos Engineering Node (for fault injection)
+  chaos-monkey:
+    image: alpine:latest
+    hostname: chaos-monkey
+    container_name: chaos-monkey
     volumes:
-      - ./docker/redis-n5.conf:/usr/local/etc/redis/redis.conf
-      - ./docker/sentinel-n5.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-server /usr/local/etc/redis/redis.conf
-    depends_on:
-      - redis-n1
-
-  # Sentinel services
-  sentinel-n1:
-    image: redis:8.0
-    container_name: sentinel-n1
-    hostname: sentinel-n1
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/chaos-scripts:/chaos-scripts:ro
     networks:
-      redis-net:
-        ipv4_address: 172.20.0.20
-    ports:
-      - "26390:26379"
-    volumes:
-      - ./docker/sentinel-n1.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+      - redis-network
+    privileged: true
+    command: tail -f /dev/null
     depends_on:
-      - redis-n1
-      - redis-n2
-      - redis-n3
-
-  sentinel-n2:
-    image: redis:8.0
-    container_name: sentinel-n2
-    hostname: sentinel-n2
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.21
-    ports:
-      - "26391:26379"
-    volumes:
-      - ./docker/sentinel-n2.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
-    depends_on:
-      - redis-n1
-      - redis-n2
-      - redis-n3
-
-  sentinel-n3:
-    image: redis:8.0
-    container_name: sentinel-n3
-    hostname: sentinel-n3
-    networks:
-      redis-net:
-        ipv4_address: 172.20.0.22
-    ports:
-      - "26392:26379"
-    volumes:
-      - ./docker/sentinel-n3.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
-    depends_on:
-      - redis-n1
-      - redis-n2
-      - redis-n3
+      - redis-primary
+      - redis-replica1
+      - redis-replica2
 
 networks:
-  redis-net:
+  redis-network:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.0.0/16
+
+volumes:
+  redis-primary-data:
+  redis-replica1-data:
+  redis-replica2-data:
+  jepsen-results:
