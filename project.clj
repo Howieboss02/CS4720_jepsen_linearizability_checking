@@ -9,7 +9,8 @@
                  [jepsen "0.3.5"]
                  [com.taoensso/carmine "3.2.0"]
                  [cheshire "5.11.0"]
-                 [clj-time "0.15.2"]]
+                 [clj-time "0.15.2"]
+                 [org.slf4j/slf4j-simple "1.7.36"]]
 
   ;; Entry point
   :main ^:skip-aot jepsen.redis-sentinel
