@@ -47,6 +47,37 @@
     :ops-per-second 40
     :workload-params {:key-count 100 :register-count 30 :counter-count 15}}})
 
+(def fault-test-configurations
+  {:network-partition-mild
+   {:client-count 8
+    :duration-ms 120000
+    :workload-type :register
+    :ops-per-second 15
+    :fault-type :network-partition
+    :fault-frequency 30
+    :fault-duration 10000
+    :workload-params {:register-count 10}}
+   
+   :process-crash-test
+   {:client-count 10
+    :duration-ms 150000
+    :workload-type :mixed
+    :ops-per-second 25
+    :fault-type :process-crash
+    :fault-frequency 25
+    :fault-duration 8000
+    :workload-params {:key-count 20}}
+   
+   :chaos-test
+   {:client-count 15
+    :duration-ms 300000
+    :workload-type :register
+    :ops-per-second 25
+    :fault-type :chaos
+    :fault-frequency 20
+    :fault-duration 8000
+    :workload-params {:register-count 25}}})
+
 (defn run-test-suite []
   (doseq [[test-name config] test-configurations]
     (log/info "=== Running test:" test-name "===")
@@ -84,8 +115,38 @@
   
   (log/info "All specialized tests completed!"))
 
+
+(defn run-fault-injection-suite
+  "Run fault injection tests using existing infrastructure"
+  []
+  (log/info "=== Starting Fault Injection Test Suite ===")
+  (doseq [[test-name config] fault-test-configurations]
+    (log/info "=== Running fault test:" test-name "===")
+    (try
+      (runner/run-fault-injection-test config)
+      (log/info "Fault test" test-name "completed successfully")
+      (catch Exception e
+        (log/error "Fault test" test-name "failed:" e)))
+    (Thread/sleep 10000)))
+
+(defn run-specific-fault-test
+  "Run a specific fault test by name"
+  [test-name]
+  (if-let [config (get fault-test-configurations test-name)]
+    (do
+      (log/info "Running fault test:" test-name)
+      (runner/run-fault-injection-test config))
+    (log/error "Unknown fault test name:" test-name)))
+
+
 (defn -main [& args]
   (cond
     (empty? args) (run-test-suite)
     (= (first args) "specialized") (run-specialized-tests)
-    :else (runner/run-linearizability-test (get test-configurations (keyword (first args))))))
+    (= (first args) "faults") (run-fault-injection-suite)
+    (= (first args) "chaos") (run-specific-fault-test :chaos-test)
+    (contains? test-configurations (keyword (first args))) 
+    (runner/run-linearizability-test (get test-configurations (keyword (first args))))
+    (contains? fault-test-configurations (keyword (first args)))
+    (run-specific-fault-test (keyword (first args)))
+    :else (log/error "Unknown test:" (first args))))

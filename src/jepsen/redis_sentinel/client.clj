@@ -11,127 +11,174 @@
   (increment-key [this key])
   (scan-keys [this pattern]))
 
+;; Add retry configuration
+(def ^:dynamic *retry-config*
+  {:max-retries 3
+   :base-delay-ms 100
+   :max-delay-ms 5000
+   :backoff-multiplier 2})
+
+(defn exponential-backoff
+  "Calculate delay for exponential backoff"
+  [attempt base-delay max-delay multiplier]
+  (min max-delay 
+       (* base-delay (Math/pow multiplier attempt))))
+
+(defn with-retry
+  "Execute function with retry logic for fault tolerance"
+  [operation-name f]
+  (let [max-retries (:max-retries *retry-config*)
+        base-delay (:base-delay-ms *retry-config*)
+        max-delay (:max-delay-ms *retry-config*)
+        multiplier (:backoff-multiplier *retry-config*)]
+    (reduce (fn [_ attempt]
+              (try
+                (reduced (f))  ; Use reduced to exit early on success
+                (catch Exception e
+                  (if (< attempt max-retries)
+                    (let [delay-ms (exponential-backoff attempt base-delay max-delay multiplier)]
+                      (log/debug "Operation" operation-name "failed, retrying in" delay-ms "ms. Attempt" (inc attempt))
+                      (Thread/sleep delay-ms)
+                      e)  ; Return exception to continue iteration
+                    (do
+                      (log/error "Operation" operation-name "failed after" max-retries "retries:" (.getMessage e))
+                      (throw e))))))
+            nil
+            (range (inc max-retries)))))
+
 (defrecord SmartRedisClient [primary-conn replica-conns client-id]
   RedisClient
   (read-key [this key]
-    (let [start-time (harness/timestamp)
-          ;; Use a random replica for reads
-          conn (rand-nth replica-conns)]
-      (harness/record-operation {:type :invoke :f :read :key key :client client-id 
-                                :time start-time})
-      (try
-        (let [result (wcar conn (car/get key))
-              end-time (harness/timestamp)]
-          (harness/record-operation {:type :ok :f :read :key key :value result 
-                                   :client client-id :time end-time})
-          result)
-        (catch Exception e
-          (let [end-time (harness/timestamp)]
-            (harness/record-operation {:type :fail :f :read :key key 
-                                     :client client-id :time end-time 
-                                     :error (.getMessage e)})
-            (throw e))))))
+    (with-retry "read"
+      (fn []
+        (let [start-time (harness/timestamp)
+              ;; Use a random replica for reads
+              conn (rand-nth replica-conns)]
+          (harness/record-operation {:type :invoke :f :read :key key :client client-id 
+                                    :time start-time})
+          (try
+            (let [result (wcar conn (car/get key))
+                  end-time (harness/timestamp)]
+              (harness/record-operation {:type :ok :f :read :key key :value result 
+                                       :client client-id :time end-time})
+              result)
+            (catch Exception e
+              (let [end-time (harness/timestamp)]
+                (harness/record-operation {:type :fail :f :read :key key 
+                                         :client client-id :time end-time 
+                                         :error (.getMessage e)})
+                (throw e))))))))
 
   (write-key [this key value]
-    (let [start-time (harness/timestamp)]
-      (harness/record-operation {:type :invoke :f :write :key key :value value 
-                                :client client-id :time start-time})
-      (try
-        ;; Always use primary for writes
-        (let [result (wcar primary-conn (car/set key value))
-              end-time (harness/timestamp)]
-          (harness/record-operation {:type :ok :f :write :key key :value value 
-                                   :client client-id :time end-time})
-          result)
-        (catch Exception e
-          (let [end-time (harness/timestamp)]
-            (harness/record-operation {:type :fail :f :write :key key :value value 
-                                     :client client-id :time end-time 
-                                     :error (.getMessage e)})
-            (throw e))))))
+    (with-retry "write"
+      (fn []
+        (let [start-time (harness/timestamp)]
+          (harness/record-operation {:type :invoke :f :write :key key :value value 
+                                    :client client-id :time start-time})
+          (try
+            ;; Always use primary for writes
+            (let [result (wcar primary-conn (car/set key value))
+                  end-time (harness/timestamp)]
+              (harness/record-operation {:type :ok :f :write :key key :value value 
+                                       :client client-id :time end-time})
+              result)
+            (catch Exception e
+              (let [end-time (harness/timestamp)]
+                (harness/record-operation {:type :fail :f :write :key key :value value 
+                                         :client client-id :time end-time 
+                                         :error (.getMessage e)})
+                (throw e))))))))
 
   (increment-key [this key]
-    (let [start-time (harness/timestamp)]
-      (harness/record-operation {:type :invoke :f :increment :key key 
-                                :client client-id :time start-time})
-      (try
-        ;; Always use primary for writes
-        (let [result (wcar primary-conn (car/incr key))
-              end-time (harness/timestamp)]
-          (harness/record-operation {:type :ok :f :increment :key key :value result 
-                                   :client client-id :time end-time})
-          result)
-        (catch Exception e
-          (let [end-time (harness/timestamp)]
-            (harness/record-operation {:type :fail :f :increment :key key 
-                                     :client client-id :time end-time 
-                                     :error (.getMessage e)})
-            (throw e))))))
+    (with-retry "increment"
+      (fn []
+        (let [start-time (harness/timestamp)]
+          (harness/record-operation {:type :invoke :f :increment :key key 
+                                    :client client-id :time start-time})
+          (try
+            ;; Always use primary for writes
+            (let [result (wcar primary-conn (car/incr key))
+                  end-time (harness/timestamp)]
+              (harness/record-operation {:type :ok :f :increment :key key :value result 
+                                       :client client-id :time end-time})
+              result)
+            (catch Exception e
+              (let [end-time (harness/timestamp)]
+                (harness/record-operation {:type :fail :f :increment :key key 
+                                         :client client-id :time end-time 
+                                         :error (.getMessage e)})
+                (throw e))))))))
 
   (delete-key [this key]
-    (let [start-time (harness/timestamp)]
-      (harness/record-operation {:type :invoke :f :delete :key key 
-                                :client client-id :time start-time})
-      (try
-        ;; Always use primary for writes
-        (let [result (wcar primary-conn (car/del key))
-              end-time (harness/timestamp)]
-          (harness/record-operation {:type :ok :f :delete :key key 
-                                   :deleted result :client client-id :time end-time})
-          result)
-        (catch Exception e
-          (let [end-time (harness/timestamp)]
-            (harness/record-operation {:type :fail :f :delete :key key 
-                                     :client client-id :time end-time 
-                                     :error (.getMessage e)})
-            (throw e))))))
+    (with-retry "delete"
+      (fn []
+        (let [start-time (harness/timestamp)]
+          (harness/record-operation {:type :invoke :f :delete :key key 
+                                    :client client-id :time start-time})
+          (try
+            ;; Always use primary for writes
+            (let [result (wcar primary-conn (car/del key))
+                  end-time (harness/timestamp)]
+              (harness/record-operation {:type :ok :f :delete :key key 
+                                       :deleted result :client client-id :time end-time})
+              result)
+            (catch Exception e
+              (let [end-time (harness/timestamp)]
+                (harness/record-operation {:type :fail :f :delete :key key 
+                                         :client client-id :time end-time 
+                                         :error (.getMessage e)})
+                (throw e))))))))
 
   (cas-key [this key old-value new-value]
-    (let [start-time (harness/timestamp)]
-      (harness/record-operation {:type :invoke :f :cas :key key 
-                                :old-value old-value :new-value new-value 
-                                :client client-id :time start-time})
-      (try
-        ;; CAS must use primary (requires WATCH/MULTI/EXEC)
-        (let [result (wcar primary-conn 
-                          (car/watch key)
-                          (car/multi)
-                          (when (= (car/get key) old-value)
-                            (car/set key new-value))
-                          (car/exec))
-              end-time (harness/timestamp)
-              success (not (nil? result))]
-          (harness/record-operation {:type :ok :f :cas :key key 
-                                   :old-value old-value :new-value new-value
-                                   :success success :client client-id :time end-time})
-          success)
-        (catch Exception e
-          (let [end-time (harness/timestamp)]
-            (harness/record-operation {:type :fail :f :cas :key key 
-                                     :old-value old-value :new-value new-value
-                                     :client client-id :time end-time 
-                                     :error (.getMessage e)})
-            (throw e))))))
+    (with-retry "cas"
+      (fn []
+        (let [start-time (harness/timestamp)]
+          (harness/record-operation {:type :invoke :f :cas :key key 
+                                    :old-value old-value :new-value new-value 
+                                    :client client-id :time start-time})
+          (try
+            ;; CAS must use primary (requires WATCH/MULTI/EXEC)
+            (let [result (wcar primary-conn 
+                              (car/watch key)
+                              (car/multi)
+                              (when (= (car/get key) old-value)
+                                (car/set key new-value))
+                              (car/exec))
+                  end-time (harness/timestamp)
+                  success (not (nil? result))]
+              (harness/record-operation {:type :ok :f :cas :key key 
+                                       :old-value old-value :new-value new-value
+                                       :success success :client client-id :time end-time})
+              success)
+            (catch Exception e
+              (let [end-time (harness/timestamp)]
+                (harness/record-operation {:type :fail :f :cas :key key 
+                                         :old-value old-value :new-value new-value
+                                         :client client-id :time end-time 
+                                         :error (.getMessage e)})
+                (throw e))))))))
 
   (scan-keys [this pattern]
-    (let [start-time (harness/timestamp)
-          ;; Use a random replica for scans
-          conn (rand-nth replica-conns)]
-      (harness/record-operation {:type :invoke :f :scan :pattern pattern 
-                                :client client-id :time start-time})
-      (try
-        (let [result (wcar conn (car/keys pattern))
-              end-time (harness/timestamp)]
-          (harness/record-operation {:type :ok :f :scan :pattern pattern 
-                                   :keys result :count (count result)
-                                   :client client-id :time end-time})
-          result)
-        (catch Exception e
-          (let [end-time (harness/timestamp)]
-            (harness/record-operation {:type :fail :f :scan :pattern pattern 
-                                     :client client-id :time end-time 
-                                     :error (.getMessage e)})
-            (throw e)))))))
+    (with-retry "scan"
+      (fn []
+        (let [start-time (harness/timestamp)
+              ;; Use a random replica for scans
+              conn (rand-nth replica-conns)]
+          (harness/record-operation {:type :invoke :f :scan :pattern pattern 
+                                    :client client-id :time start-time})
+          (try
+            (let [result (wcar conn (car/keys pattern))
+                  end-time (harness/timestamp)]
+              (harness/record-operation {:type :ok :f :scan :pattern pattern 
+                                       :keys result :count (count result)
+                                       :client client-id :time end-time})
+              result)
+            (catch Exception e
+              (let [end-time (harness/timestamp)]
+                (harness/record-operation {:type :fail :f :scan :pattern pattern 
+                                         :client client-id :time end-time 
+                                         :error (.getMessage e)})
+                (throw e)))))))))
 
 (defn create-client [client-id]
   "Creates a smart client that routes reads to replicas and writes to primary"
@@ -141,3 +188,13 @@
                       (:replica3 harness/redis-nodes)
                       (:replica4 harness/redis-nodes)]]
     (->SmartRedisClient primary-conn replica-conns client-id)))
+
+;; Add fault-tolerant client creation
+(defn create-fault-tolerant-client 
+  "Creates a client optimized for fault injection testing"
+  [client-id]
+  (binding [*retry-config* {:max-retries 5
+                           :base-delay-ms 200
+                           :max-delay-ms 10000
+                           :backoff-multiplier 1.5}]
+    (create-client client-id)))
