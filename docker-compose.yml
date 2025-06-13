@@ -53,6 +53,40 @@ services:
       - redis-primary
     restart: unless-stopped
 
+  # Redis Replica 3
+  redis-replica3:
+    image: redis:7.0.15-alpine
+    hostname: redis-replica3
+    container_name: jepsen-redis-replica3
+    ports:
+      - "6382:6379"
+    volumes:
+      - ./docker/redis-replica3.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-replica3-data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - redis-network
+    depends_on:
+      - redis-primary
+    restart: unless-stopped
+
+  # Redis Replica 4
+  redis-replica4:
+    image: redis:7.0.15-alpine
+    hostname: redis-replica4
+    container_name: jepsen-redis-replica4
+    ports:
+      - "6383:6379"
+    volumes:
+      - ./docker/redis-replica4.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-replica4-data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - redis-network
+    depends_on:
+      - redis-primary
+    restart: unless-stopped
+
   # Sentinel 1
   redis-sentinel1:
     image: redis:7.0.15-alpine
@@ -128,11 +162,13 @@ services:
       - redis-primary
       - redis-replica1
       - redis-replica2
+      - redis-replica3
+      - redis-replica4
       - redis-sentinel1
       - redis-sentinel2
       - redis-sentinel3
     environment:
-      - REDIS_NODES=redis-primary,redis-replica1,redis-replica2
+      - REDIS_NODES=redis-primary,redis-replica1,redis-replica2,redis-replica3,redis-replica4
       - SENTINEL_NODES=redis-sentinel1,redis-sentinel2,redis-sentinel3
     command: tail -f /dev/null  # Keep container running
 
@@ -152,6 +188,8 @@ services:
       - redis-primary
       - redis-replica1
       - redis-replica2
+      - redis-replica3
+      - redis-replica4
 
 networks:
   redis-network:
@@ -164,4 +202,6 @@ volumes:
   redis-primary-data:
   redis-replica1-data:
   redis-replica2-data:
+  redis-replica3-data:
+  redis-replica4-data:
   jepsen-results:

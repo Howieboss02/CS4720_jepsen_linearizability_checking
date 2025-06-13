@@ -85,3 +85,45 @@ The assignment is to extensively test a distributed Redis (with Sentinel) system
 - Final integration test suite and summary report.
 
 ---
+
+Person 1 (Network Partition & Split-Brain Testing)
+Dependencies:
+
+Depends on Person 3:
+To validate failover behavior during network partitions and split-brain scenarios, Person 1 relies on Person 3's work on failover and recovery testing.
+Person 3's insights into failover timing and behavior will help Person 1 understand how Redis and Sentinel handle partitions.
+Provides to Person 2:
+Operation histories and scenarios from network partitions and split-brain tests are critical for Person 2 to analyze linearizability and consistency under these conditions.
+
+Person 2 (Consistency & Linearizability Testing)
+Dependencies:
+
+Depends on Person 1:
+Needs operation histories from network partition and split-brain tests to check for linearizability violations during these scenarios.
+Depends on Person 3:
+Needs operation histories from failover and recovery tests to analyze consistency during and after failover.
+Provides to Person 3:
+Consistency analysis results (e.g., linearizability violations) can help Person 3 understand the impact of failover and recovery on data correctness.
+
+Person 3 (Failover, Recovery, and Performance Testing)
+Dependencies:
+
+Depends on Person 1:
+Needs network partition and split-brain scenarios to test failover and recovery behavior under these conditions.
+Depends on Person 2:
+Consistency analysis from Person 2 helps validate that failover and recovery maintain data correctness.
+Provides to Person 1:
+Insights into failover behavior and recovery times during network partitions and split-brain scenarios.
+Provides to Person 2:
+Operation histories from failover and recovery tests for linearizability analysis.
+Shared/Integration Work
+All three persons depend on a common cluster setup (e.g., Docker Compose or Redis cluster configuration).
+Weekly syncs are necessary to share findings, validate results, and ensure consistency across tests.
+Final integration tests and the summary report require contributions from all three persons.
+Summary of Dependencies
+Person 1 → Person 3: Needs failover insights for network partition tests.
+Person 1 → Person 2: Provides operation histories for linearizability analysis.
+Person 2 → Person 1: Validates consistency during network partitions.
+Person 2 → Person 3: Validates consistency during failover and recovery.
+Person 3 → Person 1: Provides failover behavior insights for partition tests.
+Person 3 → Person 2: Provides operation histories for consistency analysis.

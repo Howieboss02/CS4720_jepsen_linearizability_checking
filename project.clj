@@ -10,14 +10,21 @@
                  [com.taoensso/carmine "3.2.0"]
                  [cheshire "5.11.0"]
                  [clj-time "0.15.2"]
-                 [org.slf4j/slf4j-simple "1.7.36"]]
+                 ;; Use SLF4J 1.7.x for compatibility
+                 [org.slf4j/slf4j-api "1.7.36"]
+                 [org.slf4j/slf4j-simple "1.7.36"]
+                 [org.clojure/core.async "1.6.673"]]
+
+  ;; Ensure no conflicting logging dependencies
+  :exclusions [org.slf4j/slf4j-log4j12 
+               ch.qos.logback/logback-classic
+               log4j/log4j]
 
   ;; Entry point
-  :main ^:skip-aot jepsen.redis-sentinel
-  :aot [jepsen.redis-sentinel]
-
-  ;; Source path setup
-  :source-paths ["src"]
+  :main ^:skip-aot jepsen.redis-sentinel.core
+  :target-path "target/%s"
+  :profiles {:uberjar {:aot :all}
+             :dev {:dependencies [[org.clojure/tools.namespace "1.4.4"]]}}
 
   ;; JVM tuning
   :jvm-opts ["-Djava.awt.headless=true"
@@ -25,6 +32,3 @@
              "-Xmx4g"
              "-XX:+UseG1GC"
              "-XX:MaxGCPauseMillis=50"])
-
-  :source-paths ["src"]
-  :test-paths ["test"]
