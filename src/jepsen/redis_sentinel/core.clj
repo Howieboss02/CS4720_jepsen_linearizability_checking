@@ -78,6 +78,22 @@
     :fault-duration 8000
     :workload-params {:register-count 25}}})
 
+;; Add to existing test configurations
+(def split-brain-test-configurations
+  {:split-brain-scenario
+   {:test-type :split-brain
+    :description "Reproduces exact split-brain scenario with 56% data loss"
+    :duration-ms 180000
+    :client-count 5
+    :ops-per-second 20}
+   
+   :durability-violation
+   {:test-type :durability
+    :description "Tests durability violations during multiple partitions"
+    :duration-ms 120000
+    :client-count 3
+    :ops-per-second 15}})
+
 (defn run-test-suite []
   (doseq [[test-name config] test-configurations]
     (log/info "=== Running test:" test-name "===")
@@ -138,12 +154,33 @@
       (runner/run-fault-injection-test config))
     (log/error "Unknown fault test name:" test-name)))
 
+;; Add these functions to core.clj
+(defn run-split-brain-tests
+  "Run Redis Sentinel split-brain tests"
+  []
+  (require 'jepsen.redis-sentinel.split-brain-test)
+  (log/info "=== RUNNING SPLIT-BRAIN TEST SUITE ===")
+  
+  ;; Run the main split-brain scenario
+  (log/info "Running split-brain scenario test...")
+  (let [split-brain-result ((resolve 'jepsen.redis-sentinel.split-brain-test/run-split-brain-test))]
+    (log/info "Split-brain test completed. Data loss detected:" 
+              (if (:split-brain-detected split-brain-result) "YES" "NO")))
+  
+  (Thread/sleep 10000)  ; Pause between tests
+  
+  ;; Run durability violation test
+  (log/info "Running durability violation test...")
+  (let [durability-result ((resolve 'jepsen.redis-sentinel.split-brain-test/run-split-brain-durability-test))]
+    (log/info "Durability test completed. Loss rate:" 
+              (format "%.3f" (:loss-rate durability-result)))))
 
 (defn -main [& args]
   (cond
     (empty? args) (run-test-suite)
     (= (first args) "specialized") (run-specialized-tests)
     (= (first args) "faults") (run-fault-injection-suite)
+    (= (first args) "split-brain") (run-split-brain-tests)  ; NEW
     (= (first args) "chaos") (run-specific-fault-test :chaos-test)
     (contains? test-configurations (keyword (first args))) 
     (runner/run-linearizability-test (get test-configurations (keyword (first args))))

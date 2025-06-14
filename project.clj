@@ -10,14 +10,15 @@
                  [com.taoensso/carmine "3.2.0"]
                  [cheshire "5.11.0"]
                  [clj-time "0.15.2"]
-                 ;; Use SLF4J 1.7.x for compatibility
+                 ;; Remove slf4j-simple, keep only logback
                  [org.slf4j/slf4j-api "1.7.36"]
-                 [org.slf4j/slf4j-simple "1.7.36"]
-                 [org.clojure/core.async "1.6.673"]]
+                 [ch.qos.logback/logback-classic "1.2.11"]
+                 [org.clojure/core.async "1.6.673"]
+                 [org.clojure/tools.logging "1.2.4"]]
 
   ;; Ensure no conflicting logging dependencies
   :exclusions [org.slf4j/slf4j-log4j12 
-               ch.qos.logback/logback-classic
+               org.slf4j/slf4j-simple  ; Add this exclusion
                log4j/log4j]
 
   ;; Entry point
@@ -31,4 +32,5 @@
              "-server"
              "-Xmx4g"
              "-XX:+UseG1GC"
-             "-XX:MaxGCPauseMillis=50"])
+             "-XX:MaxGCPauseMillis=50"
+             "-Dlogback.configurationFile=resources/logback.xml"])  ; Fix path
