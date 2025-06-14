@@ -6,7 +6,8 @@
             [cheshire.core :as json]
             [knossos.model :as model]
             [knossos.linear :as linear]
-            [clojure.string :as str])
+            [clojure.string :as str]
+            [clojure.walk :as walk])
   (:gen-class))
 
 (def test-configurations
@@ -85,10 +86,19 @@
 
 ;; Knossos linearizability checking functions
 (defn load-history [file-path]
-  "Load a JSON history file"
+  "Load a JSON history file and convert string keys to keywords"
   (try
-    (let [file-content (slurp file-path)]
-      (json/parse-string file-content true))
+    (let [file-content (slurp file-path)
+          parsed (json/parse-string file-content true)
+          keywordized (map #(walk/keywordize-keys %) parsed)
+          ;; Use client numbers directly as process IDs and ensure operation types are keywords
+          processed (map #(-> %
+                             (update :type keyword)
+                             (update :f keyword)
+                             (assoc :process (:client %))
+                             (dissoc :client)) 
+                        keywordized)]
+      processed)
     (catch Exception e
       (log/error "Failed to load history file:" file-path "Error:" (.getMessage e))
       nil)))
@@ -133,10 +143,18 @@
            (log/info "All operations can be arranged in a valid linear order."))
          (do
            (log/error "✗ RESULT: LINEARIZABILITY VIOLATION DETECTED!")
-           (log/error "Error details:" (:error result))
-           (when (:counterexample result)
+           (log/error "Full Knossos analysis result:" result)
+           (when-let [error (:error result)]
+             (log/error "Error details:" error))
+           (when-let [counterexample (:counterexample result)]
              (log/error "Counterexample operations:")
-             (doseq [op (:counterexample result)]
+             (doseq [op counterexample]
+               (log/error "  Operation:" op)))
+           (when-let [model-state (:model-state result)]
+             (log/error "Model state at violation:" model-state))
+           (when-let [history (:history result)]
+             (log/error "History up to violation:")
+             (doseq [op history]
                (log/error "  " op)))))
        
        (log/info "=== END ANALYSIS ===")
