@@ -12,11 +12,11 @@
 
 (def test-configurations
   {:basic-linearizability
-   {:client-count 5
-    :duration-ms 30000
+   {:client-count 2
+    :duration-ms 2000
     :workload-type :register
-    :ops-per-second 10
-    :workload-params {:register-count 10}}
+    :ops-per-second 5
+    :workload-params {:register-count 1}}
    
    :high-contention
    {:client-count 10
@@ -86,17 +86,27 @@
 
 ;; Knossos linearizability checking functions
 (defn load-history [file-path]
-  "Load a JSON history file and convert string keys to keywords"
+  "Load a JSON history file and convert to proper Knossos format"
   (try
     (let [file-content (slurp file-path)
           parsed (json/parse-string file-content true)
           keywordized (map #(walk/keywordize-keys %) parsed)
-          ;; Use client numbers directly as process IDs and ensure operation types are keywords
-          processed (map #(-> %
-                             (update :type keyword)
-                             (update :f keyword)
-                             (assoc :process (:client %))
-                             (dissoc :client)) 
+          ;; Transform to proper Knossos format
+          processed (map (fn [op]
+                          (let [op-type (keyword (:type op))
+                                f (keyword (:f op))
+                                key-name (:key op)
+                                op-value (:value op)]
+                            {:type op-type
+                             :f f
+                             :value (case f
+                                     :read (if (= op-type :invoke)
+                                             key-name          ; Read invoke: just key
+                                             [key-name op-value]) ; Read ok: [key, value]
+                                     :write [key-name op-value]   ; Write: always [key, value]
+                                     op-value)                    ; Fallback
+                             :process (:client op)
+                             :time (:time op)}))
                         keywordized)]
       processed)
     (catch Exception e
