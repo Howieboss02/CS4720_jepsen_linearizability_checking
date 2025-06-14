@@ -1,0 +1,16 @@
+[
+  {
+    "process": 0,
+    "type": "invoke",
+    "f": "write",
+    "value": 1,
+    "time": 0
+  },
+  {
+    "process": 0,
+    "type": "ok",
+    "f": "write",
+    "value": 1,
+    "time": 5
+  }
+]

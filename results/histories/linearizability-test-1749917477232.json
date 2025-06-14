@@ -1,0 +1,310 @@
+[ {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 640,
+  "client" : 0,
+  "time" : 14644606318219,
+  "timestamp" : 14644606437719
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 102,
+  "client" : 1,
+  "time" : 14644606638761,
+  "timestamp" : 14644606640677
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 640,
+  "client" : 0,
+  "time" : 14644720129427,
+  "timestamp" : 14644720133177
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 102,
+  "client" : 1,
+  "time" : 14644720218427,
+  "timestamp" : 14644720219261
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 265,
+  "client" : 0,
+  "time" : 14644809039594,
+  "timestamp" : 14644809053427
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 1,
+  "time" : 14644809264094,
+  "timestamp" : 14644809287469
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 265,
+  "client" : 0,
+  "time" : 14644809725052,
+  "timestamp" : 14644809728511
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "265",
+  "client" : 1,
+  "time" : 14644811055136,
+  "timestamp" : 14644811057802
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 0,
+  "time" : 14645010914386,
+  "timestamp" : 14645010938678
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 1,
+  "time" : 14645010914553,
+  "timestamp" : 14645010938719
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "265",
+  "client" : 1,
+  "time" : 14645011468761,
+  "timestamp" : 14645011471844
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "265",
+  "client" : 0,
+  "time" : 14645012721594,
+  "timestamp" : 14645012723344
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 371,
+  "client" : 1,
+  "time" : 14645213872219,
+  "timestamp" : 14645213889553
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 0,
+  "time" : 14645213872261,
+  "timestamp" : 14645213895428
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 371,
+  "client" : 1,
+  "time" : 14645216341553,
+  "timestamp" : 14645216354719
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "265",
+  "client" : 0,
+  "time" : 14645216396636,
+  "timestamp" : 14645216401303
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 387,
+  "client" : 0,
+  "time" : 14645420405386,
+  "timestamp" : 14645420426761
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 1,
+  "time" : 14645420405719,
+  "timestamp" : 14645420430261
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 387,
+  "client" : 0,
+  "time" : 14645423060094,
+  "timestamp" : 14645423064678
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "371",
+  "client" : 1,
+  "time" : 14645423052928,
+  "timestamp" : 14645423062678
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 0,
+  "time" : 14645623223219,
+  "timestamp" : 14645623246261
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 761,
+  "client" : 1,
+  "time" : 14645623223469,
+  "timestamp" : 14645623245594
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 761,
+  "client" : 1,
+  "time" : 14645625116011,
+  "timestamp" : 14645625123594
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "761",
+  "client" : 0,
+  "time" : 14645628213470,
+  "timestamp" : 14645628218345
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 1,
+  "time" : 14645830416886,
+  "timestamp" : 14645830457011
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 0,
+  "time" : 14645830417386,
+  "timestamp" : 14645830457053
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "761",
+  "client" : 1,
+  "time" : 14645832477136,
+  "timestamp" : 14645832485136
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "761",
+  "client" : 0,
+  "time" : 14645832476636,
+  "timestamp" : 14645832485136
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 971,
+  "client" : 1,
+  "time" : 14646034555928,
+  "timestamp" : 14646034564761
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 0,
+  "time" : 14646034576761,
+  "timestamp" : 14646034590928
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "761",
+  "client" : 0,
+  "time" : 14646035392636,
+  "timestamp" : 14646035396720
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 971,
+  "client" : 1,
+  "time" : 14646035433511,
+  "timestamp" : 14646035438470
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 283,
+  "client" : 0,
+  "time" : 14646238286178,
+  "timestamp" : 14646238303261
+}, {
+  "type" : "invoke",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 645,
+  "client" : 1,
+  "time" : 14646238311261,
+  "timestamp" : 14646238319303
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 645,
+  "client" : 1,
+  "time" : 14646239506386,
+  "timestamp" : 14646239511511
+}, {
+  "type" : "ok",
+  "f" : "write",
+  "key" : "register-0",
+  "value" : 283,
+  "client" : 0,
+  "time" : 14646239638553,
+  "timestamp" : 14646239641303
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 0,
+  "time" : 14646441086970,
+  "timestamp" : 14646441122762
+}, {
+  "type" : "invoke",
+  "f" : "read",
+  "key" : "register-0",
+  "client" : 1,
+  "time" : 14646441120970,
+  "timestamp" : 14646441145678
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "645",
+  "client" : 0,
+  "time" : 14646443106012,
+  "timestamp" : 14646443119428
+}, {
+  "type" : "ok",
+  "f" : "read",
+  "key" : "register-0",
+  "value" : "645",
+  "client" : 1,
+  "time" : 14646444338678,
+  "timestamp" : 14646444344470
+} ]

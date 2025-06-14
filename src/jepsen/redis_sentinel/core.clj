@@ -93,21 +93,28 @@
           keywordized (map #(walk/keywordize-keys %) parsed)
           ;; Transform to proper Knossos format
           processed (map (fn [op]
-                          (let [op-type (keyword (:type op))
-                                f (keyword (:f op))
-                                key-name (:key op)
-                                op-value (:value op)]
-                            {:type op-type
-                             :f f
-                             :value (case f
-                                     :read (if (= op-type :invoke)
-                                             key-name          ; Read invoke: just key
-                                             [key-name op-value]) ; Read ok: [key, value]
-                                     :write [key-name op-value]   ; Write: always [key, value]
-                                     op-value)                    ; Fallback
-                             :process (:client op)
-                             :time (:time op)}))
-                        keywordized)]
+                           (let [op-type (keyword (:type op))
+                                 f       (keyword (:f op))
+                                 key-name (:key op)
+                                 op-value (:value op)
+                                 ;; FIX: coerce :process or :client to integer
+                                 process  (cond
+                                           (integer? (:process op)) (:process op)
+                                           (integer? (:client op))  (:client op)
+                                           (string? (:process op)) (Integer/parseInt (:process op))
+                                           (string? (:client op))  (Integer/parseInt (:client op))
+                                           :else 0)] ; fallback to 0 if totally missing
+                             {:type op-type
+                              :f f
+                              :value (case f
+                                           :read (if (= op-type :invoke)
+                                                   key-name
+                                                   [key-name op-value])
+                                           :write [key-name op-value]
+                                           op-value)
+                              :process process
+                              :time (:time op)}))
+                         keywordized)]
       processed)
     (catch Exception e
       (log/error "Failed to load history file:" file-path "Error:" (.getMessage e))
