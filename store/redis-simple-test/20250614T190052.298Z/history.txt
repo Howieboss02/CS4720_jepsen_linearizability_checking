@@ -1,0 +1,4 @@
+0	:invoke	:read	nil
+1	:invoke	:write	1
+1	:fail	:write	1	READONLY You can't write against a read only replica.
+0	:ok	:read	nil

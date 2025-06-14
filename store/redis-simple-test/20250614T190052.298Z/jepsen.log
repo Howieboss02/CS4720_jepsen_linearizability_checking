@@ -1,0 +1,144 @@
+2025-06-14 19:00:52,580{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 3
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0xec70725"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@ec70725"]
+ :name "redis-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x2082e0e4" "2025-06-14T19:00:52.298Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_client$reify__196
+         "0x15f229e8"
+         "jepsen.redis_sentinel.test_ssh$redis_client$reify__196@15f229e8"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x29ce33e9"
+         "java.util.concurrent.CyclicBarrier@29ce33e9"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x1f86f7da"
+         "jepsen.checker$compose$reify__10552@1f86f7da"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@28b4b10e"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x3ed87b6e"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Stagger
+                 {:dt 200000000,
+                  :next-time nil,
+                  :gen (jepsen.generator.Mix
+                        {:i 0,
+                         :gens [{:type :invoke, :f :read}
+                                {:type :invoke, :f :write, :value 1}]})})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x59cb10e0"
+         "jepsen.os.debian.Debian@59cb10e0"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-14 19:00:55,389{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-14 19:00:55,389{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-14 19:00:55,389{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-14 19:00:55,389{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-14 19:00:55,389{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-14 19:01:02,362{GMT}	INFO	[jepsen node n2] jepsen.os.debian: Installing #{man-db logrotate libzip4 rsyslog ntpdate faketime netcat-openbsd unzip bzip2}
+2025-06-14 19:01:02,462{GMT}	INFO	[jepsen node n5] jepsen.os.debian: Installing #{man-db logrotate libzip4 rsyslog ntpdate faketime netcat-openbsd unzip bzip2}
+2025-06-14 19:01:02,856{GMT}	INFO	[jepsen node n3] jepsen.os.debian: Installing #{man-db logrotate libzip4 rsyslog ntpdate faketime netcat-openbsd unzip bzip2}
+2025-06-14 19:01:02,858{GMT}	INFO	[jepsen node n1] jepsen.os.debian: Installing #{man-db logrotate libzip4 rsyslog ntpdate faketime netcat-openbsd unzip bzip2}
+2025-06-14 19:01:02,911{GMT}	INFO	[jepsen node n4] jepsen.os.debian: Installing #{man-db logrotate libzip4 rsyslog ntpdate faketime netcat-openbsd unzip bzip2}
+2025-06-14 19:01:36,502{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-14 19:01:36,504{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:01:36,504{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:01:36,504{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:01:36,504{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:01:36,504{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:01:36,517{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-14 19:01:36,519{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-14 19:01:36,520{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-14 19:01:36,519{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-14 19:01:36,519{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-14 19:01:36,523{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-14 19:01:36,584{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-14 19:01:36,782{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	1
+2025-06-14 19:01:36,782{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-14 19:01:37,226{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	1	READONLY You can't write against a read only replica.
+2025-06-14 19:01:37,232{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-14 19:01:37,386{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-14 19:01:37,838{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:01:37,839{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:01:37,839{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:01:37,839{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:01:37,839{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:01:37,843{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-14 19:01:38,343{GMT}	WARN	[clojure-agent-send-off-pool-3] jepsen.checker: Error while checking history:
+java.lang.IllegalStateException: Error rendering plot, verify gnuplot is installed and reachable
+	at jepsen.checker.perf$plot_BANG_.invokeStatic(perf.clj:492)
+	at jepsen.checker.perf$plot_BANG_.invoke(perf.clj:429)
+	at jepsen.checker.perf$point_graph_BANG_.invokeStatic(perf.clj:523)
+	at jepsen.checker.perf$point_graph_BANG_.invoke(perf.clj:496)
+	at jepsen.checker$latency_graph$reify__10769.check(checker.clj:830)
+	at jepsen.checker$check_safe.invokeStatic(checker.clj:86)
+	at jepsen.checker$check_safe.invoke(checker.clj:79)
+	at jepsen.checker$compose$reify__10552$fn__10554.invoke(checker.clj:102)
+	at clojure.core$pmap$fn__8552$fn__8553.invoke(core.clj:7089)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.io.IOException: Cannot run program "gnuplot": error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1170)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1089)
+	at java.base/java.lang.Runtime.exec(Runtime.java:681)
+	at clojure.java.shell$sh.invokeStatic(shell.clj:113)
+	at clojure.java.shell$sh.doInvoke(shell.clj:79)
+	at clojure.lang.RestFn.invoke(RestFn.java:512)
+	at gnuplot.core$run_BANG_.invokeStatic(core.clj:76)
+	at gnuplot.core$run_BANG_.invoke(core.clj:66)
+	at gnuplot.core$raw_plot_BANG_.invokeStatic(core.clj:106)
+	at gnuplot.core$raw_plot_BANG_.invoke(core.clj:91)
+	... 15 common frames omitted
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:295)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:225)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1126)
+	... 24 common frames omitted
+2025-06-14 19:01:38,371{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-14 19:01:38,418{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/redis-simple-test/20250614T190052.298Z/results.edn
+2025-06-14 19:01:38,503{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? :unknown,
+                        :error "java.lang.IllegalStateException: Error rendering plot, verify gnuplot is installed and reachable\n at jepsen.checker.perf$plot_BANG_.invokeStatic (perf.clj:492)\n    jepsen.checker.perf$plot_BANG_.invoke (perf.clj:429)\n    jepsen.checker.perf$point_graph_BANG_.invokeStatic (perf.clj:523)\n    jepsen.checker.perf$point_graph_BANG_.invoke (perf.clj:496)\n    jepsen.checker$latency_graph$reify__10769.check (checker.clj:830)\n    jepsen.checker$check_safe.invokeStatic (checker.clj:86)\n    jepsen.checker$check_safe.invoke (checker.clj:79)\n    jepsen.checker$compose$reify__10552$fn__10554.invoke (checker.clj:102)\n    clojure.core$pmap$fn__8552$fn__8553.invoke (core.clj:7089)\n    clojure.core$binding_conveyor_fn$fn__5823.invoke (core.clj:2047)\n    clojure.lang.AFn.call (AFn.java:18)\n    java.util.concurrent.FutureTask.run (FutureTask.java:317)\n    java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1144)\n    java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:642)\n    java.lang.Thread.run (Thread.java:1583)\nCaused by: java.io.IOException: Cannot run program \"gnuplot\": error=2, No such file or directory\n at java.lang.ProcessBuilder.start (ProcessBuilder.java:1170)\n    java.lang.ProcessBuilder.start (ProcessBuilder.java:1089)\n    java.lang.Runtime.exec (Runtime.java:681)\n    clojure.java.shell$sh.invokeStatic (shell.clj:113)\n    clojure.java.shell$sh.doInvoke (shell.clj:79)\n    clojure.lang.RestFn.invoke (RestFn.java:512)\n    gnuplot.core$run_BANG_.invokeStatic (core.clj:76)\n    gnuplot.core$run_BANG_.invoke (core.clj:66)\n    gnuplot.core$raw_plot_BANG_.invokeStatic (core.clj:106)\n    gnuplot.core$raw_plot_BANG_.invoke (core.clj:91)\n    jepsen.checker.perf$plot_BANG_.invokeStatic (perf.clj:492)\n    jepsen.checker.perf$plot_BANG_.invoke (perf.clj:429)\n    jepsen.checker.perf$point_graph_BANG_.invokeStatic (perf.clj:523)\n    jepsen.checker.perf$point_graph_BANG_.invoke (perf.clj:496)\n    jepsen.checker$latency_graph$reify__10769.check (checker.clj:830)\n    jepsen.checker$check_safe.invokeStatic (checker.clj:86)\n    jepsen.checker$check_safe.invoke (checker.clj:79)\n    jepsen.checker$compose$reify__10552$fn__10554.invoke (checker.clj:102)\n    clojure.core$pmap$fn__8552$fn__8553.invoke (core.clj:7089)\n    clojure.core$binding_conveyor_fn$fn__5823.invoke (core.clj:2047)\n    clojure.lang.AFn.call (AFn.java:18)\n    java.util.concurrent.FutureTask.run (FutureTask.java:317)\n    java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1144)\n    java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:642)\n    java.lang.Thread.run (Thread.java:1583)\nCaused by: java.io.IOException: error=2, No such file or directory\n at java.lang.ProcessImpl.forkAndExec (ProcessImpl.java:-2)\n    java.lang.ProcessImpl.<init> (ProcessImpl.java:295)\n    java.lang.ProcessImpl.start (ProcessImpl.java:225)\n    java.lang.ProcessBuilder.start (ProcessBuilder.java:1126)\n    java.lang.ProcessBuilder.start (ProcessBuilder.java:1089)\n    java.lang.Runtime.exec (Runtime.java:681)\n    clojure.java.shell$sh.invokeStatic (shell.clj:113)\n    clojure.java.shell$sh.doInvoke (shell.clj:79)\n    clojure.lang.RestFn.invoke (RestFn.java:512)\n    gnuplot.core$run_BANG_.invokeStatic (core.clj:76)\n    gnuplot.core$run_BANG_.invoke (core.clj:66)\n    gnuplot.core$raw_plot_BANG_.invokeStatic (core.clj:106)\n    gnuplot.core$raw_plot_BANG_.invoke (core.clj:91)\n    jepsen.checker.perf$plot_BANG_.invokeStatic (perf.clj:492)\n    jepsen.checker.perf$plot_BANG_.invoke (perf.clj:429)\n    jepsen.checker.perf$point_graph_BANG_.invokeStatic (perf.clj:523)\n    jepsen.checker.perf$point_graph_BANG_.invoke (perf.clj:496)\n    jepsen.checker$latency_graph$reify__10769.check (checker.clj:830)\n    jepsen.checker$check_safe.invokeStatic (checker.clj:86)\n    jepsen.checker$check_safe.invoke (checker.clj:79)\n    jepsen.checker$compose$reify__10552$fn__10554.invoke (checker.clj:102)\n    clojure.core$pmap$fn__8552$fn__8553.invoke (core.clj:7089)\n    clojure.core$binding_conveyor_fn$fn__5823.invoke (core.clj:2047)\n    clojure.lang.AFn.call (AFn.java:18)\n    java.util.concurrent.FutureTask.run (FutureTask.java:317)\n    java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1144)\n    java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:642)\n    java.lang.Thread.run (Thread.java:1583)\n"},
+        :rate-graph {:valid? true},
+        :valid? :unknown},
+ :timeline {:valid? true},
+ :linear {:valid? true,
+          :model #knossos.model.Register{:value nil},
+          :final-paths (),
+          :configs ()},
+ :valid? :unknown}
+
+
+Errors occurred during analysis, but no anomalies found. ಠ~ಠ

@@ -1,0 +1,63 @@
+FROM debian:bullseye
+
+# Install OpenJDK and dependencies
+RUN apt-get update && apt-get install -y \
+    openjdk-17-jdk \
+    curl \
+    wget \
+    git \
+    openssh-client \
+    netcat-openbsd \
+    iputils-ping \
+    dnsutils \
+    iproute2 \
+    iptables \
+    net-tools \
+    tcpdump \
+    sudo \
+    vim \
+    htop \
+    procps \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Leiningen
+RUN wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein \
+    && chmod +x lein \
+    && mv lein /usr/local/bin/
+
+# Set environment variables
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV LEIN_ROOT=1
+
+# Create working directory
+WORKDIR /jepsen
+
+# Copy project files
+COPY project.clj /jepsen/
+COPY src/ /jepsen/src/
+COPY docker/ /jepsen/docker/
+
+# Pre-download dependencies
+RUN lein deps
+
+# Create a script to generate SSH keys at runtime
+RUN echo '#!/bin/bash' > /generate-ssh-keys.sh && \
+    echo 'echo "Generating SSH keys..."' >> /generate-ssh-keys.sh && \
+    echo 'mkdir -p /root/.ssh' >> /generate-ssh-keys.sh && \
+    echo 'chmod 700 /root/.ssh' >> /generate-ssh-keys.sh && \
+    echo 'ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N ""' >> /generate-ssh-keys.sh && \
+    echo 'chmod 600 /root/.ssh/id_rsa' >> /generate-ssh-keys.sh && \
+    echo 'chmod 644 /root/.ssh/id_rsa.pub' >> /generate-ssh-keys.sh && \
+    echo 'cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys' >> /generate-ssh-keys.sh && \
+    echo 'chmod 600 /root/.ssh/authorized_keys' >> /generate-ssh-keys.sh && \
+    echo 'echo "Host *" > /root/.ssh/config' >> /generate-ssh-keys.sh && \
+    echo 'echo "    StrictHostKeyChecking no" >> /root/.ssh/config' >> /generate-ssh-keys.sh && \
+    echo 'echo "    UserKnownHostsFile /dev/null" >> /root/.ssh/config' >> /generate-ssh-keys.sh && \
+    echo 'echo "    LogLevel ERROR" >> /root/.ssh/config' >> /generate-ssh-keys.sh && \
+    echo 'chmod 600 /root/.ssh/config' >> /generate-ssh-keys.sh && \
+    echo 'echo "SSH keys generated successfully"' >> /generate-ssh-keys.sh && \
+    echo 'ls -la /root/.ssh/' >> /generate-ssh-keys.sh && \
+    chmod +x /generate-ssh-keys.sh
+
+CMD ["tail", "-f", "/dev/null"]

@@ -1,0 +1,4 @@
+0	:invoke	:write	56
+1	:invoke	:read	nil
+0	:ok	:write	56
+1	:ok	:read	nil

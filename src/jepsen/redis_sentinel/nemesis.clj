@@ -3,105 +3,52 @@
             [clojure.string :as str]
             [jepsen.nemesis :as nemesis]
             [jepsen.control :as c]
-            [jepsen.db :as db]
-            [clojure.core.async :as async :refer [go chan >! <!]]))
+            [jepsen.db :as db]))
 
-;; Network partition nemesis
+;; Now you can use Jepsen's built-in network nemeses
 (defn partition-nemesis
-  "Creates network partitions between Redis nodes"
+  "Creates network partitions between Redis nodes using Jepsen's implementation"
   []
   (nemesis/partition-random-halves))
 
 (defn partition-primary-nemesis
-  "Isolates the Redis primary from replicas"
+  "Isolates the Redis primary from replicas using Jepsen's implementation"
   []
   (nemesis/partition-random-node))
 
-;; Process failure nemesis
+;; Bridge nemesis for more complex partitions
+(defn bridge-nemesis
+  "Creates bridge partitions using Jepsen's implementation"
+  []
+  (nemesis/partition-majorities-ring))
+
+;; Process control nemesis using Jepsen's approach
 (defn kill-redis-nemesis
-  "Randomly kills Redis processes"
+  "Randomly kills Redis processes using Jepsen's node control"
   []
   (nemesis/node-start-stopper
+    identity
     (fn start [test node]
-      (c/su (c/exec :docker :start (str "jepsen-redis-" (name node)))))
+      (c/su (c/exec :systemctl :start :redis-server)))
     (fn stop [test node]
-      (c/su (c/exec :docker :stop (str "jepsen-redis-" (name node)))))))
+      (c/su (c/exec :systemctl :stop :redis-server)))))
 
 (defn kill-sentinel-nemesis
-  "Randomly kills Redis Sentinel processes"
+  "Randomly kills Redis Sentinel processes using Jepsen's node control"
   []
   (nemesis/node-start-stopper
+    identity
     (fn start [test node]
-      (c/su (c/exec :docker :start (str "jepsen-redis-sentinel" (last (name node))))))
+      (c/su (c/exec :systemctl :start :redis-sentinel)))
     (fn stop [test node]
-      (c/su (c/exec :docker :stop (str "jepsen-redis-sentinel" (last (name node))))))))
+      (c/su (c/exec :systemctl :stop :redis-sentinel)))))
 
-;; Combined nemesis for multiple failure types
+;; Combined nemesis using Jepsen's compose
 (defn combined-nemesis
-  "Combines multiple nemesis types for comprehensive fault injection"
+  "Combines multiple nemesis types using Jepsen's framework"
   []
   (nemesis/compose
     {{:partition-start :partition-stop} (partition-nemesis)
      {:kill-redis-start :kill-redis-stop} (kill-redis-nemesis)
      {:kill-sentinel-start :kill-sentinel-stop} (kill-sentinel-nemesis)
-     {:isolate-primary-start :isolate-primary-stop} (partition-primary-nemesis)}))
-
-;; Network delay nemesis
-(defn network-delay-nemesis
-  "Introduces network delays between nodes"
-  []
-  (reify nemesis/Nemesis
-    (setup! [this test] this)
-    (invoke! [this test op]
-      (case (:f op)
-        :start-delay (do
-                      (log/info "Introducing network delays")
-                      (c/on-nodes test (:nodes test)
-                        (fn [test node]
-                          (c/su
-                            (c/exec :tc :qdisc :add :dev :eth0 :root :netem 
-                                   :delay "100ms" "50ms" :distribution :normal))))
-                      (assoc op :type :ok :value "Network delays started"))
-        :stop-delay (do
-                     (log/info "Removing network delays")
-                     (c/on-nodes test (:nodes test)
-                       (fn [test node]
-                         (c/su (c/exec :tc :qdisc :del :dev :eth0 :root))))
-                     (assoc op :type :ok :value "Network delays stopped"))))
-    (teardown! [this test])))
-
-;; Packet loss nemesis
-(defn packet-loss-nemesis
-  "Introduces packet loss between nodes"
-  []
-  (reify nemesis/Nemesis
-    (setup! [this test] this)
-    (invoke! [this test op]
-      (case (:f op)
-        :start-loss (do
-                     (log/info "Introducing packet loss")
-                     (c/on-nodes test (:nodes test)
-                       (fn [test node]
-                         (c/su
-                           (c/exec :tc :qdisc :add :dev :eth0 :root :netem 
-                                  :loss "5%"))))
-                     (assoc op :type :ok :value "Packet loss started"))
-        :stop-loss (do
-                    (log/info "Removing packet loss")
-                    (c/on-nodes test (:nodes test)
-                      (fn [test node]
-                        (c/su (c/exec :tc :qdisc :del :dev :eth0 :root))))
-                    (assoc op :type :ok :value "Packet loss stopped"))))
-    (teardown! [this test])))
-
-;; Chaos nemesis - combines all failure types
-(defn chaos-nemesis
-  "Comprehensive chaos nemesis with multiple failure modes"
-  []
-  (nemesis/compose
-    {{:partition-start :partition-stop} (partition-nemesis)
-     {:kill-redis-start :kill-redis-stop} (kill-redis-nemesis)
-     {:kill-sentinel-start :kill-sentinel-stop} (kill-sentinel-nemesis)
-     {:delay-start :delay-stop} (network-delay-nemesis)
-     {:loss-start :loss-stop} (packet-loss-nemesis)
      {:isolate-primary-start :isolate-primary-stop} (partition-primary-nemesis)}))

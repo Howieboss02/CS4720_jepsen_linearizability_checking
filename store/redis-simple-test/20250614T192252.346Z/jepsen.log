@@ -1,0 +1,103 @@
+2025-06-14 19:22:52,643{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 3
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x7699e60a"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@7699e60a"]
+ :name "redis-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x5bbc033f" "2025-06-14T19:22:52.346Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_client$reify__196
+         "0x734a2c17"
+         "jepsen.redis_sentinel.test_ssh$redis_client$reify__196@734a2c17"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x2d1f9ec3"
+         "java.util.concurrent.CyclicBarrier@2d1f9ec3"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x148f94dc"
+         "jepsen.checker$compose$reify__10552@148f94dc"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@2f11d889"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x3146f3d7"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Stagger
+                 {:dt 200000000,
+                  :next-time nil,
+                  :gen (jepsen.generator.Mix
+                        {:i 0,
+                         :gens [{:type :invoke, :f :read}
+                                {:type :invoke, :f :write, :value 70}]})})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x27bc2650"
+         "jepsen.os.debian.Debian@27bc2650"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-14 19:22:55,328{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-14 19:22:55,328{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-14 19:22:55,328{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-14 19:22:55,328{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-14 19:22:55,329{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-14 19:22:57,252{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-14 19:22:57,254{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:22:57,254{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:22:57,254{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:22:57,254{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:22:57,254{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:22:57,266{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-14 19:22:57,268{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-14 19:22:57,268{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-14 19:22:57,268{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-14 19:22:57,268{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-14 19:22:57,268{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-14 19:22:57,332{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-14 19:22:57,547{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-14 19:22:57,645{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	70
+2025-06-14 19:22:57,926{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	70	READONLY You can't write against a read only replica.
+2025-06-14 19:22:57,929{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-14 19:22:58,086{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-14 19:22:58,500{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:22:58,500{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:22:58,500{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:22:58,500{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:22:58,501{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:22:58,504{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-14 19:22:59,266{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-14 19:22:59,298{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/redis-simple-test/20250614T192252.346Z/results.edn
+2025-06-14 19:22:59,364{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :timeline {:valid? true},
+ :linear {:valid? true,
+          :model #knossos.model.Register{:value nil},
+          :final-paths (),
+          :configs ()},
+ :valid? true}
+
+
+Everything looks good! ヽ(‘ー`)ノ

@@ -100,10 +100,13 @@ services:
          redis-sentinel /tmp/sentinel.conf"
     networks:
       - redis-network
+      - redis-sentinel-network
     depends_on:
       - redis-primary
       - redis-replica1
       - redis-replica2
+      - redis-replica3
+      - redis-replica4
     restart: unless-stopped
 
   # Sentinel 2
@@ -119,10 +122,13 @@ services:
          redis-sentinel /tmp/sentinel.conf"
     networks:
       - redis-network
+      - redis-sentinel-network
     depends_on:
       - redis-primary
       - redis-replica1
       - redis-replica2
+      - redis-replica3
+      - redis-replica4
     restart: unless-stopped
 
   # Sentinel 3
@@ -138,10 +144,13 @@ services:
          redis-sentinel /tmp/sentinel.conf"
     networks:
       - redis-network
+      - redis-sentinel-network
     depends_on:
       - redis-primary
       - redis-replica1
       - redis-replica2
+      - redis-replica3
+      - redis-replica4
     restart: unless-stopped
 
   # Jepsen Control Node
@@ -197,6 +206,11 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/16
+  redis-sentinel-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
 
 volumes:
   redis-primary-data:

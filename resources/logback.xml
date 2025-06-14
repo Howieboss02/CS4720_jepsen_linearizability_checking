@@ -1,4 +1,7 @@
 <configuration>
+    <!-- Timestamp property (must be defined BEFORE appenders that use it) -->
+    <timestamp key="bySecond" datePattern="yyyyMMdd-HHmmss"/>
+    
     <!-- Console appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -8,10 +11,10 @@
     
     <!-- File appender for all logs -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/jepsen-redis-sentinel.log</file>
+        <file>logs/jepsen-redis-sentinel-${bySecond}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Daily rollover -->
-            <fileNamePattern>logs/jepsen-redis-sentinel.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/jepsen-redis-sentinel-${bySecond}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>30</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
@@ -23,9 +26,9 @@
     
     <!-- Split-brain test logs (ALL levels) -->
     <appender name="SPLIT_BRAIN_ALL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/split-brain-all.log</file>
+        <file>logs/split-brain-all-${bySecond}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/split-brain-all.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/split-brain-all-${bySecond}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -35,14 +38,14 @@
     
     <!-- Debug-only file for split-brain tests -->
     <appender name="SPLIT_BRAIN_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/split-brain-debug.log</file>
+        <file>logs/split-brain-debug-${bySecond}.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/split-brain-debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/split-brain-debug-${bySecond}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>

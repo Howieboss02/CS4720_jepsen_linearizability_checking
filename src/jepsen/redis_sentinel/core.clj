@@ -1,189 +1,392 @@
 (ns jepsen.redis-sentinel.core
-  (:require [clojure.tools.logging :as log]
-            [jepsen.redis-sentinel.runner :as runner]
-            [jepsen.redis-sentinel.test-harness :as harness])
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.tools.logging :refer :all]
+            [clojure.string :as str]
+            [jepsen [checker :as checker]
+                    [cli :as cli]
+                    [client :as client]
+                    [control :as c]
+                    [db :as db]
+                    [generator :as gen]
+                    [independent :as independent]
+                    [nemesis :as nemesis]
+                    [tests :as tests]
+                    [util :as util]
+                    [core :as jepsen]]
+            [jepsen.checker.timeline :as timeline]
+            [jepsen.control.util :as cu]
+            [jepsen.os.debian :as debian]
+            [knossos.model :as model]
+            [taoensso.carmine :as car :refer [wcar]]
+            [slingshot.slingshot :refer [try+]]))
 
-(def test-configurations
-  {:basic-linearizability
-   {:client-count 5
-    :duration-ms 30000
-    :workload-type :register
-    :ops-per-second 10
-    :workload-params {:register-count 10}}
-   
-   :high-contention
-   {:client-count 10
-    :duration-ms 60000
-    :workload-type :counter
-    :ops-per-second 50
-    :workload-params {:counter-count 5}}
-   
-   :all-replicas-stress
-   {:client-count 20
-    :duration-ms 60000
-    :workload-type :mixed
-    :ops-per-second 30
-    :workload-params {:key-count 50}}
-   
-   :read-heavy-workload
-   {:client-count 16
-    :duration-ms 45000
-    :workload-type :read-only
-    :ops-per-second 40
-    :workload-params {:key-count 30}}
-   
-   :write-heavy-workload
-   {:client-count 8
-    :duration-ms 45000
-    :workload-type :write-only
-    :ops-per-second 25
-    :workload-params {:key-count 20}}
-   
-   :high-load-mixed
-   {:client-count 25
-    :duration-ms 90000
-    :workload-type :mixed
-    :ops-per-second 40
-    :workload-params {:key-count 100 :register-count 30 :counter-count 15}}})
+;; Utility function for timing
+(defn nano-time []
+  "Get current time in nanoseconds"
+  (System/nanoTime))
 
-(def fault-test-configurations
-  {:network-partition-mild
-   {:client-count 8
-    :duration-ms 120000
-    :workload-type :register
-    :ops-per-second 15
-    :fault-type :network-partition
-    :fault-frequency 30
-    :fault-duration 10000
-    :workload-params {:register-count 10}}
-   
-   :process-crash-test
-   {:client-count 10
-    :duration-ms 150000
-    :workload-type :mixed
-    :ops-per-second 25
-    :fault-type :process-crash
-    :fault-frequency 25
-    :fault-duration 8000
-    :workload-params {:key-count 20}}
-   
-   :chaos-test
-   {:client-count 15
-    :duration-ms 300000
-    :workload-type :register
-    :ops-per-second 25
-    :fault-type :chaos
-    :fault-frequency 20
-    :fault-duration 8000
-    :workload-params {:register-count 25}}})
+(defn redis-sentinel-db []
+  (reify db/DB
+    (setup! [_ test node]
+      (info "Setting up Redis Sentinel on" node)
+      (try
+        (c/exec :redis-cli :ping)
+        (info "Redis responding on" node)
+        (catch Exception e
+          (warn "Redis setup issue on" node ":" (.getMessage e)))))
+    
+    (teardown! [_ test node]
+      (info "Tearing down Redis on" node))))
 
-;; Add to existing test configurations
-(def split-brain-test-configurations
-  {:split-brain-scenario
-   {:test-type :split-brain
-    :description "Reproduces exact split-brain scenario with 56% data loss"
-    :duration-ms 180000
-    :client-count 5
-    :ops-per-second 20}
-   
-   :durability-violation
-   {:test-type :durability
-    :description "Tests durability violations during multiple partitions"
-    :duration-ms 120000
-    :client-count 3
-    :ops-per-second 15}})
+(defn redis-sentinel-client []
+  (let [conn (atom nil)]
+    (reify client/Client
+      (open! [this test node]
+        (info "Opening Redis connection to" node)
+        (reset! conn {:pool {} :spec {:host node :port 6379}})
+        this)
+      
+      (setup! [this test]
+        (info "Setting up Redis client"))
+      
+      (invoke! [this test operation]
+        (let [start-time (nano-time)]
+          (try
+            (case (:f operation)
+              :read
+              (let [value (wcar @conn (car/get (:key operation)))]
+                (assoc operation
+                       :type :ok
+                       :value value
+                       :latency (- (nano-time) start-time)))
+              
+              :write
+              (do
+                (wcar @conn (car/set (:key operation) (:value operation)))
+                (assoc operation
+                       :type :ok
+                       :latency (- (nano-time) start-time)))
+              
+              :cas
+              (let [result (wcar @conn
+                                 (car/watch (:key operation))
+                                 (car/multi)
+                                 (when (= (car/get (:key operation)) (:old-value operation))
+                                   (car/set (:key operation) (:new-value operation)))
+                                 (car/exec))]
+                (assoc operation
+                       :type :ok
+                       :value (if (seq result) :ok :fail)
+                       :latency (- (nano-time) start-time)))
+              
+              (assoc operation :type :fail :error "Unknown operation"))
+            
+            (catch Exception e
+              (assoc operation
+                     :type :fail
+                     :error (.getMessage e)
+                     :latency (- (nano-time) start-time))))))
+      
+      (teardown! [this test]
+        (info "Tearing down Redis client"))
+      
+      (close! [this test]
+        (info "Closing Redis connection")))))
 
-(defn run-test-suite []
-  (doseq [[test-name config] test-configurations]
-    (log/info "=== Running test:" test-name "===")
-    (try
-      (runner/run-linearizability-test config)
-      (log/info "Test" test-name "completed successfully")
-      (catch Exception e
-        (log/error "Test" test-name "failed:" e)))
-    (Thread/sleep 5000)))
-
-(defn run-specialized-tests []
-  "Run tests specifically designed for smart client testing"
-  (log/info "=== Running Smart Client Specialized Tests ===")
-  
-  ;; Test 1: Read/Write Separation
-  (log/info "Running read/write separated test...")
-  (runner/run-read-write-separated-test 
-    {:client-count 15 :duration-ms 45000 :ops-per-second 20 
-     :workload-params {:key-count 30}})
-  
-  (Thread/sleep 3000)
-  
-  ;; Test 2: Replica Consistency
-  (log/info "Running replica consistency test...")
-  (runner/run-replica-consistency-test 
-    {:duration-ms 60000 :ops-per-second 15})
-  
-  (Thread/sleep 3000)
-  
-  ;; Test 3: High Load Test
-  (log/info "Running high load test...")
-  (runner/run-high-load-test
-    {:client-count 30 :duration-ms 90000 :ops-per-second 35
-     :workload-params {:key-count 100 :register-count 40 :counter-count 20}})
-  
-  (log/info "All specialized tests completed!"))
-
-
-(defn run-fault-injection-suite
-  "Run fault injection tests using existing infrastructure"
+;; Pure Jepsen Nemesis Configurations
+(defn redis-nemesis
+  "Redis-specific nemesis using pure Jepsen components"
   []
-  (log/info "=== Starting Fault Injection Test Suite ===")
-  (doseq [[test-name config] fault-test-configurations]
-    (log/info "=== Running fault test:" test-name "===")
-    (try
-      (runner/run-fault-injection-test config)
-      (log/info "Fault test" test-name "completed successfully")
-      (catch Exception e
-        (log/error "Fault test" test-name "failed:" e)))
-    (Thread/sleep 10000)))
+  (nemesis/compose
+    {{:start-partition :stop-partition} 
+     (nemesis/partition-random-halves)
+     
+     {:start-primary-isolation :stop-primary-isolation}
+     (nemesis/partition-random-node)
+     
+     {:start-bridge-partition :stop-bridge-partition}
+     (nemesis/partition-majorities-ring)
+     
+     {:start-kill :stop-kill}
+     (nemesis/node-start-stopper
+       identity
+       (fn [test node] 
+         (c/su (c/exec :systemctl :start :redis-server)))
+       (fn [test node] 
+         (c/su (c/exec :systemctl :stop :redis-server))))}))
 
-(defn run-specific-fault-test
-  "Run a specific fault test by name"
-  [test-name]
-  (if-let [config (get fault-test-configurations test-name)]
-    (do
-      (log/info "Running fault test:" test-name)
-      (runner/run-fault-injection-test config))
-    (log/error "Unknown fault test name:" test-name)))
-
-;; Add these functions to core.clj
-(defn run-split-brain-tests
-  "Run Redis Sentinel split-brain tests"
+(defn sentinel-aware-nemesis
+  "Nemesis that understands Redis Sentinel topology"
   []
-  (require 'jepsen.redis-sentinel.split-brain-test)
-  (log/info "=== RUNNING SPLIT-BRAIN TEST SUITE ===")
-  
-  ;; Run the main split-brain scenario
-  (log/info "Running split-brain scenario test...")
-  (let [split-brain-result ((resolve 'jepsen.redis-sentinel.split-brain-test/run-split-brain-test))]
-    (log/info "Split-brain test completed. Data loss detected:" 
-              (if (:split-brain-detected split-brain-result) "YES" "NO")))
-  
-  (Thread/sleep 10000)  ; Pause between tests
-  
-  ;; Run durability violation test
-  (log/info "Running durability violation test...")
-  (let [durability-result ((resolve 'jepsen.redis-sentinel.split-brain-test/run-split-brain-durability-test))]
-    (log/info "Durability test completed. Loss rate:" 
-              (format "%.3f" (:loss-rate durability-result)))))
+  (nemesis/compose
+    {{:start-sentinel-partition :stop-sentinel-partition}
+     (nemesis/partition-random-halves)
+     
+     {:start-primary-kill :stop-primary-kill}
+     (nemesis/node-start-stopper
+       (fn [test] 
+         ;; Find current primary - simplified to first node
+         (first (:nodes test)))
+       (fn [test node] 
+         (c/su (c/exec :systemctl :start :redis-server)))
+       (fn [test node] 
+         (c/su (c/exec :systemctl :stop :redis-server))))}))
 
-(defn -main [& args]
-  (cond
-    (empty? args) (run-test-suite)
-    (= (first args) "specialized") (run-specialized-tests)
-    (= (first args) "faults") (run-fault-injection-suite)
-    (= (first args) "split-brain") (run-split-brain-tests)  ; NEW
-    (= (first args) "chaos") (run-specific-fault-test :chaos-test)
-    (contains? test-configurations (keyword (first args))) 
-    (runner/run-linearizability-test (get test-configurations (keyword (first args))))
-    (contains? fault-test-configurations (keyword (first args)))
-    (run-specific-fault-test (keyword (first args)))
-    :else (log/error "Unknown test:" (first args))))
+;; Pure Jepsen Workload Generators
+(defn register-workload
+  "Pure Jepsen register workload"
+  [opts]
+  (->> (independent/concurrent-generator
+         10  ; 10 concurrent registers
+         (range)
+         (fn [k]
+           (->> (gen/mix [{:type :invoke :f :read :key k}
+                         {:type :invoke :f :write :key k 
+                          :value (rand-int 1000)}])
+                (gen/limit 100))))
+       (gen/stagger 1/10)))
+
+(defn cas-workload
+  "Pure Jepsen compare-and-swap workload"
+  [opts]
+  (->> (independent/concurrent-generator
+         5   ; 5 concurrent registers
+         (range)
+         (fn [k]
+           (gen/reserve 5 
+             (->> (gen/mix [{:type :invoke :f :read :key k}
+                           {:type :invoke :f :write :key k 
+                            :value (rand-int 100)}
+                           {:type :invoke :f :cas :key k
+                            :old-value 0 :new-value 1}])
+                  (gen/limit 200)))))
+       (gen/stagger 1/20)))
+
+(defn mixed-workload
+  "Mixed workload for comprehensive testing"
+  [opts]
+  (gen/phases
+    ;; Phase 1: Initial data population
+    (->> (gen/each-thread (map (fn [k] {:type :invoke :f :write 
+                                       :key k :value (rand-int 100)}) 
+                              (range 50)))
+         (gen/time-limit 30))
+    
+    ;; Phase 2: Mixed operations with faults
+    (->> (gen/mix [{:type :invoke :f :read :key (rand-int 50)}
+                  {:type :invoke :f :write :key (rand-int 50) 
+                   :value (rand-int 1000)}
+                  {:type :invoke :f :cas :key (rand-int 50)
+                   :old-value (rand-int 100) :new-value (rand-int 100)}])
+         (gen/stagger 1/10)
+         (gen/nemesis 
+           (cycle [(gen/sleep 30)
+                  {:type :info :f :start-partition}
+                  (gen/sleep 20)
+                  {:type :info :f :stop-partition}
+                  (gen/sleep 10)]))
+         (gen/time-limit 180))))
+
+;; Pure Jepsen Test Configurations
+(defn linearizability-test
+  "Basic linearizability test using pure Jepsen"
+  [opts]
+  (merge tests/noop-test
+         opts
+         {:name "redis-sentinel-linearizability"
+          :os debian/os
+          :db (redis-sentinel-db)
+          :client (redis-sentinel-client)
+          :nemesis (redis-nemesis)
+          :concurrency 10
+          :generator (register-workload opts)
+          :checker (checker/compose
+                     {:perf (checker/perf)
+                      :timeline (timeline/html)
+                      :linear (checker/linearizable {:model (model/register)})
+                      :stats (checker/stats)})}))
+
+(defn split-brain-test
+  "Split-brain test using pure Jepsen partition nemesis"
+  [opts]
+  (merge tests/noop-test
+         opts
+         {:name "redis-sentinel-split-brain"
+          :os debian/os
+          :db (redis-sentinel-db)
+          :client (redis-sentinel-client)
+          :nemesis (sentinel-aware-nemesis)
+          :concurrency 5
+          :generator (gen/phases
+                       ;; Initial setup
+                       (->> (gen/each-thread (map (fn [i] {:type :invoke :f :write 
+                                                          :key i :value i}) 
+                                                 (range 100)))
+                            (gen/time-limit 30))
+                       
+                       ;; Split-brain scenario
+                       (->> (gen/mix [{:type :invoke :f :write 
+                                      :key (rand-int 100) 
+                                      :value (+ 1000 (rand-int 1000))}
+                                     {:type :invoke :f :read 
+                                      :key (rand-int 100)}])
+                            (gen/stagger 1/5)
+                            (gen/nemesis
+                              (gen/repeat [(gen/once {:type :info :f :start-sentinel-partition})
+                                            (gen/sleep 60)
+                                            (gen/once {:type :info :f :stop-sentinel-partition})]))
+                            (gen/time-limit 120)))
+          :checker (checker/compose
+                     {:perf (checker/perf)
+                      :timeline (timeline/html)
+                      :linear (checker/linearizable {:model (model/register)})
+                      :stats (checker/stats)})}))
+
+(defn network-partition-test
+  "Network partition test using pure Jepsen"
+  [opts]
+  (merge tests/noop-test
+         opts
+         {:name "redis-sentinel-network-partition"
+          :os debian/os
+          :db (redis-sentinel-db)
+          :client (redis-sentinel-client)
+          :nemesis (nemesis/partition-random-halves)
+          :concurrency 8
+          :generator (gen/phases
+                       (->> (cas-workload opts)
+                            (gen/nemesis
+                              (cycle [(gen/sleep 30)
+                                     {:type :info :f :start}
+                                     (gen/sleep 20)
+                                     {:type :info :f :stop}
+                                     (gen/sleep 10)]))
+                            (gen/time-limit 300)))
+          :checker (checker/compose
+                     {:perf (checker/perf)
+                      :timeline (timeline/html)
+                      :linear (checker/linearizable {:model (model/cas-register)})
+                      :stats (checker/stats)})}))
+
+(defn process-kill-test
+  "Process kill test using pure Jepsen"
+  [opts]
+  (merge tests/noop-test
+         opts
+         {:name "redis-sentinel-process-kill"
+          :os debian/os
+          :db (redis-sentinel-db)
+          :client (redis-sentinel-client)
+          :nemesis (nemesis/node-start-stopper
+                     identity
+                     (fn [test node] 
+                       (c/su (c/exec :systemctl :start :redis-server)))
+                     (fn [test node] 
+                       (c/su (c/exec :systemctl :stop :redis-server))))
+          :concurrency 6
+          :generator (gen/phases
+                       (->> (mixed-workload opts)
+                            (gen/nemesis
+                              (cycle [(gen/sleep 45)
+                                     {:type :info :f :start}
+                                     (gen/sleep 15)
+                                     {:type :info :f :stop}
+                                     (gen/sleep 30)]))
+                            (gen/time-limit 240)))
+          :checker (checker/compose
+                     {:perf (checker/perf)
+                      :timeline (timeline/html)
+                      :linear (checker/linearizable {:model (model/register)})
+                      :stats (checker/stats)})}))
+
+(defn comprehensive-test
+  "Comprehensive test combining multiple nemesis types"
+  [opts]
+  (merge tests/noop-test
+         opts
+         {:name "redis-sentinel-comprehensive"
+          :os debian/os
+          :db (redis-sentinel-db)
+          :client (redis-sentinel-client)
+          :nemesis (nemesis/compose
+                     {{:start-partition :stop-partition} 
+                      (nemesis/partition-random-halves)
+                      {:start-kill :stop-kill}
+                      (nemesis/node-start-stopper
+                        identity
+                        (fn [test node] 
+                          (c/su (c/exec :systemctl :start :redis-server)))
+                        (fn [test node] 
+                          (c/su (c/exec :systemctl :stop :redis-server))))})
+          :concurrency 12
+          :generator (gen/phases
+                       ;; Phase 1: Basic operations
+                       (->> (register-workload opts)
+                            (gen/time-limit 60))
+                       
+                       ;; Phase 2: Partition testing
+                       (->> (cas-workload opts)
+                            (gen/nemesis
+                              (cycle [(gen/sleep 20)
+                                     {:type :info :f :start-partition}
+                                     (gen/sleep 30)
+                                     {:type :info :f :stop-partition}
+                                     (gen/sleep 15)]))
+                            (gen/time-limit 180))
+                       
+                       ;; Phase 3: Process kill testing
+                       (->> (mixed-workload opts)
+                            (gen/nemesis
+                              (cycle [(gen/sleep 25)
+                                     {:type :info :f :start-kill}
+                                     (gen/sleep 20)
+                                     {:type :info :f :stop-kill}
+                                     (gen/sleep 35)]))
+                            (gen/time-limit 240)))
+          :checker (checker/compose
+                     {:perf (checker/perf)
+                      :timeline (timeline/html)
+                      :linear (checker/linearizable {:model (model/register)})
+                      :stats (checker/stats)})}))
+
+;; Test suite definitions
+(def test-suite
+  {:linearizability    linearizability-test
+   :split-brain        split-brain-test
+   :network-partition  network-partition-test
+   :process-kill       process-kill-test
+   :comprehensive      comprehensive-test})
+
+;; Main CLI interface with SSH configuration
+(defn -main
+  "Main entry point using pure Jepsen CLI with SSH credentials"
+  [& args]
+  ;; Set up SSH credentials that work with our Docker setup
+  (c/with-ssh {:username "root"
+               :private-key-path "/root/.ssh/id_rsa"
+               :strict-host-key-checking false}
+    (info "SSH credentials configured for Jepsen")
+    (cli/run!
+     (merge (cli/single-test-cmd {:test-fn (fn [opts]
+                                             (let [test-name (keyword (get opts :test-name "linearizability"))
+                                                   test-fn (get test-suite test-name linearizability-test)]
+                                               (test-fn opts)))
+                                  :opt-spec [[nil "--test-name NAME" "Test to run"
+                                              :default "linearizability"
+                                              :validate [#(contains? test-suite (keyword %))
+                                                         "Must be a valid test name"]]]})
+            (cli/serve-cmd)
+            {:opt-spec [[nil "--nodes HOSTS" "Comma-separated list of hosts"
+                         :default ["n1" "n2" "n3" "n4" "n5"]
+                         :parse-fn #(str/split % #",")]
+                        [nil "--username USER" "SSH username"
+                         :default "root"]
+                        [nil "--private-key-path PATH" "SSH private key path"
+                         :default "/root/.ssh/id_rsa"]
+                        [nil "--strict-host-key-checking" "Enable strict host key checking"
+                         :default false
+                         :parse-fn #(Boolean/parseBoolean %)]
+                        [nil "--time-limit SECONDS" "Test time limit"
+                         :default 300
+                         :parse-fn #(Integer/parseInt %)]]})
+     args)))

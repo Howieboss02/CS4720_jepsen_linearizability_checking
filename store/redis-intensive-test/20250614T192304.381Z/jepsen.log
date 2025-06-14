@@ -1,0 +1,166 @@
+2025-06-14 19:23:04,463{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 15
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x5aefdb9e"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@5aefdb9e"]
+ :name "redis-intensive-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x7a491a60" "2025-06-14T19:23:04.381Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__226
+         "0x80b6098"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__226@80b6098"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x5c30decf"
+         "java.util.concurrent.CyclicBarrier@5c30decf"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x7827cdfc"
+         "jepsen.checker$compose$reify__10552@7827cdfc"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@2f11d889"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x4a0f4282"
+         (jepsen.generator.TimeLimit
+          {:limit 180000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Stagger
+                 {:dt 40000000,
+                  :next-time nil,
+                  :gen (jepsen.generator.Mix
+                        {:i 0,
+                         :gens [{:type :invoke, :f :read, :weight 7}
+                                {:type :invoke,
+                                 :f :write,
+                                 :value 953,
+                                 :weight 3}]})})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x27bc2650"
+         "jepsen.os.debian.Debian@27bc2650"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-14 19:23:04,608{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-14 19:23:04,609{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-14 19:23:04,609{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-14 19:23:04,609{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-14 19:23:04,609{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-14 19:23:06,489{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-14 19:23:06,491{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:23:06,491{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:23:06,491{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:23:06,491{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:23:06,492{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:23:06,494{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-14 19:23:06,497{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-14 19:23:06,497{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-14 19:23:06,497{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-14 19:23:06,497{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-14 19:23:06,497{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-14 19:23:06,557{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-14 19:23:06,559{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:23:06,559{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:23:06,559{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:23:06,559{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:23:06,559{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:23:06,572{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-14 19:23:06,572{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	953
+2025-06-14 19:23:06,574{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-14 19:23:06,575{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n1 value: 953
+2025-06-14 19:23:06,575{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-14 19:23:06,576{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	953
+2025-06-14 19:23:06,576{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:23:06,576{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:23:06,587{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:23:06,587{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:23:06,587{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:23:06,587{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:23:06,587{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:23:06,587{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:23:06,588{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:23:06,588{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:23:06,588{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:23:06,589{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:23:06,589{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-14 19:23:06,639{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:23:06,639{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:23:06,639{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:23:06,639{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:23:06,639{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:23:06,642{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-14 19:23:06,669{GMT}	WARN	[clojure-agent-send-off-pool-16] jepsen.checker: Error while checking history:
+java.lang.RuntimeException: Process 0 already running #knossos.op.Op{:process 0, :type :invoke, :f :read, :value nil, :index 0, :time 8463436, :weight 7}, yet attempted to invoke #knossos.op.Op{:process 0, :type :invoke, :f :read, :value nil, :index 2, :time 17908133, :weight 7, :node "n3"} concurrently
+	at knossos.history$complete_fold_op.invokeStatic(history.clj:190)
+	at knossos.history$complete_fold_op.invoke(history.clj:174)
+	at clojure.lang.PersistentVector.reduce(PersistentVector.java:343)
+	at clojure.core$reduce.invokeStatic(core.clj:6885)
+	at clojure.core$reduce.invoke(core.clj:6868)
+	at knossos.history$complete.invokeStatic(history.clj:255)
+	at knossos.history$complete.invoke(history.clj:235)
+	at knossos.history$preprocess.invokeStatic(history.clj:370)
+	at knossos.history$preprocess.invoke(history.clj:351)
+	at knossos.linear$start_analysis.invokeStatic(linear.clj:259)
+	at knossos.linear$start_analysis.invoke(linear.clj:256)
+	at knossos.competition$analysis.invokeStatic(competition.clj:18)
+	at knossos.competition$analysis.invoke(competition.clj:7)
+	at knossos.competition$analysis.invokeStatic(competition.clj:15)
+	at knossos.competition$analysis.invoke(competition.clj:7)
+	at jepsen.checker$linearizable$reify__10597.check(checker.clj:216)
+	at jepsen.checker$check_safe.invokeStatic(checker.clj:86)
+	at jepsen.checker$check_safe.invoke(checker.clj:79)
+	at jepsen.checker$compose$reify__10552$fn__10554.invoke(checker.clj:102)
+	at clojure.core$pmap$fn__8552$fn__8553.invoke(core.clj:7089)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-06-14 19:23:06,805{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-14 19:23:06,818{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/redis-intensive-test/20250614T192304.381Z/results.edn
+2025-06-14 19:23:06,839{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :timeline {:valid? true},
+ :linear {:valid? :unknown,
+          :error "java.lang.RuntimeException: Process 0 already running #knossos.op.Op{:process 0, :type :invoke, :f :read, :value nil, :index 0, :time 8463436, :weight 7}, yet attempted to invoke #knossos.op.Op{:process 0, :type :invoke, :f :read, :value nil, :index 2, :time 17908133, :weight 7, :node \"n3\"} concurrently\n at knossos.history$complete_fold_op.invokeStatic (history.clj:190)\n    knossos.history$complete_fold_op.invoke (history.clj:174)\n    clojure.lang.PersistentVector.reduce (PersistentVector.java:343)\n    clojure.core$reduce.invokeStatic (core.clj:6885)\n    clojure.core$reduce.invoke (core.clj:6868)\n    knossos.history$complete.invokeStatic (history.clj:255)\n    knossos.history$complete.invoke (history.clj:235)\n    knossos.history$preprocess.invokeStatic (history.clj:370)\n    knossos.history$preprocess.invoke (history.clj:351)\n    knossos.linear$start_analysis.invokeStatic (linear.clj:259)\n    knossos.linear$start_analysis.invoke (linear.clj:256)\n    knossos.competition$analysis.invokeStatic (competition.clj:18)\n    knossos.competition$analysis.invoke (competition.clj:7)\n    knossos.competition$analysis.invokeStatic (competition.clj:15)\n    knossos.competition$analysis.invoke (competition.clj:7)\n    jepsen.checker$linearizable$reify__10597.check (checker.clj:216)\n    jepsen.checker$check_safe.invokeStatic (checker.clj:86)\n    jepsen.checker$check_safe.invoke (checker.clj:79)\n    jepsen.checker$compose$reify__10552$fn__10554.invoke (checker.clj:102)\n    clojure.core$pmap$fn__8552$fn__8553.invoke (core.clj:7089)\n    clojure.core$binding_conveyor_fn$fn__5823.invoke (core.clj:2047)\n    clojure.lang.AFn.call (AFn.java:18)\n    java.util.concurrent.FutureTask.run (FutureTask.java:317)\n    java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1144)\n    java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:642)\n    java.lang.Thread.run (Thread.java:1583)\n"},
+ :stats {:valid? true,
+         :count 2,
+         :ok-count 2,
+         :fail-count 0,
+         :info-count 0,
+         :by-f {:read {:valid? true,
+                       :count 1,
+                       :ok-count 1,
+                       :fail-count 0,
+                       :info-count 0},
+                :write {:valid? true,
+                        :count 1,
+                        :ok-count 1,
+                        :fail-count 0,
+                        :info-count 0}}},
+ :valid? :unknown}
+
+
+Errors occurred during analysis, but no anomalies found. ಠ~ಠ

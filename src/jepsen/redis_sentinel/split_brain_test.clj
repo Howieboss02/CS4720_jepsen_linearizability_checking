@@ -3,7 +3,9 @@
             [clojure.core.async :as async :refer [go chan >! <!]]
             [jepsen.redis-sentinel.test-harness :as harness]
             [jepsen.redis-sentinel.client :as client]
-            [jepsen.redis-sentinel.fault-injection :as fault]
+            [jepsen.redis-sentinel.nemesis :as nemesis]
+            [jepsen.nemesis :as jepsen-nemesis]
+            [jepsen.control :as c]
             [clojure.java.shell :as shell]
             [clojure.set :as set]
             [taoensso.carmine :as car :refer [wcar]]))
@@ -53,6 +55,101 @@
       (log/warn "Failed to get replicas:" (.getMessage e))
       [])))
 
+;; Split-brain specific nemesis
+(defn split-brain-nemesis
+  "Creates a split-brain scenario by partitioning minority from majority"
+  []
+  (reify jepsen-nemesis/Nemesis
+    (setup! [this test] 
+      (log/info "Setting up split-brain nemesis")
+      this)
+    
+    (invoke! [this test op]
+      (case (:f op)
+        :start-split-brain 
+        (do
+          (log/info "=== STARTING SPLIT-BRAIN PARTITION ===")
+          (log/info "Partitioning n1,n2 (minority) from n3,n4,n5 (majority)")
+          (try
+            ;; Create the classic 2 vs 3 split
+            (let [minority-nodes ["n1" "n2"]
+                  majority-nodes ["n3" "n4" "n5"]]
+              
+              ;; Disconnect minority nodes from Redis network
+              (doseq [node minority-nodes]
+                (shell/sh "docker" "network" "disconnect" "redis-network" 
+                         (str "jepsen-redis-" node))
+                (log/debug "Disconnected" node "from redis-network"))
+              
+              ;; Disconnect minority sentinels from Sentinel network
+              (shell/sh "docker" "network" "disconnect" "redis-sentinel-network" 
+                       "jepsen-redis-sentinel1")
+              (shell/sh "docker" "network" "disconnect" "redis-sentinel-network" 
+                       "jepsen-redis-sentinel2")
+              
+              (log/info "Split-brain partition created successfully")
+              (log/info "Minority partition: n1, n2 (with sentinels 1,2)")
+              (log/info "Majority partition: n3, n4, n5 (with sentinel 3)")
+              (log/info "Sentinels in majority will elect new primary"))
+            
+            (assoc op :type :ok :value "Split-brain partition started")
+            (catch Exception e
+              (log/error "Failed to create split-brain partition:" (.getMessage e))
+              (assoc op :type :fail :error (.getMessage e)))))
+        
+        :stop-split-brain
+        (do
+          (log/info "=== HEALING SPLIT-BRAIN PARTITION ===")
+          (try
+            ;; Reconnect minority nodes to Redis network
+            (let [minority-nodes ["n1" "n2"]]
+              (doseq [node minority-nodes]
+                (shell/sh "docker" "network" "connect" "redis-network" 
+                         (str "jepsen-redis-" node))
+                (log/debug "Reconnected" node "to redis-network"))
+              
+              ;; Reconnect minority sentinels
+              (shell/sh "docker" "network" "connect" "redis-sentinel-network" 
+                       "jepsen-redis-sentinel1")
+              (shell/sh "docker" "network" "connect" "redis-sentinel-network" 
+                       "jepsen-redis-sentinel2")
+              
+              (log/info "Split-brain partition healed successfully")
+              (log/info "All nodes and sentinels reconnected")
+              (log/info "Sentinels will coordinate to resolve split-brain"))
+            
+            (assoc op :type :ok :value "Split-brain partition healed")
+            (catch Exception e
+              (log/error "Failed to heal split-brain partition:" (.getMessage e))
+              (assoc op :type :fail :error (.getMessage e)))))
+        
+        ;; Handle other operations gracefully
+        (do
+          (log/warn "Unknown split-brain nemesis operation:" (:f op))
+          (assoc op :type :fail :error "Unknown operation"))))
+    
+    (teardown! [this test]
+      (log/info "Tearing down split-brain nemesis")
+      ;; Ensure all connections are restored
+      (try
+        (let [all-nodes ["n1" "n2" "n3" "n4" "n5"]]
+          (doseq [node all-nodes]
+            (shell/sh "docker" "network" "connect" "redis-network" 
+                     (str "jepsen-redis-" node)))
+          (doseq [sentinel-id ["1" "2" "3"]]
+            (shell/sh "docker" "network" "connect" "redis-sentinel-network" 
+                     (str "jepsen-redis-sentinel" sentinel-id))))
+        (catch Exception e
+          (log/warn "Error during nemesis teardown:" (.getMessage e)))))))
+
+(defn advanced-split-brain-nemesis
+  "Advanced nemesis that can create different split-brain scenarios"
+  []
+  (jepsen-nemesis/compose
+    {{:start-split-brain :stop-split-brain} (split-brain-nemesis)
+     {:start-primary-isolation :stop-primary-isolation} (nemesis/partition-primary-nemesis)
+     {:start-sentinel-failure :stop-sentinel-failure} (nemesis/kill-sentinel-nemesis)}))
+
 (defn create-split-brain-workload
   "Creates a workload that writes sequential integers to test data loss"
   [duration-ms ops-per-second]
@@ -86,46 +183,41 @@
   (wcar conn
     (car/smembers key)))
 
-(defn inject-network-partition-split-brain
-  "Inject a network partition that splits the cluster into minority/majority"
-  [duration]
-  (log/info "=== INJECTING SPLIT-BRAIN PARTITION ===")
-  (log/info "Partitioning n1,n2 (minority) from n3,n4,n5 (majority)")
-  
+(defn execute-nemesis-operation
+  "Execute a nemesis operation with proper error handling"
+  [nemesis-instance test operation]
   (try
-    ;; Create partition: isolate n1 and n2 from n3, n4, n5
-    ;; This simulates the classic 2-node vs 3-node split
-    (let [partition-cmds ["docker network disconnect redis-network jepsen-redis-primary"
-                          "docker network disconnect redis-network jepsen-redis-replica1"
-                          "docker network disconnect redis-sentinel-network jepsen-redis-sentinel1"
-                          "docker network disconnect redis-sentinel-network jepsen-redis-sentinel2"]]
-      
-      (doseq [cmd partition-cmds]
-        (shell/sh "bash" "-c" cmd))
-      
-      (log/info "Network partition created - split-brain scenario active")
-      (log/info "Old primary (n1) isolated with n2")
-      (log/info "Sentinels on n3,n4,n5 will elect new primary")
-      
-      ;; Let the partition persist
-      (Thread/sleep duration)
-      
-      (log/info "=== HEALING SPLIT-BRAIN PARTITION ===")
-      
-      ;; Heal the partition
-      (let [heal-cmds ["docker network connect redis-network jepsen-redis-primary"
-                       "docker network connect redis-network jepsen-redis-replica1"
-                       "docker network connect redis-sentinel-network jepsen-redis-sentinel1"
-                       "docker network connect redis-sentinel-network jepsen-redis-sentinel2"]]
-        
-        (doseq [cmd heal-cmds]
-          (shell/sh "bash" "-c" cmd)))
-      
-      (log/info "Network partition healed")
-      (log/info "Sentinels will now coordinate to resolve split-brain"))
-    
+    (log/debug "Executing nemesis operation:" (:f operation))
+    (let [result (jepsen-nemesis/invoke! nemesis-instance test operation)]
+      (log/info "Nemesis operation result:" (:value result))
+      result)
     (catch Exception e
-      (log/error "Split-brain partition injection failed:" e))))
+      (log/error "Nemesis operation failed:" (.getMessage e))
+      (assoc operation :type :fail :error (.getMessage e)))))
+
+(defn inject-split-brain-with-nemesis
+  "Use nemesis to inject split-brain scenario"
+  [nemesis-instance test duration]
+  (go
+    (log/info "Starting nemesis-based split-brain injection")
+    
+    ;; Start split-brain partition
+    (let [start-op {:type :invoke :f :start-split-brain :time (System/currentTimeMillis)}
+          start-result (execute-nemesis-operation nemesis-instance test start-op)]
+      
+      (if (= (:type start-result) :ok)
+        (do
+          (log/info "Split-brain partition established, waiting" duration "ms")
+          (<! (async/timeout duration))
+          
+          ;; Stop split-brain partition (heal)
+          (let [stop-op {:type :invoke :f :stop-split-brain :time (System/currentTimeMillis)}
+                stop-result (execute-nemesis-operation nemesis-instance test stop-op)]
+            
+            (if (= (:type stop-result) :ok)
+              (log/info "Split-brain partition healed successfully")
+              (log/error "Failed to heal split-brain partition"))))
+        (log/error "Failed to establish split-brain partition")))))
 
 (defn create-split-brain-sentinel-aware-client
   "Creates a client that queries Sentinel before every write (stricter than normal)"
@@ -440,117 +532,136 @@
      :inconsistency-detected (< (:consistency-percentage consistency-analysis) 100.0)}))
 
 (defn run-split-brain-test
-  "Main split-brain test that reproduces the exact scenario from the prompt"
+  "Main split-brain test using nemesis for fault injection"
   []
-  (log/info "=== STARTING REDIS SENTINEL SPLIT-BRAIN TEST ===")
+  (log/info "=== STARTING REDIS SENTINEL SPLIT-BRAIN TEST (NEMESIS) ===")
   (log/info "This test reproduces the exact split-brain scenario described")
   (log/info "where Redis loses 56% of acknowledged writes")
   
   (harness/reset-test-state!)
   (swap! harness/test-state assoc :active true :client-count 5)
   
-  ;; Clear any existing data using current primary
-  (try
-    (let [primary-conn (get-current-primary)]
-      (wcar primary-conn
-        (car/del "sequential-writes")))
-    (catch Exception e
-      (log/warn "Failed to clear existing data:" e)))
-  
-  (let [duration-ms 180000  ; 3 minutes total
-        ops-per-second 20   ; Moderate write rate
-        client-count 5      ; 5 clients writing sequentially
-        
-        ;; Create workload - each client writes sequential integers
-        workload-channels (for [i (range client-count)]
-                            (create-split-brain-workload duration-ms ops-per-second))
-        
-        ;; Start client workers
-        workers (for [[i workload-channel] (map-indexed vector workload-channels)]
-                  (run-split-brain-client-worker i workload-channel))
-        
-        ;; Start the split-brain fault injection after 30 seconds
-        fault-worker (go
-                       (<! (async/timeout 30000))  ; Wait 30 seconds
-                       (inject-network-partition-split-brain 60000)  ; 60 second partition
-                       (log/info "Split-brain test fault injection completed"))]
+  ;; Create nemesis instance
+  (let [nemesis-instance (split-brain-nemesis)
+        test-config {:nodes ["n1" "n2" "n3" "n4" "n5"]}]
     
-    (log/info "Started 5 clients writing sequential integers")
-    (log/info "Each client queries Sentinel before every write (strict implementation)")
-    (log/info "Split-brain partition will be injected after 30 seconds")
+    ;; Setup nemesis
+    (jepsen-nemesis/setup! nemesis-instance test-config)
     
-    ;; Wait for all workers to complete
-    (doseq [worker workers]
-      (async/<!! worker))
+    ;; Clear any existing data using current primary
+    (try
+      (let [primary-conn (get-current-primary)]
+        (wcar primary-conn
+          (car/del "sequential-writes")))
+      (catch Exception e
+        (log/warn "Failed to clear existing data:" e)))
     
-    ;; Wait for fault injection to complete
-    (async/<!! fault-worker)
-    
-    ;; Allow time for final replication
-    (Thread/sleep 10000)
-    
-    ;; Finalize test
-    (swap! harness/test-state assoc :active false)
-    
-    ;; Analyze results
-    (let [histories (:histories @harness/test-state)
-          analysis (analyze-split-brain-data-loss histories)]
+    (let [duration-ms 180000  ; 3 minutes total
+          ops-per-second 20   ; Moderate write rate
+          client-count 5      ; 5 clients writing sequentially
+          
+          ;; Create workload - each client writes sequential integers
+          workload-channels (for [i (range client-count)]
+                              (create-split-brain-workload duration-ms ops-per-second))
+          
+          ;; Start client workers
+          workers (for [[i workload-channel] (map-indexed vector workload-channels)]
+                    (run-split-brain-client-worker i workload-channel))
+          
+          ;; Start the split-brain fault injection using nemesis after 30 seconds
+          fault-worker (inject-split-brain-with-nemesis nemesis-instance test-config 60000)]
       
-      (log/info "=== SPLIT-BRAIN TEST COMPLETED ===")
+      (log/info "Started 5 clients writing sequential integers")
+      (log/info "Each client queries Sentinel before every write (strict implementation)")
+      (log/info "Split-brain partition will be injected after 30 seconds using nemesis")
       
-      ;; Save detailed results
-      (harness/save-histories (str "split-brain-test-" (System/currentTimeMillis) ".json"))
+      ;; Wait for all workers to complete
+      (doseq [worker workers]
+        (async/<!! worker))
       
-      ;; Return analysis
-      analysis)))
+      ;; Wait for fault injection to complete
+      (async/<!! fault-worker)
+      
+      ;; Allow time for final replication
+      (Thread/sleep 10000)
+      
+      ;; Teardown nemesis
+      (jepsen-nemesis/teardown! nemesis-instance test-config)
+      
+      ;; Finalize test
+      (swap! harness/test-state assoc :active false)
+      
+      ;; Analyze results
+      (let [histories (:histories @harness/test-state)
+            analysis (analyze-split-brain-data-loss histories)]
+        
+        (log/info "=== SPLIT-BRAIN TEST COMPLETED ===")
+        
+        ;; Save detailed results
+        (harness/save-histories (str "split-brain-nemesis-test-" (System/currentTimeMillis) ".json"))
+        
+        ;; Return analysis
+        analysis))))
 
 (defn run-split-brain-durability-test
-  "Extended test that focuses on durability violations"
+  "Extended test that focuses on durability violations using nemesis"
   []
-  (log/info "=== REDIS SENTINEL DURABILITY VIOLATION TEST ===")
+  (log/info "=== REDIS SENTINEL DURABILITY VIOLATION TEST (NEMESIS) ===")
   
   (harness/reset-test-state!)
   (swap! harness/test-state assoc :active true :client-count 3)
   
-  (let [duration-ms 120000
+  (let [nemesis-instance (advanced-split-brain-nemesis)
+        test-config {:nodes ["n1" "n2" "n3" "n4" "n5"]}
+        duration-ms 120000
         ops-per-second 15
         
         ;; Create focused workload for durability testing
         workload-channel (create-split-brain-workload duration-ms ops-per-second)
         
         ;; Single client for clearer analysis
-        worker (run-split-brain-client-worker 0 workload-channel)
+        worker (run-split-brain-client-worker 0 workload-channel)]
+    
+    ;; Setup advanced nemesis
+    (jepsen-nemesis/setup! nemesis-instance test-config)
+    
+    ;; Inject multiple partition events using different nemesis operations
+    (let [fault-worker (go
+                         ;; First split-brain after 20 seconds
+                         (<! (async/timeout 20000))
+                         (inject-split-brain-with-nemesis nemesis-instance test-config 30000)
+                         
+                         ;; Second event: primary isolation after recovery
+                         (<! (async/timeout 40000))
+                         (execute-nemesis-operation nemesis-instance test-config 
+                                                   {:type :invoke :f :start-primary-isolation})
+                         (<! (async/timeout 20000))
+                         (execute-nemesis-operation nemesis-instance test-config 
+                                                   {:type :invoke :f :stop-primary-isolation})
+                         
+                         (log/info "Durability test fault injection completed"))]
+      
+      (log/info "Started durability violation test with multiple partition types")
+      
+      ;; Wait for completion
+      (async/<!! worker)
+      (async/<!! fault-worker)
+      
+      (Thread/sleep 5000)
+      
+      ;; Teardown nemesis
+      (jepsen-nemesis/teardown! nemesis-instance test-config)
+      
+      (swap! harness/test-state assoc :active false)
+      
+      ;; Analyze for durability violations
+      (let [histories (:histories @harness/test-state)
+            analysis (analyze-split-brain-data-loss histories)]
         
-        ;; Inject multiple partition events
-        fault-worker (go
-                       ;; First partition after 20 seconds
-                       (<! (async/timeout 20000))
-                       (inject-network-partition-split-brain 30000)
-                       
-                       ;; Second partition after recovery
-                       (<! (async/timeout 40000))
-                       (inject-network-partition-split-brain 20000)
-                       
-                       (log/info "Durability test fault injection completed"))]
-    
-    (log/info "Started durability violation test with multiple partitions")
-    
-    ;; Wait for completion
-    (async/<!! worker)
-    (async/<!! fault-worker)
-    
-    (Thread/sleep 5000)
-    
-    (swap! harness/test-state assoc :active false)
-    
-    ;; Analyze for durability violations
-    (let [histories (:histories @harness/test-state)
-          analysis (analyze-split-brain-data-loss histories)]
-      
-      (log/info "=== DURABILITY TEST RESULTS ===")
-      (log/info "Durability violations detected:" 
-                (if (:split-brain-detected analysis) "YES" "NO"))
-      
-      (harness/save-histories (str "durability-test-" (System/currentTimeMillis) ".json"))
-      
-      analysis)))
+        (log/info "=== DURABILITY TEST RESULTS ===")
+        (log/info "Durability violations detected:" 
+                  (if (:split-brain-detected analysis) "YES" "NO"))
+        
+        (harness/save-histories (str "durability-nemesis-test-" (System/currentTimeMillis) ".json"))
+        
+        analysis))))

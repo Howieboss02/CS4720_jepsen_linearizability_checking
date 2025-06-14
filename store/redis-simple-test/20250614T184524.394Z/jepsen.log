@@ -1,0 +1,75 @@
+2025-06-14 18:45:24,686{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:concurrency 3
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x2d399e88"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@2d399e88"]
+ :name "redis-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x2b441609" "2025-06-14T18:45:24.394Z"]
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_client$reify__196
+         "0x22f7bf36"
+         "jepsen.redis_sentinel.test_ssh$redis_client$reify__196@22f7bf36"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x4a3404fa"
+         "java.util.concurrent.CyclicBarrier@4a3404fa"]
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x3fb4beb1"
+         "jepsen.checker$compose$reify__10552@3fb4beb1"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@34cb1310"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0xda4c5cb"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Stagger
+                 {:dt 200000000,
+                  :next-time nil,
+                  :gen (jepsen.generator.Mix
+                        {:i 0,
+                         :gens [{:type :invoke, :f :read}
+                                {:type :invoke, :f :write, :value 26}]})})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x461b38ca"
+         "jepsen.os.debian.Debian@461b38ca"]}
+
+2025-06-14 18:45:27,396{GMT}	WARN	[jepsen test runner] jepsen.core: Test crashed!
+java.lang.IllegalArgumentException: No implementation of method: :connect of protocol: #'jepsen.control.core/Remote found for class: nil
+	at clojure.core$_cache_protocol_fn.invokeStatic(core_deftype.clj:584)
+	at clojure.core$_cache_protocol_fn.invoke(core_deftype.clj:576)
+	at jepsen.control.core$fn__5453$G__5421__5460.invoke(core.clj:7)
+	at jepsen.control$session.invokeStatic(control.clj:233)
+	at jepsen.control$session.invoke(control.clj:230)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1990)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1990)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:671)
+	at clojure.core$bound_fn_STAR_$fn__5818.doInvoke(core.clj:2020)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$apply.invoke(core.clj:662)
+	at jepsen.util$fcatch$wrapper__4645.doInvoke(util.clj:48)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:163)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1990)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1990)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:671)
+	at clojure.core$bound_fn_STAR_$fn__5818.doInvoke(core.clj:2020)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
