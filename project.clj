@@ -10,6 +10,8 @@
                  [com.taoensso/carmine "3.2.0"]
                  [cheshire "5.11.0"]
                  [clj-time "0.15.2"]
+                 [knossos "0.3.5"] 
+                 [cheshire "5.11.0"]
                  ;; Use SLF4J 1.7.x for compatibility
                  [org.slf4j/slf4j-api "1.7.36"]
                  [org.slf4j/slf4j-simple "1.7.36"]

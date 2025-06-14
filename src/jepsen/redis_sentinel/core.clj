@@ -1,7 +1,12 @@
 (ns jepsen.redis-sentinel.core
   (:require [clojure.tools.logging :as log]
             [jepsen.redis-sentinel.runner :as runner]
-            [jepsen.redis-sentinel.test-harness :as harness])
+            [jepsen.redis-sentinel.test-harness :as harness]
+            [clojure.java.io :as io]
+            [cheshire.core :as json]
+            [knossos.model :as model]
+            [knossos.linear :as linear]
+            [clojure.string :as str])
   (:gen-class))
 
 (def test-configurations
@@ -78,6 +83,83 @@
     :fault-duration 8000
     :workload-params {:register-count 25}}})
 
+;; Knossos linearizability checking functions
+(defn load-history [file-path]
+  "Load a JSON history file"
+  (try
+    (let [file-content (slurp file-path)]
+      (json/parse-string file-content true))
+    (catch Exception e
+      (log/error "Failed to load history file:" file-path "Error:" (.getMessage e))
+      nil)))
+
+(defn get-model-for-workload [workload-type]
+  "Get the appropriate Knossos model for the workload type"
+  (case workload-type
+    :register (model/register)
+    :counter (model/register) ; Use register model for counter-like operations
+    :mixed (model/register)
+    :read-only (model/register)
+    :write-only (model/register)
+    (model/register))) ; Default to register
+
+(defn find-latest-history-file []
+  "Find the most recent history file in results/histories/"
+  (let [histories-dir (io/file "results/histories")]
+    (when (.exists histories-dir)
+      (let [files (->> (.listFiles histories-dir)
+                       (filter #(.isFile %))
+                       (filter #(str/ends-with? (.getName %) ".json"))
+                       (sort-by #(.lastModified %) >))]
+        (when (seq files)
+          (.getPath (first files)))))))
+
+(defn check-linearizability 
+  ([file-path] (check-linearizability file-path :register))
+  ([file-path workload-type]
+   (log/info "Checking linearizability for:" file-path)
+   (if-let [history (load-history file-path)]
+     (let [model (get-model-for-workload workload-type)
+           result (linear/analysis model history)]
+       (log/info "=== LINEARIZABILITY ANALYSIS RESULTS ===")
+       (log/info "File:" file-path)
+       (log/info "Operations analyzed:" (count history))
+       (log/info "Workload type:" workload-type)
+       (log/info "Model used:" (type model))
+       
+       (if (:valid? result)
+         (do
+           (log/info "✓ RESULT: History is LINEARIZABLE!")
+           (log/info "All operations can be arranged in a valid linear order."))
+         (do
+           (log/error "✗ RESULT: LINEARIZABILITY VIOLATION DETECTED!")
+           (log/error "Error details:" (:error result))
+           (when (:counterexample result)
+             (log/error "Counterexample operations:")
+             (doseq [op (:counterexample result)]
+               (log/error "  " op)))))
+       
+       (log/info "=== END ANALYSIS ===")
+       result)
+     (log/error "Could not load history file:" file-path))))
+
+(defn check-all-histories []
+  "Check linearizability for all history files in results/histories/"
+  (let [histories-dir (io/file "results/histories")]
+    (if (.exists histories-dir)
+      (let [history-files (->> (.listFiles histories-dir)
+                               (filter #(.isFile %))
+                               (filter #(str/ends-with? (.getName %) ".json"))
+                               (map #(.getPath %)))]
+        (if (seq history-files)
+          (do
+            (log/info "Found" (count history-files) "history files to analyze")
+            (doseq [file-path history-files]
+              (check-linearizability file-path)
+              (println "---")))
+          (log/warn "No history files found in results/histories/")))
+      (log/error "results/histories/ directory does not exist"))))
+
 (defn run-test-suite []
   (doseq [[test-name config] test-configurations]
     (log/info "=== Running test:" test-name "===")
@@ -115,7 +197,6 @@
   
   (log/info "All specialized tests completed!"))
 
-
 (defn run-fault-injection-suite
   "Run fault injection tests using existing infrastructure"
   []
@@ -138,15 +219,54 @@
       (runner/run-fault-injection-test config))
     (log/error "Unknown fault test name:" test-name)))
 
-
 (defn -main [& args]
   (cond
-    (empty? args) (run-test-suite)
-    (= (first args) "specialized") (run-specialized-tests)
-    (= (first args) "faults") (run-fault-injection-suite)
-    (= (first args) "chaos") (run-specific-fault-test :chaos-test)
+    (empty? args) 
+    (run-test-suite)
+    
+    (= (first args) "check-linearizability")
+    (cond
+      ;; Check specific file
+      (= (count args) 2)
+      (check-linearizability (second args))
+      
+      ;; Check specific file with workload type
+      (= (count args) 3)
+      (check-linearizability (second args) (keyword (nth args 2)))
+      
+      ;; Check latest file
+      :else
+      (if-let [latest-file (find-latest-history-file)]
+        (check-linearizability latest-file)
+        (log/error "No history files found")))
+    
+    (= (first args) "check-all")
+    (check-all-histories)
+    
+    (= (first args) "specialized") 
+    (run-specialized-tests)
+    
+    (= (first args) "faults") 
+    (run-fault-injection-suite)
+    
+    (= (first args) "chaos") 
+    (run-specific-fault-test :chaos-test)
+    
     (contains? test-configurations (keyword (first args))) 
     (runner/run-linearizability-test (get test-configurations (keyword (first args))))
+    
     (contains? fault-test-configurations (keyword (first args)))
     (run-specific-fault-test (keyword (first args)))
-    :else (log/error "Unknown test:" (first args))))
+    
+    :else 
+    (do
+      (log/error "Unknown command:" (first args))
+      (println "Usage:")
+      (println "  lein run                                    - Run all tests")
+      (println "  lein run basic-linearizability              - Run specific test")
+      (println "  lein run check-linearizability              - Check latest history file")
+      (println "  lein run check-linearizability <file>       - Check specific history file")
+      (println "  lein run check-linearizability <file> <type> - Check with specific workload type")
+      (println "  lein run check-all                          - Check all history files")
+      (println "  lein run specialized                        - Run specialized tests")
+      (println "  lein run faults                             - Run fault injection tests"))))
