@@ -1,0 +1,226 @@
+2025-06-14 19:50:13,809{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 15
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x6d5d1204"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@6d5d1204"]
+ :name "redis-intensive-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x1784a296" "2025-06-14T19:50:13.233Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__226
+         "0x49ea4b65"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__226@49ea4b65"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x4af6839c"
+         "java.util.concurrent.CyclicBarrier@4af6839c"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x4f3e65f4"
+         "jepsen.checker$compose$reify__10552@4f3e65f4"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@7d1cfe97"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x3bc33ad9"
+         {:clients (jepsen.generator.TimeLimit
+                    {:limit 180000000000,
+                     :cutoff nil,
+                     :gen (jepsen.generator.Stagger
+                           {:dt 40000000,
+                            :next-time nil,
+                            :gen (jepsen.generator.Cycle
+                                  {:remaining -1,
+                                   :original-gen [{:type :invoke, :f :read}
+                                                  {:type :invoke, :f :read}
+                                                  {:type :invoke, :f :read}
+                                                  {:type :invoke, :f :read}
+                                                  {:type :invoke, :f :read}
+                                                  {:type :invoke, :f :read}
+                                                  {:type :invoke, :f :read}
+                                                  {:type :invoke,
+                                                   :f :write,
+                                                   :value 368}
+                                                  ...],
+                                   :gen [{:type :invoke, :f :read}
+                                         {:type :invoke, :f :read}
+                                         {:type :invoke, :f :read}
+                                         {:type :invoke, :f :read}
+                                         {:type :invoke, :f :read}
+                                         {:type :invoke, :f :read}
+                                         {:type :invoke, :f :read}
+                                         {:type :invoke, :f :write, :value 368}
+                                         ...]})})}),
+          :nemesis #object[jepsen.generator$nemesis
+                           "0x4c6fe482"
+                           "jepsen.generator$nemesis@4c6fe482"]}]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x2fd05b15"
+         "jepsen.os.debian.Debian@2fd05b15"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-14 19:50:18,437{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-14 19:50:18,437{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-14 19:50:18,437{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-14 19:50:18,437{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-14 19:50:18,437{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-14 19:50:29,196{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-14 19:50:29,243{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:50:29,243{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:50:29,243{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:50:29,243{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:50:29,247{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:50:29,361{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-14 19:50:29,376{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-14 19:50:29,377{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-14 19:50:29,387{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-14 19:50:29,392{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-14 19:50:29,392{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-14 19:50:30,008{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-14 19:50:30,158{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:50:30,158{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:50:30,158{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:50:30,158{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:50:30,160{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-14 19:50:31,701{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	nil	nil
+2025-06-14 19:50:31,722{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: No matching clause: 
+2025-06-14 19:50:31,725{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	nil	nil	No matching clause: 
+2025-06-14 19:50:31,729{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:50:31,739{GMT}	WARN	[jepsen history writer] jepsen.store.format: Big vector block writer crashed!
+java.lang.IllegalArgumentException: Cannot write jepsen.generator$nemesis@4c6fe482 as tag null
+	at org.fressian.handlers.WriteHandlerLookup.requireWriteHandler(WriteHandlerLookup.java:48)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:458)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:464)
+	at org.fressian.FressianWriter.writeObject(FressianWriter.java:472)
+	at org.fressian.FressianWriter.writeIterator(FressianWriter.java:152)
+	at org.fressian.FressianWriter.writeList(FressianWriter.java:165)
+	at org.fressian.impl.Handlers$32.write(Handlers.java:352)
+	at org.fressian.FressianWriter.doWrite(FressianWriter.java:449)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:459)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:464)
+	at org.fressian.FressianWriter.writeObject(FressianWriter.java:472)
+	at jepsen.store.fressian$reify__9112.write(fressian.clj:94)
+	at org.fressian.FressianWriter.doWrite(FressianWriter.java:449)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:459)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:464)
+	at org.fressian.FressianWriter.writeObject(FressianWriter.java:472)
+	at clojure.data.fressian$write_object.invokeStatic(fressian.clj:219)
+	at clojure.data.fressian$write_object.invoke(fressian.clj:216)
+	at jepsen.store.format$append_to_fressian_stream_block_BANG_.invokeStatic(format.clj:1036)
+	at jepsen.store.format$append_to_fressian_stream_block_BANG_.invoke(format.clj:1032)
+	at jepsen.store.format$big_vector_block_writer_worker_BANG_.invokeStatic(format.clj:1115)
+	at jepsen.store.format$big_vector_block_writer_worker_BANG_.invoke(format.clj:1084)
+	at jepsen.store.format$big_vector_block_writer_BANG_$fn__9422.invoke(format.clj:1159)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-06-14 19:50:31,747{GMT}	INFO	[jepsen test runner] jepsen.generator.interpreter: Shutting down workers after abnormal exit
+2025-06-14 19:50:31,893{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:50:31,893{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:50:31,893{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:50:31,893{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:50:31,893{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-14 19:50:31,902{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:50:31,904{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:50:31,907{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:50:31,908{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:50:31,914{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-14 19:50:32,053{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-14 19:50:32,054{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-14 19:50:32,059{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-14 19:50:32,053{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-14 19:50:32,073{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-14 19:50:32,158{GMT}	WARN	[jepsen test runner] jepsen.core: Test crashed!
+java.util.concurrent.ExecutionException: java.lang.IllegalArgumentException: Cannot write jepsen.generator$nemesis@4c6fe482 as tag null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191)
+	at clojure.core$deref_future.invokeStatic(core.clj:2317)
+	at clojure.core$future_call$reify__8544.deref(core.clj:7041)
+	at clojure.core$deref.invokeStatic(core.clj:2337)
+	at clojure.core$deref.invoke(core.clj:2323)
+	at jepsen.store.format.BigVectorBlockWriter.close(format.clj:1077)
+	at jepsen.generator.interpreter$run_BANG_.invokeStatic(interpreter.clj:201)
+	at jepsen.generator.interpreter$run_BANG_.invoke(interpreter.clj:184)
+	at jepsen.core$run_case_BANG_.invokeStatic(core.clj:213)
+	at jepsen.core$run_case_BANG_.invoke(core.clj:208)
+	at jepsen.core$run_BANG_$fn__13309$fn__13312$fn__13317.invoke(core.clj:402)
+	at jepsen.core$run_BANG_$fn__13309$fn__13312.invoke(core.clj:400)
+	at jepsen.core$run_BANG_$fn__13309.invoke(core.clj:398)
+	at jepsen.core$run_BANG_.invokeStatic(core.clj:396)
+	at jepsen.core$run_BANG_.invoke(core.clj:322)
+	at jepsen.redis_sentinel.test_ssh$run_intensive_test.invokeStatic(test_ssh.clj:172)
+	at jepsen.redis_sentinel.test_ssh$run_intensive_test.invoke(test_ssh.clj:168)
+	at jepsen.redis_sentinel.test_ssh$_main.invokeStatic(test_ssh.clj:196)
+	at jepsen.redis_sentinel.test_ssh$_main.doInvoke(test_ssh.clj:174)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at clojure.lang.Var.invoke(Var.java:384)
+	at user$eval144.invokeStatic(form-init863914135907294385.clj:1)
+	at user$eval144.invoke(form-init863914135907294385.clj:1)
+	at clojure.lang.Compiler.eval(Compiler.java:7194)
+	at clojure.lang.Compiler.eval(Compiler.java:7184)
+	at clojure.lang.Compiler.load(Compiler.java:7653)
+	at clojure.lang.Compiler.loadFile(Compiler.java:7591)
+	at clojure.main$load_script.invokeStatic(main.clj:475)
+	at clojure.main$init_opt.invokeStatic(main.clj:477)
+	at clojure.main$init_opt.invoke(main.clj:477)
+	at clojure.main$initialize.invokeStatic(main.clj:508)
+	at clojure.main$null_opt.invokeStatic(main.clj:542)
+	at clojure.main$null_opt.invoke(main.clj:539)
+	at clojure.main$main.invokeStatic(main.clj:664)
+	at clojure.main$main.doInvoke(main.clj:616)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.lang.Var.applyTo(Var.java:705)
+	at clojure.main.main(main.java:40)
+Caused by: java.lang.IllegalArgumentException: Cannot write jepsen.generator$nemesis@4c6fe482 as tag null
+	at org.fressian.handlers.WriteHandlerLookup.requireWriteHandler(WriteHandlerLookup.java:48)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:458)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:464)
+	at org.fressian.FressianWriter.writeObject(FressianWriter.java:472)
+	at org.fressian.FressianWriter.writeIterator(FressianWriter.java:152)
+	at org.fressian.FressianWriter.writeList(FressianWriter.java:165)
+	at org.fressian.impl.Handlers$32.write(Handlers.java:352)
+	at org.fressian.FressianWriter.doWrite(FressianWriter.java:449)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:459)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:464)
+	at org.fressian.FressianWriter.writeObject(FressianWriter.java:472)
+	at jepsen.store.fressian$reify__9112.write(fressian.clj:94)
+	at org.fressian.FressianWriter.doWrite(FressianWriter.java:449)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:459)
+	at org.fressian.FressianWriter.writeAs(FressianWriter.java:464)
+	at org.fressian.FressianWriter.writeObject(FressianWriter.java:472)
+	at clojure.data.fressian$write_object.invokeStatic(fressian.clj:219)
+	at clojure.data.fressian$write_object.invoke(fressian.clj:216)
+	at jepsen.store.format$append_to_fressian_stream_block_BANG_.invokeStatic(format.clj:1036)
+	at jepsen.store.format$append_to_fressian_stream_block_BANG_.invoke(format.clj:1032)
+	at jepsen.store.format$big_vector_block_writer_worker_BANG_.invokeStatic(format.clj:1115)
+	at jepsen.store.format$big_vector_block_writer_worker_BANG_.invoke(format.clj:1084)
+	at jepsen.store.format$big_vector_block_writer_BANG_$fn__9422.invoke(format.clj:1159)
+	at clojure.core$binding_conveyor_fn$fn__5823.invoke(core.clj:2047)
+	at clojure.lang.AFn.call(AFn.java:18)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)

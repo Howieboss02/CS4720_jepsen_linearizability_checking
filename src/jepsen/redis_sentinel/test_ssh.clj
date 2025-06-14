@@ -66,6 +66,7 @@
 
       (invoke! [this test operation]
         (try
+          (info "Received operation:" operation)
           (case (:f operation)
             :read
             ;; Read from any replica (round-robin through replicas)
@@ -81,7 +82,12 @@
                   primary-conn {:pool {} :spec {:host primary :port 6379}}]
               (wcar primary-conn (car/set "test-key" (:value operation)))
               (info "Writing to primary" primary "value:" (:value operation))
-              (assoc operation :type :ok :node primary)))
+              (assoc operation :type :ok :node primary))
+
+            ;; Handle unexpected operations
+            (do
+              (warn "Unknown operation type:" (:f operation))
+              (assoc operation :type :fail :error (str "Unknown operation: " (:f operation)))))
 
           (catch Exception e
             (error "Operation failed:" (.getMessage e))
@@ -110,24 +116,46 @@
               "-o" "UserKnownHostsFile=/dev/null"
               "-o" "GlobalKnownHostsFile=/dev/null"
               "-o" "LogLevel=ERROR"]
-   ;; Fixed generator - use cycle to repeat operations indefinitely
-   :generator (->> (cycle [{:type :invoke :f :read}
-                           {:type :invoke :f :write :value (rand-int 100)}])
-                   (gen/stagger 1/10)  ; 10 ops per second per thread
-                   (gen/time-limit 30))  ; Run for 30 seconds
+   ;; Generator with incrementing values
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    client-ops (gen/mix [reads writes])]
+                (->> client-ops
+                     (gen/stagger 1/10)
+                     (gen/nemesis
+                      (cycle [(gen/sleep 5)
+                              {:type :info, :f :start}
+                              (gen/sleep 5)
+                              {:type :info, :f :stop}]))
+                     (gen/time-limit 30)))
+   ;; Comprehensive checker configuration
    :checker (checker/compose
-             {:perf (checker/perf)
+             {:stats (checker/stats)
+              :perf (checker/perf {:nemeses? true
+                                   :bandwidth? true
+                                   :quantiles [0.5 0.95 0.99 0.999]})
+              :latency-graph (checker/latency-graph {:nemeses? true
+                                                     :subdirectory "latency"})
+              :rate-graph (checker/rate-graph {:nemeses? true
+                                               :subdirectory "rate"})
               :timeline (timeline/html)
-              :linear (checker/linearizable {:model (model/register)})})})
+              :linear (checker/linearizable {:model (model/register)
+                                             :algorithm :linear})
+              :clock-plot (checker/clock-plot)
+              :unhandled-exceptions (checker/unhandled-exceptions)
+              :log-file-pattern (checker/log-file-pattern #"ERROR|WARN|panic" "redis.log")})})
 
+;; Fixed intensive-test with comprehensive checkers
 (defn intensive-test []
   "More intensive test with primary/replica distinction for 3 minutes"
   {:name "redis-intensive-test"
    :os debian/os
    :db (redis-db)
-   :client (redis-sentinel-client)  ; Use sentinel-aware client
+   :client (redis-sentinel-client)
    :nemesis nemesis/noop
-   :concurrency 15  ; More concurrent threads
+   :concurrency 15
    :nodes ["n1" "n2" "n3" "n4" "n5"]
    ;; SSH configuration
    :remote c/ssh
@@ -138,26 +166,115 @@
               "-o" "UserKnownHostsFile=/dev/null"
               "-o" "GlobalKnownHostsFile=/dev/null"
               "-o" "LogLevel=ERROR"]
-   ;; Fixed generator - use cycle for infinite operations
-   :generator (->> (cycle [;; Create more read operations (70% reads)
-                           {:type :invoke :f :read}
-                           {:type :invoke :f :read}
-                           {:type :invoke :f :read}
-                           {:type :invoke :f :read}
-                           {:type :invoke :f :read}
-                           {:type :invoke :f :read}
-                           {:type :invoke :f :read}
-                           ;; 30% writes
-                           {:type :invoke :f :write :value (rand-int 1000)}
-                           {:type :invoke :f :write :value (rand-int 1000)}
-                           {:type :invoke :f :write :value (rand-int 1000)}])
-                   (gen/stagger 1/50)  ; 50 ops per second per thread
-                   (gen/time-limit 180))  ; 3 minutes
+   ;; Generator with incrementing values and 70/30 read/write ratio
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    ;; Create 70/30 read/write mix
+                    client-ops (->> [reads reads reads reads reads reads reads writes writes writes]
+                                    (gen/mix)
+                                    (gen/stagger 1/50))]
+                (->> client-ops
+                     (gen/nemesis
+                      (cycle [(gen/sleep 10)
+                              {:type :info, :f :start}
+                              (gen/sleep 10)
+                              {:type :info, :f :stop}]))
+                     (gen/time-limit 180)))
+   ;; Comprehensive checker configuration with all options
    :checker (checker/compose
-             {:perf (checker/perf)
+             {:stats (checker/stats)
+              :perf (checker/perf {:nemeses? true
+                                   :bandwidth? true
+                                   :quantiles [0.5 0.75 0.9 0.95 0.99 0.999]
+                                   :subdirectory "perf"})
+              :latency-graph (checker/latency-graph {:nemeses? true
+                                                     :subdirectory "latency"
+                                                     :quantiles [0.5 0.95 0.99 0.999]})
+              :rate-graph (checker/rate-graph {:nemeses? true
+                                               :subdirectory "rate"
+                                               :quantiles [0.5 0.95 0.99]})
               :timeline (timeline/html)
-              :linear (checker/linearizable {:model (model/register)})
-              :stats (checker/stats)})})
+              :linear-wgl (checker/linearizable {:model (model/register)
+                                                 :algorithm :wgl})
+              :linear-competition (checker/linearizable {:model (model/register)
+                                                         :algorithm :linear})
+              :clock-plot (checker/clock-plot)
+              :unhandled-exceptions (checker/unhandled-exceptions)
+              :log-errors (checker/log-file-pattern #"ERROR|FATAL|panic|exception" "redis.log")
+              :log-warnings (checker/log-file-pattern #"WARN|warning" "redis.log")
+              :counter (checker/counter)
+              :set-analysis (checker/set)})})
+
+;; Fixed intensive-test-concurrent with comprehensive checkers
+(defn intensive-test-concurrent []
+  "Intensive test using concurrent generator pattern for better key distribution"
+  {:name "redis-intensive-concurrent-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-sentinel-client)
+   :nemesis nemesis/noop
+   :concurrency 15
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   ;; SSH configuration
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   ;; Generator with incrementing values
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    opts {:rate 50}
+                    client-ops (gen/mix [reads writes])]
+                (->> client-ops
+                     (gen/stagger (/ (:rate opts)))
+                     (gen/nemesis
+                      (cycle [(gen/sleep 5)
+                              {:type :info, :f :start}
+                              (gen/sleep 5)
+                              {:type :info, :f :stop}]))
+                     (gen/time-limit 180)))
+   ;; Most comprehensive checker configuration with concurrency limits
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :perf (checker/concurrency-limit
+                     2
+                     (checker/perf {:nemeses? true
+                                    :bandwidth? true
+                                    :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
+                                    :subdirectory "perf-analysis"}))
+              :latency-detailed (checker/concurrency-limit
+                                 1
+                                 (checker/latency-graph {:nemeses? true
+                                                         :subdirectory "latency-detailed"
+                                                         :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
+              :rate-detailed (checker/rate-graph {:nemeses? true
+                                                  :subdirectory "rate-detailed"
+                                                  :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
+              :timeline (timeline/html)
+              :linear-wgl (checker/concurrency-limit
+                           1
+                           (checker/linearizable {:model (model/register)
+                                                  :algorithm :wgl}))
+              :linear-competition (checker/linearizable {:model (model/register)
+                                                         :algorithm :linear})
+              :clock-analysis (checker/clock-plot)
+              :exceptions (checker/unhandled-exceptions)
+              :error-logs (checker/log-file-pattern #"ERROR|FATAL|panic|exception|fail" "redis.log")
+              :warning-logs (checker/log-file-pattern #"WARN|warning" "redis.log")
+              :debug-logs (checker/log-file-pattern #"DEBUG" "redis.log")
+              :counter-analysis (checker/counter)
+              :set-operations (checker/set)
+              :set-full-analysis (checker/set-full {:linearizable? true})
+              :optimistic (checker/unbridled-optimism)
+              :noop-check (checker/noop)})})
 
 (defn run-simple-test []
   "Run the simple 30-second test"
@@ -170,6 +287,11 @@
   (info "🚀 Starting intensive Redis test for 3 minutes...")
   (info "📊 Expected ~135,000 operations (15 threads × 50 ops/sec × 180 sec)")
   (jepsen/run! (intensive-test)))
+
+(defn run-intensive-concurrent-test []
+  "Run the intensive concurrent test for 3 minutes"
+  (info "🚀 Starting intensive concurrent Redis test for 3 minutes...")
+  (jepsen/run! (intensive-test-concurrent)))
 
 (defn -main [& args]
   ;; Set up SSH configuration globally with explicit host key bypass
@@ -194,9 +316,8 @@
       (case test-type
         "simple" (run-simple-test)
         "intensive" (run-intensive-test)
-        ;; Default: run both tests
+        "concurrent" (run-intensive-concurrent-test)
+        ;; Default: run simple test only
         (do
-          (info "🎯 Running both tests (use 'simple' or 'intensive' to run individual tests)")
-          (run-simple-test)
-          (Thread/sleep 5000)  ; Wait 5 seconds between tests
-          (run-intensive-test))))))
+          (info "🎯 Running simple test (use 'simple', 'intensive', or 'concurrent' for specific tests)")
+          (run-simple-test))))))
