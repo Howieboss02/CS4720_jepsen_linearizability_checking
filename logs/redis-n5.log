@@ -129,3 +129,9 @@
 12839:C 14 Jun 2025 22:56:50.062 * DB saved on disk
 12839:C 14 Jun 2025 22:56:50.065 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
 21:S 14 Jun 2025 22:56:50.156 * Background saving terminated with success
+21:S 14 Jun 2025 23:04:24.228 * DB saved on disk
+21:S 14 Jun 2025 23:09:25.044 * 10 changes in 300 seconds. Saving...
+21:S 14 Jun 2025 23:09:25.049 * Background saving started by pid 13199
+13199:C 14 Jun 2025 23:09:25.063 * DB saved on disk
+13199:C 14 Jun 2025 23:09:25.065 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+21:S 14 Jun 2025 23:09:25.152 * Background saving terminated with success

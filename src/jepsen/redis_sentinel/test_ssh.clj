@@ -104,6 +104,121 @@
       (close! [this test]
         (info "Closing Redis Sentinel client")))))
 
+;; NEW: Redis SET-based client with Sentinel-like primary discovery
+(defn redis-set-sentinel-client []
+  "Client that writes incremental values to a Redis set with Sentinel-style primary discovery"
+  (let [sentinel-nodes ["n3" "n4" "n5"]  ; Sentinel nodes
+        current-primary (atom "n1")       ; Start with n1 as primary
+        set-name "test-set"]
+    (reify client/Client
+      (open! [this test node]
+        ;; Each client opens connection to its assigned node
+        this)
+
+      (setup! [this test]
+        (info "Setting up Redis SET Sentinel client"))
+
+      (invoke! [this test operation]
+        (try
+          (case (:f operation)
+            :read-set
+            ;; Read the entire set to check for survivors
+            (let [primary @current-primary
+                  primary-conn {:pool {} :spec {:host primary :port 6379}}
+                  set-values (wcar primary-conn (car/smembers set-name))
+                  ;; Convert strings to integers and sort
+                  int-values (sort (map #(Integer/parseInt %) set-values))]
+              (info "Reading set from" primary "values count:" (count int-values))
+              (assoc operation :type :ok :value int-values :node primary))
+
+            :write-set
+            ;; Write to Redis set with strict Sentinel primary discovery
+            (do
+              ;; Ask Sentinel for current primary before EVERY write (stricter than normal)
+              (let [sentinel-node (rand-nth sentinel-nodes)
+                    sentinel-conn {:pool {} :spec {:host sentinel-node :port 26379}}]
+                (try
+                  ;; Try to get primary from Sentinel
+                  (let [primary-info (wcar sentinel-conn 
+                                           (car/raw "SENTINEL" "get-master-addr-by-name" "mymaster"))
+                        new-primary (if (and primary-info (seq primary-info))
+                                      (first primary-info)  ; IP address of primary
+                                      @current-primary)]    ; Fallback to current
+                    (reset! current-primary new-primary)
+                    (info "Sentinel" sentinel-node "reports primary:" new-primary))
+                  (catch Exception e
+                    (warn "Failed to contact Sentinel" sentinel-node ":" (.getMessage e))
+                    ;; Keep using current primary if Sentinel is unreachable
+                    )))
+
+              ;; Now write to the primary
+              (let [primary @current-primary
+                    primary-conn {:pool {} :spec {:host primary :port 6379}}
+                    value (:value operation)]
+                (wcar primary-conn (car/sadd set-name (str value)))
+                (info "Added" value "to set on primary" primary)
+                (assoc operation :type :ok :node primary :value value)))
+
+            ;; Handle unexpected operations
+            (do
+              (warn "Unknown operation type:" (:f operation))
+              (assoc operation :type :fail :error (str "Unknown operation: " (:f operation)))))
+
+          (catch Exception e
+            (error "Operation failed:" (.getMessage e))
+            (assoc operation :type :fail :error (.getMessage e)))))
+
+      (teardown! [this test]
+        (info "Tearing down Redis SET Sentinel client"))
+
+      (close! [this test]
+        (info "Closing Redis SET Sentinel client")))))
+
+;; NEW: Simple Redis SET client (no Sentinel)
+(defn redis-set-client []
+  "Simple client that writes incremental values to a Redis set"
+  (let [conn (atom nil)
+        set-name "test-set"]
+    (reify client/Client
+      (open! [this test node]
+        (reset! conn {:pool {} :spec {:host node :port 6379}})
+        this)
+
+      (setup! [this test]
+        (info "Setting up Redis SET client"))
+
+      (invoke! [this test operation]
+        (try
+          (case (:f operation)
+            :read-set
+            ;; Read the entire set
+            (let [set-values (wcar @conn (car/smembers set-name))
+                  ;; Convert strings to integers and sort
+                  int-values (sort (map #(Integer/parseInt %) set-values))]
+              (info "Reading set, values count:" (count int-values))
+              (assoc operation :type :ok :value int-values))
+
+            :write-set
+            ;; Add value to set
+            (let [value (:value operation)]
+              (wcar @conn (car/sadd set-name (str value)))
+              (info "Added" value "to set")
+              (assoc operation :type :ok :value value))
+
+            (do
+              (warn "Unknown operation type:" (:f operation))
+              (assoc operation :type :fail :error (str "Unknown operation: " (:f operation)))))
+
+          (catch Exception e
+            (error "Operation failed:" (.getMessage e))
+            (assoc operation :type :fail :error (.getMessage e)))))
+
+      (teardown! [this test]
+        (info "Tearing down Redis SET client"))
+
+      (close! [this test]
+        (info "Closing Redis SET client")))))
+
 (defn simple-test []
   {:name "redis-simple-test"
    :os debian/os
@@ -325,6 +440,137 @@
               :clock-plot (checker/clock-plot)
               :unhandled-exceptions (checker/unhandled-exceptions)})})
 
+(defn redis-set-split-brain-test []
+  "Redis SET split-brain test that writes incremental values and checks for data loss during partitions"
+  {:name "redis-set-split-brain-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-set-sentinel-client)  ; Use SET-based client with Sentinel discovery
+   :nemesis (nemesis/partition-majorities-ring)  ; Creates minority/majority partitions
+   :net net/iptables
+   :concurrency 10  ; 10 concurrent writers
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   ;; SSH configuration
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   ;; Generator focused on writes with periodic set reads
+   :generator (let [counter (atom 0)
+                    ;; Mostly writes with occasional full set reads
+                    writes (->> (gen/repeat {:type :invoke :f :write-set})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    reads (gen/repeat {:type :invoke :f :read-set})
+                    ;; 90% writes, 10% reads for maximum write pressure
+                    client-ops (->> [writes writes writes writes writes writes writes writes writes reads]
+                                    (gen/mix)
+                                    (gen/stagger 1/20))]  ; 20 ops/sec per thread
+                (->> client-ops
+                     (gen/nemesis
+                      ;; Partition cycle: 30s normal → 30s partition → 30s heal → repeat
+                      (cycle [(gen/sleep 30)
+                              {:type :info, :f :start}
+                              (gen/sleep 30)      ; 30 seconds of split-brain
+                              {:type :info, :f :stop}
+                              (gen/sleep 30)]))   ; 30 seconds of healing
+                     (gen/time-limit 300)))  ; 5 minutes total
+
+   ;; Custom checker for SET durability analysis
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :perf (checker/perf {:nemeses? true
+                                   :bandwidth? true
+                                   :quantiles [0.5 0.95 0.99 0.999]
+                                   :subdirectory "perf-set-split-brain"})
+              :timeline (timeline/html)
+              :clock-plot (checker/clock-plot)
+              :unhandled-exceptions (checker/unhandled-exceptions)
+              ;; Custom durability checker
+              :set-durability (reify checker/Checker
+                                (check [this test history opts]
+                                  (let [writes (->> history
+                                                    (filter #(and (= :ok (:type %))
+                                                                  (= :write-set (:f %))))
+                                                    (map :value)
+                                                    (into #{}))
+                                        final-read (->> history
+                                                        (filter #(and (= :ok (:type %))
+                                                                      (= :read-set (:f %))))
+                                                        (last)
+                                                        (:value)
+                                                        (into #{}))
+                                        total-writes (count writes)
+                                        survivors (count final-read)
+                                        lost-writes (clojure.set/difference writes final-read)
+                                        loss-rate (if (> total-writes 0)
+                                                    (/ (count lost-writes) total-writes)
+                                                    0)]
+                                    {:valid? (< loss-rate 0.01)  ; Allow 1% loss
+                                     :total-writes total-writes
+                                     :survivors survivors
+                                     :lost-writes (sort lost-writes)
+                                     :loss-rate loss-rate
+                                     :acknowledgment-rate (/ total-writes total-writes)
+                                     :message (if (< loss-rate 0.01)
+                                                "✅ Acceptable data loss"
+                                                (str "❌ Excessive data loss: "
+                                                     (count lost-writes)
+                                                     " writes lost ("
+                                                     (Math/round (* loss-rate 100))
+                                                     "%)"))})))})})
+
+;; NEW: Simple Redis SET test without partitions
+(defn redis-set-simple-test []
+  "Simple Redis SET test to verify basic functionality"
+  {:name "redis-set-simple-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-set-client)  ; Simple SET client
+   :nemesis nemesis/noop
+   :concurrency 5
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   :generator (let [counter (atom 0)
+                    writes (->> (gen/repeat {:type :invoke :f :write-set})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    reads (gen/repeat {:type :invoke :f :read-set})
+                    client-ops (->> [writes writes writes reads]  ; 75% writes, 25% reads
+                                    (gen/mix)
+                                    (gen/stagger 1/10))]
+                (->> client-ops
+                     (gen/time-limit 60)))  ; 1 minute test
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :timeline (timeline/html)
+              :set-checker (reify checker/Checker
+                             (check [this test history opts]
+                               (let [writes (->> history
+                                                 (filter #(and (= :ok (:type %))
+                                                               (= :write-set (:f %))))
+                                                 (map :value)
+                                                 (into #{}))
+                                     final-read (->> history
+                                                     (filter #(and (= :ok (:type %))
+                                                                   (= :read-set (:f %))))
+                                                     (last)
+                                                     (:value)
+                                                     (into #{}))]
+                                 {:valid? (= writes final-read)
+                                  :total-writes (count writes)
+                                  :survivors (count final-read)
+                                  :missing (clojure.set/difference writes final-read)})))})})
+
 (defn run-simple-test []
   "Run the simple 30-second test"
   (info "🚀 Starting simple Redis test for 30 seconds...")
@@ -348,6 +594,21 @@
   (info "🧠 Network partitions: 10s normal → 20s partition → 10s normal → repeat")
   (info "📊 Expected ~135,000 operations with partition tolerance testing")
   (jepsen/run! (split-brain-test)))
+
+;; NEW: Run Redis SET tests
+(defn run-redis-set-simple-test []
+  "Run the simple Redis SET test for 1 minute"
+  (info "🚀 Starting simple Redis SET test for 1 minute...")
+  (info "📦 Testing basic SET operations without partitions")
+  (jepsen/run! (redis-set-simple-test)))
+
+(defn run-redis-set-split-brain-test []
+  "Run the Redis SET split-brain test for 5 minutes"
+  (info "🚀 Starting Redis SET split-brain test for 5 minutes...")
+  (info "🧠 This test replicates the classic Redis Sentinel split-brain scenario")
+  (info "📦 Writing incremental values to SET with network partitions")
+  (info "⚠️  Expect significant data loss during split-brain scenarios!")
+  (jepsen/run! (redis-set-split-brain-test)))
 
 (defn -main [& args]
   ;; Set up SSH configuration globally with explicit host key bypass
@@ -374,7 +635,16 @@
         "intensive" (run-intensive-test)
         "concurrent" (run-intensive-concurrent-test)
         "split-brain" (run-split-brain-test)
+        "set-simple" (run-redis-set-simple-test)           ; NEW
+        "set-split-brain" (run-redis-set-split-brain-test) ; NEW
         ;; Default: run simple test only
         (do
-          (info "🎯 Running simple test (use 'simple', 'intensive', 'concurrent', or 'split-brain' for specific tests)")
+          (info "🎯 Available tests:")
+          (info "  simple - Basic register test")
+          (info "  intensive - High-concurrency register test")
+          (info "  concurrent - Concurrent register test")
+          (info "  split-brain - Register split-brain test")
+          (info "  set-simple - Basic SET test")
+          (info "  set-split-brain - SET split-brain test (recommended!)")
+          (info "🎯 Running simple test by default...")
           (run-simple-test))))))
