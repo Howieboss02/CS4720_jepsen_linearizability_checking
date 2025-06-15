@@ -1,0 +1,634 @@
+{:index 0, :time 180657748, :type :invoke, :process 0, :f :read, :value nil}
+{:index 1, :time 297424042, :type :invoke, :process 2, :f :write, :value 3}
+{:index 2, :time 460028786, :type :invoke, :process 1, :f :read, :value nil}
+{:index 3, :time 519464491, :type :fail, :process 2, :f :write, :value 3, :error "READONLY You can't write against a read only replica."}
+{:index 4, :time 519610200, :type :invoke, :process 2, :f :write, :value 4}
+{:index 5, :time 523757330, :type :fail, :process 2, :f :write, :value 4, :error "READONLY You can't write against a read only replica."}
+{:index 6, :time 526443280, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 7, :time 526598088, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 8, :time 531765076, :type :invoke, :process 1, :f :write, :value 7}
+{:index 9, :time 537198378, :type :fail, :process 1, :f :write, :value 7, :error "READONLY You can't write against a read only replica."}
+{:index 10, :time 588481230, :type :invoke, :process 2, :f :read, :value nil}
+{:index 11, :time 591074274, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 12, :time 731716696, :type :invoke, :process 0, :f :read, :value nil}
+{:index 13, :time 734293140, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 14, :time 804125124, :type :invoke, :process 0, :f :read, :value nil}
+{:index 15, :time 811698945, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 16, :time 952316466, :type :invoke, :process 1, :f :write, :value 10}
+{:index 17, :time 956419794, :type :fail, :process 1, :f :write, :value 10, :error "READONLY You can't write against a read only replica."}
+{:index 18, :time 1101772378, :type :invoke, :process 2, :f :write, :value 13}
+{:index 19, :time 1107917820, :type :fail, :process 2, :f :write, :value 13, :error "READONLY You can't write against a read only replica."}
+{:index 20, :time 1225278447, :type :invoke, :process 0, :f :read, :value nil}
+{:index 21, :time 1234329150, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 22, :time 1245548975, :type :invoke, :process 0, :f :read, :value nil}
+{:index 23, :time 1249079771, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 24, :time 1409845112, :type :invoke, :process 1, :f :write, :value 16}
+{:index 25, :time 1414438168, :type :fail, :process 1, :f :write, :value 16, :error "READONLY You can't write against a read only replica."}
+{:index 26, :time 1534718557, :type :invoke, :process 2, :f :write, :value 19}
+{:index 27, :time 1538879289, :type :fail, :process 2, :f :write, :value 19, :error "READONLY You can't write against a read only replica."}
+{:index 28, :time 1679322500, :type :invoke, :process 0, :f :write, :value 22}
+{:index 29, :time 1694540746, :type :fail, :process 0, :f :write, :value 22, :error "READONLY You can't write against a read only replica."}
+{:index 30, :time 1818138721, :type :invoke, :process 0, :f :write, :value 25}
+{:index 31, :time 1829289241, :type :fail, :process 0, :f :write, :value 25, :error "READONLY You can't write against a read only replica."}
+{:index 32, :time 1833024048, :type :invoke, :process 1, :f :write, :value 28}
+{:index 33, :time 1837029671, :type :fail, :process 1, :f :write, :value 28, :error "READONLY You can't write against a read only replica."}
+{:index 34, :time 1954137785, :type :invoke, :process 2, :f :write, :value 31}
+{:index 35, :time 1962875271, :type :fail, :process 2, :f :write, :value 31, :error "READONLY You can't write against a read only replica."}
+{:index 36, :time 2094144071, :type :invoke, :process 0, :f :read, :value nil}
+{:index 37, :time 2096689713, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 38, :time 2151840280, :type :invoke, :process 0, :f :write, :value 34}
+{:index 39, :time 2167413346, :type :fail, :process 0, :f :write, :value 34, :error "READONLY You can't write against a read only replica."}
+{:index 40, :time 2232703378, :type :invoke, :process 1, :f :write, :value 37}
+{:index 41, :time 2246739258, :type :fail, :process 1, :f :write, :value 37, :error "READONLY You can't write against a read only replica."}
+{:index 42, :time 2336020824, :type :invoke, :process 2, :f :write, :value 40}
+{:index 43, :time 2350776645, :type :fail, :process 2, :f :write, :value 40, :error "READONLY You can't write against a read only replica."}
+{:index 44, :time 2469213432, :type :invoke, :process 0, :f :read, :value nil}
+{:index 45, :time 2478857768, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 46, :time 2490701827, :type :invoke, :process 0, :f :write, :value 43}
+{:index 47, :time 2495786110, :type :fail, :process 0, :f :write, :value 43, :error "READONLY You can't write against a read only replica."}
+{:index 48, :time 2589372915, :type :invoke, :process 1, :f :read, :value nil}
+{:index 49, :time 2597542069, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 50, :time 2658561363, :type :invoke, :process 2, :f :write, :value 46}
+{:index 51, :time 2661812144, :type :fail, :process 2, :f :write, :value 46, :error "READONLY You can't write against a read only replica."}
+{:index 52, :time 2785721935, :type :invoke, :process 0, :f :read, :value nil}
+{:index 53, :time 2788291178, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 54, :time 2967702957, :type :invoke, :process 0, :f :read, :value nil}
+{:index 55, :time 2970091589, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 56, :time 3061545176, :type :invoke, :process 1, :f :read, :value nil}
+{:index 57, :time 3063945909, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 58, :time 3202748129, :type :invoke, :process 2, :f :write, :value 49}
+{:index 59, :time 3207674103, :type :fail, :process 2, :f :write, :value 49, :error "READONLY You can't write against a read only replica."}
+{:index 60, :time 3213266114, :type :invoke, :process 0, :f :write, :value 52}
+{:index 61, :time 3216674304, :type :fail, :process 0, :f :write, :value 52, :error "READONLY You can't write against a read only replica."}
+{:index 62, :time 3346095502, :type :invoke, :process 0, :f :write, :value 55}
+{:index 63, :time 3359063223, :type :fail, :process 0, :f :write, :value 55, :error "READONLY You can't write against a read only replica."}
+{:index 64, :time 3449343244, :type :invoke, :process 1, :f :write, :value 58}
+{:index 65, :time 3462137356, :type :invoke, :process 2, :f :read, :value nil}
+{:index 66, :time 3464096565, :type :fail, :process 1, :f :write, :value 58, :error "READONLY You can't write against a read only replica."}
+{:index 67, :time 3465825061, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 68, :time 3552027455, :type :invoke, :process 0, :f :read, :value nil}
+{:index 69, :time 3558581520, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 70, :time 3699347249, :type :invoke, :process 0, :f :read, :value nil}
+{:index 71, :time 3701424064, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 72, :time 3877379951, :type :invoke, :process 1, :f :write, :value 61}
+{:index 73, :time 3885402097, :type :invoke, :process 2, :f :write, :value 63}
+{:index 74, :time 3888452867, :type :fail, :process 1, :f :write, :value 61, :error "READONLY You can't write against a read only replica."}
+{:index 75, :time 3890255867, :type :fail, :process 2, :f :write, :value 63, :error "READONLY You can't write against a read only replica."}
+{:index 76, :time 3970989157, :type :invoke, :process 0, :f :write, :value 67}
+{:index 77, :time 3981946266, :type :fail, :process 0, :f :write, :value 67, :error "READONLY You can't write against a read only replica."}
+{:index 78, :time 4164491319, :type :invoke, :process 0, :f :read, :value nil}
+{:index 79, :time 4170746967, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 80, :time 4226480167, :type :invoke, :process 1, :f :read, :value nil}
+{:index 81, :time 4228933003, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 82, :time 4426703103, :type :invoke, :process 2, :f :read, :value nil}
+{:index 83, :time 4429253145, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 84, :time 4596560350, :type :invoke, :process 0, :f :read, :value nil}
+{:index 85, :time 4598991085, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 86, :time 4720764958, :type :invoke, :process 0, :f :read, :value nil}
+{:index 87, :time 4722814572, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 88, :time 4771253566, :type :invoke, :process 1, :f :read, :value nil}
+{:index 89, :time 4773443488, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 90, :time 4782982318, :type :invoke, :process 2, :f :write, :value 70}
+{:index 91, :time 4788635633, :type :fail, :process 2, :f :write, :value 70, :error "READONLY You can't write against a read only replica."}
+{:index 92, :time 4811658913, :type :invoke, :process 0, :f :write, :value 73}
+{:index 93, :time 4816722395, :type :fail, :process 0, :f :write, :value 73, :error "READONLY You can't write against a read only replica."}
+{:index 94, :time 5003259169, :type :invoke, :process 0, :f :write, :value 76}
+{:index 95, :time 5007074782, :type :fail, :process 0, :f :write, :value 76, :error "READONLY You can't write against a read only replica."}
+{:index 96, :time 5153888447, :type :invoke, :process 1, :f :write, :value 79}
+{:index 97, :time 5169479014, :type :fail, :process 1, :f :write, :value 79, :error "READONLY You can't write against a read only replica."}
+{:index 98, :time 5219734809, :type :invoke, :process 2, :f :write, :value 82}
+{:index 99, :time 5223181501, :type :fail, :process 2, :f :write, :value 82, :error "READONLY You can't write against a read only replica."}
+{:index 100, :time 5235151467, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 101, :time 5236245328, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 102, :time 5359178565, :type :invoke, :process 1, :f :write, :value 89}
+{:index 103, :time 5367862448, :type :fail, :process 1, :f :write, :value 89, :error "READONLY You can't write against a read only replica."}
+{:index 104, :time 5376751342, :type :invoke, :process 2, :f :read, :value nil}
+{:index 105, :time 5378415535, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 106, :time 5466043008, :type :invoke, :process 0, :f :read, :value nil}
+{:index 107, :time 5472494267, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 108, :time 5497181040, :type :invoke, :process 0, :f :write, :value 92}
+{:index 109, :time 5503570196, :type :fail, :process 0, :f :write, :value 92, :error "READONLY You can't write against a read only replica."}
+{:index 110, :time 5682004320, :type :invoke, :process 1, :f :read, :value nil}
+{:index 111, :time 5684121937, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 112, :time 5741624136, :type :invoke, :process 2, :f :write, :value 95}
+{:index 113, :time 5750409924, :type :fail, :process 2, :f :write, :value 95, :error "READONLY You can't write against a read only replica."}
+{:index 114, :time 5759613536, :type :invoke, :process 0, :f :write, :value 98}
+{:index 115, :time 5764699819, :type :fail, :process 0, :f :write, :value 98, :error "READONLY You can't write against a read only replica."}
+{:index 116, :time 5799926578, :type :invoke, :process 0, :f :write, :value 101}
+{:index 117, :time 5803963003, :type :fail, :process 0, :f :write, :value 101, :error "READONLY You can't write against a read only replica."}
+{:index 118, :time 5889146740, :type :invoke, :process 1, :f :write, :value 104}
+{:index 119, :time 5901379421, :type :fail, :process 1, :f :write, :value 104, :error "READONLY You can't write against a read only replica."}
+{:index 120, :time 5944370912, :type :invoke, :process 2, :f :write, :value 107}
+{:index 121, :time 5950792269, :type :fail, :process 2, :f :write, :value 107, :error "READONLY You can't write against a read only replica."}
+{:index 122, :time 6013935681, :type :invoke, :process 0, :f :read, :value nil}
+{:index 123, :time 6018726847, :type :invoke, :process 1, :f :write, :value 109}
+{:index 124, :time 6024420764, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 125, :time 6032918437, :type :fail, :process 1, :f :write, :value 109, :error "READONLY You can't write against a read only replica."}
+{:index 126, :time 6216611153, :type :invoke, :process 1, :f :write, :value 113}
+{:index 127, :time 6227633866, :type :fail, :process 1, :f :write, :value 113, :error "READONLY You can't write against a read only replica."}
+{:index 128, :time 6268580044, :type :invoke, :process 2, :f :write, :value 116}
+{:index 129, :time 6272676671, :type :fail, :process 2, :f :write, :value 116, :error "READONLY You can't write against a read only replica."}
+{:index 130, :time 6303394780, :type :invoke, :process 0, :f :read, :value nil}
+{:index 131, :time 6305308786, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 132, :time 6432375054, :type :invoke, :process 0, :f :write, :value 119}
+{:index 133, :time 6439151130, :type :fail, :process 0, :f :write, :value 119, :error "READONLY You can't write against a read only replica."}
+{:index 134, :time 6617435146, :type :invoke, :process 1, :f :write, :value 122}
+{:index 135, :time 6630029347, :type :fail, :process 1, :f :write, :value 122, :error "READONLY You can't write against a read only replica."}
+{:index 136, :time 6643562399, :type :invoke, :process 2, :f :read, :value nil}
+{:index 137, :time 6647040793, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 138, :time 6705498744, :type :invoke, :process 0, :f :read, :value nil}
+{:index 139, :time 6712013806, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 140, :time 6722509990, :type :invoke, :process 0, :f :read, :value nil}
+{:index 141, :time 6724638108, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 142, :time 6818051204, :type :invoke, :process 1, :f :write, :value 125}
+{:index 143, :time 6821799412, :type :fail, :process 1, :f :write, :value 125, :error "READONLY You can't write against a read only replica."}
+{:index 144, :time 7015411081, :type :invoke, :process 2, :f :write, :value 128}
+{:index 145, :time 7019057483, :type :fail, :process 2, :f :write, :value 128, :error "READONLY You can't write against a read only replica."}
+{:index 146, :time 7092253054, :type :invoke, :process 0, :f :write, :value 131}
+{:index 147, :time 7096297279, :type :fail, :process 0, :f :write, :value 131, :error "READONLY You can't write against a read only replica."}
+{:index 148, :time 7131841956, :type :invoke, :process 0, :f :write, :value 134}
+{:index 149, :time 7135746373, :type :fail, :process 0, :f :write, :value 134, :error "READONLY You can't write against a read only replica."}
+{:index 150, :time 7247058864, :type :invoke, :process 1, :f :write, :value 137}
+{:index 151, :time 7250946080, :type :fail, :process 1, :f :write, :value 137, :error "READONLY You can't write against a read only replica."}
+{:index 152, :time 7440756737, :type :invoke, :process 2, :f :read, :value nil}
+{:index 153, :time 7447217397, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 154, :time 7520418668, :type :invoke, :process 0, :f :read, :value nil}
+{:index 155, :time 7523210923, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 156, :time 7633820975, :type :invoke, :process 0, :f :write, :value 140}
+{:index 157, :time 7637156661, :type :fail, :process 0, :f :write, :value 140, :error "READONLY You can't write against a read only replica."}
+{:index 158, :time 7740772523, :type :invoke, :process 1, :f :write, :value 143}
+{:index 159, :time 7743975502, :type :fail, :process 1, :f :write, :value 143, :error "READONLY You can't write against a read only replica."}
+{:index 160, :time 7764485042, :type :invoke, :process 2, :f :read, :value nil}
+{:index 161, :time 7766119733, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 162, :time 7939622971, :type :invoke, :process 0, :f :write, :value 146}
+{:index 163, :time 7947175089, :type :fail, :process 0, :f :write, :value 146, :error "READONLY You can't write against a read only replica."}
+{:index 164, :time 7982087125, :type :invoke, :process 0, :f :write, :value 149}
+{:index 165, :time 7986235055, :type :fail, :process 0, :f :write, :value 149, :error "READONLY You can't write against a read only replica."}
+{:index 166, :time 8044543987, :type :invoke, :process 1, :f :read, :value nil}
+{:index 167, :time 8046405490, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 168, :time 8090888356, :type :invoke, :process 2, :f :read, :value nil}
+{:index 169, :time 8098230563, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 170, :time 8290889643, :type :invoke, :process 0, :f :read, :value nil}
+{:index 171, :time 8297486509, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 172, :time 8371221796, :type :invoke, :process 0, :f :read, :value nil}
+{:index 173, :time 8374879699, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 174, :time 8451456044, :type :invoke, :process 1, :f :read, :value nil}
+{:index 175, :time 8455023541, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 176, :time 8553738014, :type :invoke, :process 2, :f :read, :value nil}
+{:index 177, :time 8559943558, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 178, :time 8582343499, :type :invoke, :process 0, :f :read, :value nil}
+{:index 179, :time 8584122198, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 180, :time 8681027670, :type :invoke, :process 0, :f :write, :value 152}
+{:index 181, :time 8684568666, :type :fail, :process 0, :f :write, :value 152, :error "READONLY You can't write against a read only replica."}
+{:index 182, :time 8715333772, :type :invoke, :process 1, :f :read, :value nil}
+{:index 183, :time 8717144672, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 184, :time 8901678901, :type :invoke, :process 2, :f :read, :value nil}
+{:index 185, :time 8904493357, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 186, :time 9016845085, :type :invoke, :process 0, :f :read, :value nil}
+{:index 187, :time 9023765769, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 188, :time 9086930971, :type :invoke, :process 0, :f :write, :value 155}
+{:index 189, :time 9090822986, :type :fail, :process 0, :f :write, :value 155, :error "READONLY You can't write against a read only replica."}
+{:index 190, :time 9158806555, :type :invoke, :process 1, :f :write, :value 158}
+{:index 191, :time 9164780386, :type :invoke, :process 2, :f :write, :value 160}
+{:index 192, :time 9171865579, :type :fail, :process 1, :f :write, :value 158, :error "READONLY You can't write against a read only replica."}
+{:index 193, :time 9176999964, :type :fail, :process 2, :f :write, :value 160, :error "READONLY You can't write against a read only replica."}
+{:index 194, :time 9343640501, :type :invoke, :process 0, :f :read, :value nil}
+{:index 195, :time 9350026755, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 196, :time 9394486320, :type :invoke, :process 0, :f :write, :value 163}
+{:index 197, :time 9398870963, :type :fail, :process 0, :f :write, :value 163, :error "READONLY You can't write against a read only replica."}
+{:index 198, :time 9477510222, :type :invoke, :process 1, :f :write, :value 166}
+{:index 199, :time 9484180992, :type :fail, :process 1, :f :write, :value 166, :error "READONLY You can't write against a read only replica."}
+{:index 200, :time 9630634310, :type :invoke, :process 2, :f :read, :value nil}
+{:index 201, :time 9637030865, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 202, :time 9717312415, :type :invoke, :process 0, :f :write, :value 169}
+{:index 203, :time 9732449454, :type :fail, :process 0, :f :write, :value 169, :error "READONLY You can't write against a read only replica."}
+{:index 204, :time 9895641901, :type :invoke, :process 0, :f :write, :value 172}
+{:index 205, :time 9899184797, :type :fail, :process 0, :f :write, :value 172, :error "READONLY You can't write against a read only replica."}
+{:index 206, :time 9963558566, :type :invoke, :process 1, :f :read, :value nil}
+{:index 207, :time 9967147965, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 208, :time 10164252791, :type :invoke, :process 2, :f :write, :value 175}
+{:index 209, :time 10175224199, :type :fail, :process 2, :f :write, :value 175, :error "READONLY You can't write against a read only replica."}
+{:index 210, :time 10237906474, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 211, :time 10240344209, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 212, :time 10277409064, :type :invoke, :process 1, :f :write, :value 182}
+{:index 213, :time 10282153627, :type :fail, :process 1, :f :write, :value 182, :error "READONLY You can't write against a read only replica."}
+{:index 214, :time 10375383795, :type :invoke, :process 2, :f :write, :value 185}
+{:index 215, :time 10378472066, :type :fail, :process 2, :f :write, :value 185, :error "READONLY You can't write against a read only replica."}
+{:index 216, :time 10537198865, :type :invoke, :process 0, :f :write, :value 188}
+{:index 217, :time 10541279991, :type :fail, :process 0, :f :write, :value 188, :error "READONLY You can't write against a read only replica."}
+{:index 218, :time 10562688378, :type :invoke, :process 0, :f :write, :value 191}
+{:index 219, :time 10570407406, :type :fail, :process 0, :f :write, :value 191, :error "READONLY You can't write against a read only replica."}
+{:index 220, :time 10754920334, :type :invoke, :process 1, :f :read, :value nil}
+{:index 221, :time 10761131578, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 222, :time 10814109015, :type :invoke, :process 2, :f :write, :value 194}
+{:index 223, :time 10820380963, :type :fail, :process 2, :f :write, :value 194, :error "READONLY You can't write against a read only replica."}
+{:index 224, :time 10981809811, :type :invoke, :process 0, :f :read, :value nil}
+{:index 225, :time 10984375254, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 226, :time 11061424525, :type :invoke, :process 0, :f :write, :value 197}
+{:index 227, :time 11065833569, :type :fail, :process 0, :f :write, :value 197, :error "READONLY You can't write against a read only replica."}
+{:index 228, :time 11187956439, :type :invoke, :process 1, :f :read, :value nil}
+{:index 229, :time 11193555349, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 230, :time 11268197987, :type :invoke, :process 2, :f :write, :value 200}
+{:index 231, :time 11271749184, :type :fail, :process 2, :f :write, :value 200, :error "READONLY You can't write against a read only replica."}
+{:index 232, :time 11287229942, :type :invoke, :process 0, :f :write, :value 203}
+{:index 233, :time 11289969094, :type :fail, :process 0, :f :write, :value 203, :error "READONLY You can't write against a read only replica."}
+{:index 234, :time 11433121229, :type :invoke, :process 0, :f :write, :value 206}
+{:index 235, :time 11436861137, :type :fail, :process 0, :f :write, :value 206, :error "READONLY You can't write against a read only replica."}
+{:index 236, :time 11559362027, :type :invoke, :process 1, :f :write, :value 209}
+{:index 237, :time 11570499245, :type :fail, :process 1, :f :write, :value 209, :error "READONLY You can't write against a read only replica."}
+{:index 238, :time 11717285982, :type :invoke, :process 2, :f :write, :value 212}
+{:index 239, :time 11728066679, :type :fail, :process 2, :f :write, :value 212, :error "READONLY You can't write against a read only replica."}
+{:index 240, :time 11805429968, :type :invoke, :process 0, :f :read, :value nil}
+{:index 241, :time 11811215589, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 242, :time 11827795108, :type :invoke, :process 0, :f :write, :value 215}
+{:index 243, :time 11832574173, :type :fail, :process 0, :f :write, :value 215, :error "READONLY You can't write against a read only replica."}
+{:index 244, :time 12024654420, :type :invoke, :process 1, :f :write, :value 218}
+{:index 245, :time 12036858197, :type :fail, :process 1, :f :write, :value 218, :error "READONLY You can't write against a read only replica."}
+{:index 246, :time 12104123126, :type :invoke, :process 2, :f :read, :value nil}
+{:index 247, :time 12110375072, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 248, :time 12127382015, :type :invoke, :process 0, :f :read, :value nil}
+{:index 249, :time 12129951958, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 250, :time 12184318171, :type :invoke, :process 0, :f :read, :value nil}
+{:index 251, :time 12190841233, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 252, :time 12275040200, :type :invoke, :process 1, :f :write, :value 221}
+{:index 253, :time 12286293324, :type :fail, :process 1, :f :write, :value 221, :error "READONLY You can't write against a read only replica."}
+{:index 254, :time 12323575891, :type :invoke, :process 2, :f :read, :value nil}
+{:index 255, :time 12326675063, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 256, :time 12382971383, :type :invoke, :process 0, :f :read, :value nil}
+{:index 257, :time 12384980995, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 258, :time 12465190641, :type :invoke, :process 0, :f :write, :value 224}
+{:index 259, :time 12476488667, :type :fail, :process 0, :f :write, :value 224, :error "READONLY You can't write against a read only replica."}
+{:index 260, :time 12596162901, :type :invoke, :process 1, :f :write, :value 227}
+{:index 261, :time 12607756144, :type :fail, :process 1, :f :write, :value 227, :error "READONLY You can't write against a read only replica."}
+{:index 262, :time 12721239635, :type :invoke, :process 2, :f :write, :value 230}
+{:index 263, :time 12724540018, :type :fail, :process 2, :f :write, :value 230, :error "READONLY You can't write against a read only replica."}
+{:index 264, :time 12909231856, :type :invoke, :process 0, :f :write, :value 233}
+{:index 265, :time 12909515972, :type :invoke, :process 1, :f :write, :value 234}
+{:index 266, :time 12913746806, :type :fail, :process 0, :f :write, :value 233, :error "READONLY You can't write against a read only replica."}
+{:index 267, :time 12914020922, :type :fail, :process 1, :f :write, :value 234, :error "READONLY You can't write against a read only replica."}
+{:index 268, :time 13013399331, :type :invoke, :process 1, :f :write, :value 238}
+{:index 269, :time 13016136882, :type :fail, :process 1, :f :write, :value 238, :error "READONLY You can't write against a read only replica."}
+{:index 270, :time 13213341514, :type :invoke, :process 2, :f :read, :value nil}
+{:index 271, :time 13215574038, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 272, :time 13350403512, :type :invoke, :process 0, :f :write, :value 241}
+{:index 273, :time 13357995333, :type :fail, :process 0, :f :write, :value 241, :error "READONLY You can't write against a read only replica."}
+{:index 274, :time 13392920769, :type :invoke, :process 0, :f :read, :value nil}
+{:index 275, :time 13394894178, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 276, :time 13532177288, :type :invoke, :process 1, :f :read, :value nil}
+{:index 277, :time 13533863882, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 278, :time 13627744086, :type :invoke, :process 2, :f :write, :value 244}
+{:index 279, :time 13638946307, :type :fail, :process 2, :f :write, :value 244, :error "READONLY You can't write against a read only replica."}
+{:index 280, :time 13724747663, :type :invoke, :process 0, :f :read, :value nil}
+{:index 281, :time 13730493282, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 282, :time 13758096012, :type :invoke, :process 0, :f :write, :value 247}
+{:index 283, :time 13761235686, :type :fail, :process 0, :f :write, :value 247, :error "READONLY You can't write against a read only replica."}
+{:index 284, :time 13888050616, :type :invoke, :process 1, :f :read, :value nil}
+{:index 285, :time 13895261816, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 286, :time 13915677647, :type :invoke, :process 2, :f :read, :value nil}
+{:index 287, :time 13917065124, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 288, :time 14072514142, :type :invoke, :process 0, :f :write, :value 250}
+{:index 289, :time 14076554766, :type :fail, :process 0, :f :write, :value 250, :error "READONLY You can't write against a read only replica."}
+{:index 290, :time 14109337783, :type :invoke, :process 0, :f :read, :value nil}
+{:index 291, :time 14111558206, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 292, :time 14239880319, :type :invoke, :process 1, :f :write, :value 253}
+{:index 293, :time 14243245506, :type :fail, :process 1, :f :write, :value 253, :error "READONLY You can't write against a read only replica."}
+{:index 294, :time 14363917195, :type :invoke, :process 2, :f :write, :value 256}
+{:index 295, :time 14377779164, :type :fail, :process 2, :f :write, :value 256, :error "READONLY You can't write against a read only replica."}
+{:index 296, :time 14493328569, :type :invoke, :process 0, :f :read, :value nil}
+{:index 297, :time 14495283977, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 298, :time 14523761956, :type :invoke, :process 0, :f :write, :value 259}
+{:index 299, :time 14537129197, :type :fail, :process 0, :f :write, :value 259, :error "READONLY You can't write against a read only replica."}
+{:index 300, :time 14699037972, :type :invoke, :process 1, :f :write, :value 262}
+{:index 301, :time 14709829570, :type :fail, :process 1, :f :write, :value 262, :error "READONLY You can't write against a read only replica."}
+{:index 302, :time 14848921781, :type :invoke, :process 2, :f :write, :value 265}
+{:index 303, :time 14859837186, :type :fail, :process 2, :f :write, :value 265, :error "READONLY You can't write against a read only replica."}
+{:index 304, :time 14976564557, :type :invoke, :process 0, :f :write, :value 268}
+{:index 305, :time 14979621126, :type :fail, :process 0, :f :write, :value 268, :error "READONLY You can't write against a read only replica."}
+{:index 306, :time 15129452132, :type :invoke, :process 0, :f :read, :value nil}
+{:index 307, :time 15131009718, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 308, :time 15143820028, :type :invoke, :process 1, :f :write, :value 271}
+{:index 309, :time 15147123511, :type :fail, :process 1, :f :write, :value 271, :error "READONLY You can't write against a read only replica."}
+{:index 310, :time 15242898321, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 311, :time 15246496420, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 312, :time 15265348865, :type :invoke, :process 0, :f :write, :value 278}
+{:index 313, :time 15270177033, :type :fail, :process 0, :f :write, :value 278, :error "READONLY You can't write against a read only replica."}
+{:index 314, :time 15397845010, :type :invoke, :process 1, :f :write, :value 281}
+{:index 315, :time 15411599072, :type :fail, :process 1, :f :write, :value 281, :error "READONLY You can't write against a read only replica."}
+{:index 316, :time 15563622200, :type :invoke, :process 2, :f :write, :value 284}
+{:index 317, :time 15567361707, :type :fail, :process 2, :f :write, :value 284, :error "READONLY You can't write against a read only replica."}
+{:index 318, :time 15702770413, :type :invoke, :process 0, :f :read, :value nil}
+{:index 319, :time 15704893731, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 320, :time 15808009247, :type :invoke, :process 0, :f :write, :value 287}
+{:index 321, :time 15820937064, :type :fail, :process 0, :f :write, :value 287, :error "READONLY You can't write against a read only replica."}
+{:index 322, :time 15842348751, :type :invoke, :process 1, :f :write, :value 290}
+{:index 323, :time 15847879057, :type :fail, :process 1, :f :write, :value 290, :error "READONLY You can't write against a read only replica."}
+{:index 324, :time 16022360911, :type :invoke, :process 2, :f :write, :value 293}
+{:index 325, :time 16026374489, :type :fail, :process 2, :f :write, :value 293, :error "READONLY You can't write against a read only replica."}
+{:index 326, :time 16166664289, :type :invoke, :process 0, :f :read, :value nil}
+{:index 327, :time 16168849185, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 328, :time 16210173312, :type :invoke, :process 0, :f :write, :value 296}
+{:index 329, :time 16215278337, :type :fail, :process 0, :f :write, :value 296, :error "READONLY You can't write against a read only replica."}
+{:index 330, :time 16384819830, :type :invoke, :process 1, :f :write, :value 299}
+{:index 331, :time 16388432190, :type :fail, :process 1, :f :write, :value 299, :error "READONLY You can't write against a read only replica."}
+{:index 332, :time 16547759231, :type :invoke, :process 2, :f :write, :value 302}
+{:index 333, :time 16552104023, :type :fail, :process 2, :f :write, :value 302, :error "READONLY You can't write against a read only replica."}
+{:index 334, :time 16615408021, :type :invoke, :process 0, :f :read, :value nil}
+{:index 335, :time 16618916276, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 336, :time 16755295404, :type :invoke, :process 0, :f :read, :value nil}
+{:index 337, :time 16762056302, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 338, :time 16872504484, :type :invoke, :process 1, :f :write, :value 305}
+{:index 339, :time 16879963813, :type :fail, :process 1, :f :write, :value 305, :error "READONLY You can't write against a read only replica."}
+{:index 340, :time 16986289912, :type :invoke, :process 2, :f :read, :value nil}
+{:index 341, :time 16987841481, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 342, :time 17154747657, :type :invoke, :process 0, :f :read, :value nil}
+{:index 343, :time 17155507591, :type :invoke, :process 1, :f :write, :value 307}
+{:index 344, :time 17156521136, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 345, :time 17158550925, :type :fail, :process 1, :f :write, :value 307, :error "READONLY You can't write against a read only replica."}
+{:index 346, :time 17276243127, :type :invoke, :process 1, :f :read, :value nil}
+{:index 347, :time 17282519304, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 348, :time 17456203580, :type :invoke, :process 2, :f :write, :value 310}
+{:index 349, :time 17460097552, :type :fail, :process 2, :f :write, :value 310, :error "READONLY You can't write against a read only replica."}
+{:index 350, :time 17616282355, :type :invoke, :process 0, :f :read, :value nil}
+{:index 351, :time 17621820900, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 352, :time 17718964993, :type :invoke, :process 0, :f :read, :value nil}
+{:index 353, :time 17720506961, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 354, :time 17879727598, :type :invoke, :process 1, :f :write, :value 313}
+{:index 355, :time 17891906936, :type :fail, :process 1, :f :write, :value 313, :error "READONLY You can't write against a read only replica."}
+{:index 356, :time 17944483460, :type :invoke, :process 2, :f :write, :value 316}
+{:index 357, :time 17947579497, :type :fail, :process 2, :f :write, :value 316, :error "READONLY You can't write against a read only replica."}
+{:index 358, :time 18023371546, :type :invoke, :process 0, :f :read, :value nil}
+{:index 359, :time 18026128368, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 360, :time 18067764308, :type :invoke, :process 0, :f :read, :value nil}
+{:index 361, :time 18070115112, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 362, :time 18238951374, :type :invoke, :process 1, :f :write, :value 319}
+{:index 363, :time 18247464850, :type :fail, :process 1, :f :write, :value 319, :error "READONLY You can't write against a read only replica."}
+{:index 364, :time 18383551565, :type :invoke, :process 2, :f :read, :value nil}
+{:index 365, :time 18388814797, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 366, :time 18492628185, :type :invoke, :process 0, :f :read, :value nil}
+{:index 367, :time 18498650751, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 368, :time 18569761394, :type :invoke, :process 0, :f :write, :value 322}
+{:index 369, :time 18581285003, :type :fail, :process 0, :f :write, :value 322, :error "READONLY You can't write against a read only replica."}
+{:index 370, :time 18629322226, :type :invoke, :process 1, :f :write, :value 325}
+{:index 371, :time 18640519321, :type :fail, :process 1, :f :write, :value 325, :error "READONLY You can't write against a read only replica."}
+{:index 372, :time 18698620489, :type :invoke, :process 2, :f :read, :value nil}
+{:index 373, :time 18704699058, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 374, :time 18810738144, :type :invoke, :process 0, :f :write, :value 328}
+{:index 375, :time 18821909838, :type :fail, :process 0, :f :write, :value 328, :error "READONLY You can't write against a read only replica."}
+{:index 376, :time 18972757305, :type :invoke, :process 0, :f :read, :value nil}
+{:index 377, :time 18982153220, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 378, :time 19137958406, :type :invoke, :process 1, :f :read, :value nil}
+{:index 379, :time 19139966594, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 380, :time 19292845751, :type :invoke, :process 2, :f :write, :value 331}
+{:index 381, :time 19303749033, :type :fail, :process 2, :f :write, :value 331, :error "READONLY You can't write against a read only replica."}
+{:index 382, :time 19455392435, :type :invoke, :process 0, :f :write, :value 334}
+{:index 383, :time 19465125865, :type :fail, :process 0, :f :write, :value 334, :error "READONLY You can't write against a read only replica."}
+{:index 384, :time 19543801142, :type :invoke, :process 0, :f :read, :value nil}
+{:index 385, :time 19550028117, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 386, :time 19656939342, :type :invoke, :process 1, :f :read, :value nil}
+{:index 387, :time 19662665995, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 388, :time 19744256501, :type :invoke, :process 2, :f :read, :value nil}
+{:index 389, :time 19746265290, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 390, :time 19768703982, :type :invoke, :process 0, :f :write, :value 337}
+{:index 391, :time 19772675957, :type :fail, :process 0, :f :write, :value 337, :error "READONLY You can't write against a read only replica."}
+{:index 392, :time 19924662774, :type :invoke, :process 0, :f :write, :value 340}
+{:index 393, :time 19937111824, :type :fail, :process 0, :f :write, :value 340, :error "READONLY You can't write against a read only replica."}
+{:index 394, :time 19995184991, :type :invoke, :process 1, :f :read, :value nil}
+{:index 395, :time 19997360287, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 396, :time 20121339166, :type :invoke, :process 2, :f :read, :value nil}
+{:index 397, :time 20123791175, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 398, :time 20243305657, :type :invoke, :process 0, :f :read, :value nil}
+{:index 399, :time 20244828724, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 400, :time 20247865658, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 401, :time 20248520287, :type :invoke, :process 1, :f :read, :value nil}
+{:index 402, :time 20248967607, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 403, :time 20250450572, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 404, :time 20272964067, :type :invoke, :process 0, :f :write, :value 345}
+{:index 405, :time 20276374718, :type :fail, :process 0, :f :write, :value 345, :error "READONLY You can't write against a read only replica."}
+{:index 406, :time 20357646410, :type :invoke, :process 0, :f :read, :value nil}
+{:index 407, :time 20361423977, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 408, :time 20506500489, :type :invoke, :process 1, :f :write, :value 348}
+{:index 409, :time 20516888448, :type :fail, :process 1, :f :write, :value 348, :error "READONLY You can't write against a read only replica."}
+{:index 410, :time 20561831234, :type :invoke, :process 2, :f :read, :value nil}
+{:index 411, :time 20564331144, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 412, :time 20637064559, :type :invoke, :process 0, :f :write, :value 351}
+{:index 413, :time 20640528712, :type :fail, :process 0, :f :write, :value 351, :error "READONLY You can't write against a read only replica."}
+{:index 414, :time 20656500618, :type :invoke, :process 0, :f :write, :value 354}
+{:index 415, :time 20659418147, :type :fail, :process 0, :f :write, :value 354, :error "READONLY You can't write against a read only replica."}
+{:index 416, :time 20838542463, :type :invoke, :process 1, :f :read, :value nil}
+{:index 417, :time 20844595030, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 418, :time 20891316695, :type :invoke, :process 2, :f :write, :value 357}
+{:index 419, :time 20903690642, :type :fail, :process 2, :f :write, :value 357, :error "READONLY You can't write against a read only replica."}
+{:index 420, :time 20932308307, :type :invoke, :process 0, :f :write, :value 360}
+{:index 421, :time 20938448778, :type :fail, :process 0, :f :write, :value 360, :error "READONLY You can't write against a read only replica."}
+{:index 422, :time 21015632289, :type :invoke, :process 0, :f :read, :value nil}
+{:index 423, :time 21021913267, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 424, :time 21062022140, :type :invoke, :process 1, :f :read, :value nil}
+{:index 425, :time 21066123021, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 426, :time 21088874426, :type :invoke, :process 2, :f :write, :value 363}
+{:index 427, :time 21091380637, :type :fail, :process 2, :f :write, :value 363, :error "READONLY You can't write against a read only replica."}
+{:index 428, :time 21155383366, :type :invoke, :process 0, :f :read, :value nil}
+{:index 429, :time 21156771327, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 430, :time 21182884381, :type :invoke, :process 0, :f :read, :value nil}
+{:index 431, :time 21184504353, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 432, :time 21270373048, :type :invoke, :process 1, :f :write, :value 366}
+{:index 433, :time 21274070711, :type :fail, :process 1, :f :write, :value 366, :error "READONLY You can't write against a read only replica."}
+{:index 434, :time 21342347029, :type :invoke, :process 2, :f :write, :value 369}
+{:index 435, :time 21356605759, :type :fail, :process 2, :f :write, :value 369, :error "READONLY You can't write against a read only replica."}
+{:index 436, :time 21537161439, :type :invoke, :process 0, :f :read, :value nil}
+{:index 437, :time 21542430571, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 438, :time 21584739641, :type :invoke, :process 0, :f :write, :value 372}
+{:index 439, :time 21588940427, :type :fail, :process 0, :f :write, :value 372, :error "READONLY You can't write against a read only replica."}
+{:index 440, :time 21688146111, :type :invoke, :process 1, :f :write, :value 375}
+{:index 441, :time 21697318117, :type :fail, :process 1, :f :write, :value 375, :error "READONLY You can't write against a read only replica."}
+{:index 442, :time 21829902776, :type :invoke, :process 2, :f :write, :value 378}
+{:index 443, :time 21842692242, :type :fail, :process 2, :f :write, :value 378, :error "READONLY You can't write against a read only replica."}
+{:index 444, :time 21971721044, :type :invoke, :process 0, :f :read, :value nil}
+{:index 445, :time 21977947019, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 446, :time 22110635883, :type :invoke, :process 0, :f :read, :value nil}
+{:index 447, :time 22112270956, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 448, :time 22201834514, :type :invoke, :process 1, :f :read, :value nil}
+{:index 449, :time 22207697873, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 450, :time 22269796017, :type :invoke, :process 2, :f :read, :value nil}
+{:index 451, :time 22272506337, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 452, :time 22419567237, :type :invoke, :process 0, :f :read, :value nil}
+{:index 453, :time 22425481598, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 454, :time 22521412438, :type :invoke, :process 0, :f :read, :value nil}
+{:index 455, :time 22524000852, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 456, :time 22670149311, :type :invoke, :process 1, :f :read, :value nil}
+{:index 457, :time 22672339908, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 458, :time 22690494910, :type :invoke, :process 2, :f :write, :value 381}
+{:index 459, :time 22696734286, :type :fail, :process 2, :f :write, :value 381, :error "READONLY You can't write against a read only replica."}
+{:index 460, :time 22730952498, :type :invoke, :process 0, :f :write, :value 384}
+{:index 461, :time 22734670663, :type :fail, :process 0, :f :write, :value 384, :error "READONLY You can't write against a read only replica."}
+{:index 462, :time 22904218256, :type :invoke, :process 0, :f :read, :value nil}
+{:index 463, :time 22910250722, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 464, :time 22960208330, :type :invoke, :process 1, :f :write, :value 387}
+{:index 465, :time 22969255030, :type :fail, :process 1, :f :write, :value 387, :error "READONLY You can't write against a read only replica."}
+{:index 466, :time 22977951414, :type :invoke, :process 2, :f :read, :value nil}
+{:index 467, :time 22979999505, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 468, :time 23062610756, :type :invoke, :process 0, :f :read, :value nil}
+{:index 469, :time 23068169802, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 470, :time 23221765590, :type :invoke, :process 0, :f :read, :value nil}
+{:index 471, :time 23226251588, :type :invoke, :process 1, :f :write, :value 389}
+{:index 472, :time 23228071369, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 473, :time 23241935781, :type :fail, :process 1, :f :write, :value 389, :error "READONLY You can't write against a read only replica."}
+{:index 474, :time 23401541835, :type :invoke, :process 2, :f :write, :value 393}
+{:index 475, :time 23416642403, :type :fail, :process 2, :f :write, :value 393, :error "READONLY You can't write against a read only replica."}
+{:index 476, :time 23586849125, :type :invoke, :process 0, :f :read, :value nil}
+{:index 477, :time 23592607079, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 478, :time 23655433656, :type :invoke, :process 0, :f :write, :value 396}
+{:index 479, :time 23666282235, :type :fail, :process 0, :f :write, :value 396, :error "READONLY You can't write against a read only replica."}
+{:index 480, :time 23837871519, :type :invoke, :process 1, :f :read, :value nil}
+{:index 481, :time 23843603072, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 482, :time 23919001545, :type :invoke, :process 2, :f :read, :value nil}
+{:index 483, :time 23924393832, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 484, :time 24046989759, :type :invoke, :process 0, :f :read, :value nil}
+{:index 485, :time 24048506440, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 486, :time 24143769812, :type :invoke, :process 0, :f :read, :value nil}
+{:index 487, :time 24145657013, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 488, :time 24264868560, :type :invoke, :process 1, :f :write, :value 399}
+{:index 489, :time 24268478752, :type :fail, :process 1, :f :write, :value 399, :error "READONLY You can't write against a read only replica."}
+{:index 490, :time 24374000171, :type :invoke, :process 2, :f :write, :value 402}
+{:index 491, :time 24376933027, :type :fail, :process 2, :f :write, :value 402, :error "READONLY You can't write against a read only replica."}
+{:index 492, :time 24423813223, :type :invoke, :process 0, :f :read, :value nil}
+{:index 493, :time 24429744939, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 494, :time 24586740098, :type :invoke, :process 0, :f :read, :value nil}
+{:index 495, :time 24588497692, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 496, :time 24648262874, :type :invoke, :process 1, :f :write, :value 405}
+{:index 497, :time 24651693456, :type :fail, :process 1, :f :write, :value 405, :error "READONLY You can't write against a read only replica."}
+{:index 498, :time 24687322853, :type :invoke, :process 2, :f :write, :value 408}
+{:index 499, :time 24700115335, :type :fail, :process 2, :f :write, :value 408, :error "READONLY You can't write against a read only replica."}
+{:index 500, :time 24707840246, :type :invoke, :process 0, :f :read, :value nil}
+{:index 501, :time 24715829771, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 502, :time 24899696561, :type :invoke, :process 0, :f :read, :value nil}
+{:index 503, :time 24905423766, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 504, :time 24973483290, :type :invoke, :process 1, :f :write, :value 411}
+{:index 505, :time 24977021478, :type :fail, :process 1, :f :write, :value 411, :error "READONLY You can't write against a read only replica."}
+{:index 506, :time 25043724430, :type :invoke, :process 2, :f :read, :value nil}
+{:index 507, :time 25049980363, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 508, :time 25138944600, :type :invoke, :process 0, :f :read, :value nil}
+{:index 509, :time 25141840554, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 510, :time 25249807003, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 511, :time 25250612645, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 512, :time 25255731618, :type :invoke, :process 2, :f :read, :value nil}
+{:index 513, :time 25258537367, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 514, :time 25269361344, :type :invoke, :process 0, :f :read, :value nil}
+{:index 515, :time 25270199888, :type :invoke, :process 1, :f :read, :value nil}
+{:index 516, :time 25270604210, :type :invoke, :process 2, :f :read, :value nil}
+{:index 517, :time 25271495557, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 518, :time 25273585369, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 519, :time 25274874237, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 520, :time 25415086203, :type :invoke, :process 2, :f :write, :value 415}
+{:index 521, :time 25420570695, :type :fail, :process 2, :f :write, :value 415, :error "READONLY You can't write against a read only replica."}
+{:index 522, :time 25427422860, :type :invoke, :process 0, :f :read, :value nil}
+{:index 523, :time 25430530125, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 524, :time 25456586212, :type :invoke, :process 0, :f :read, :value nil}
+{:index 525, :time 25460815238, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 526, :time 25511780151, :type :invoke, :process 1, :f :read, :value nil}
+{:index 527, :time 25513676052, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 528, :time 25649800100, :type :invoke, :process 2, :f :read, :value nil}
+{:index 529, :time 25651857009, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 530, :time 25746190032, :type :invoke, :process 0, :f :write, :value 418}
+{:index 531, :time 25758408283, :type :fail, :process 0, :f :write, :value 418, :error "READONLY You can't write against a read only replica."}
+{:index 532, :time 25895158164, :type :invoke, :process 0, :f :read, :value nil}
+{:index 533, :time 25896683545, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 534, :time 25982089592, :type :invoke, :process 1, :f :read, :value nil}
+{:index 535, :time 25987289569, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 536, :time 26109019451, :type :invoke, :process 2, :f :write, :value 421}
+{:index 537, :time 26112096215, :type :fail, :process 2, :f :write, :value 421, :error "READONLY You can't write against a read only replica."}
+{:index 538, :time 26122965993, :type :invoke, :process 0, :f :write, :value 424}
+{:index 539, :time 26125876548, :type :fail, :process 0, :f :write, :value 424, :error "READONLY You can't write against a read only replica."}
+{:index 540, :time 26144501240, :type :invoke, :process 0, :f :write, :value 427}
+{:index 541, :time 26149700217, :type :fail, :process 0, :f :write, :value 427, :error "READONLY You can't write against a read only replica."}
+{:index 542, :time 26334220241, :type :invoke, :process 1, :f :read, :value nil}
+{:index 543, :time 26336493262, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 544, :time 26355509775, :type :invoke, :process 2, :f :read, :value nil}
+{:index 545, :time 26357128761, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 546, :time 26426457653, :type :invoke, :process 0, :f :write, :value 430}
+{:index 547, :time 26431371414, :type :fail, :process 0, :f :write, :value 430, :error "READONLY You can't write against a read only replica."}
+{:index 548, :time 26547980223, :type :invoke, :process 0, :f :write, :value 433}
+{:index 549, :time 26551646118, :type :fail, :process 0, :f :write, :value 433, :error "READONLY You can't write against a read only replica."}
+{:index 550, :time 26553470615, :type :invoke, :process 1, :f :read, :value nil}
+{:index 551, :time 26555371316, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 552, :time 26585644328, :type :invoke, :process 2, :f :write, :value 436}
+{:index 553, :time 26588541783, :type :fail, :process 2, :f :write, :value 436, :error "READONLY You can't write against a read only replica."}
+{:index 554, :time 26654962919, :type :invoke, :process 0, :f :read, :value nil}
+{:index 555, :time 26656506501, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 556, :time 26781172439, :type :invoke, :process 0, :f :read, :value nil}
+{:index 557, :time 26783362356, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 558, :time 26801262309, :type :invoke, :process 1, :f :write, :value 439}
+{:index 559, :time 26804068158, :type :fail, :process 1, :f :write, :value 439, :error "READONLY You can't write against a read only replica."}
+{:index 560, :time 26902188683, :type :invoke, :process 2, :f :read, :value nil}
+{:index 561, :time 26903905174, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 562, :time 26982118038, :type :invoke, :process 0, :f :read, :value nil}
+{:index 563, :time 26983912334, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 564, :time 27127342671, :type :invoke, :process 0, :f :write, :value 442}
+{:index 565, :time 27135391299, :type :fail, :process 0, :f :write, :value 442, :error "READONLY You can't write against a read only replica."}
+{:index 566, :time 27327172311, :type :invoke, :process 1, :f :read, :value nil}
+{:index 567, :time 27330416283, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 568, :time 27341271361, :type :invoke, :process 2, :f :write, :value 445}
+{:index 569, :time 27346433536, :type :fail, :process 2, :f :write, :value 445, :error "READONLY You can't write against a read only replica."}
+{:index 570, :time 27456501897, :type :invoke, :process 0, :f :read, :value nil}
+{:index 571, :time 27461056139, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 572, :time 27497105359, :type :invoke, :process 0, :f :write, :value 448}
+{:index 573, :time 27499861205, :type :fail, :process 0, :f :write, :value 448, :error "READONLY You can't write against a read only replica."}
+{:index 574, :time 27560754347, :type :invoke, :process 1, :f :write, :value 451}
+{:index 575, :time 27565849819, :type :fail, :process 1, :f :write, :value 451, :error "READONLY You can't write against a read only replica."}
+{:index 576, :time 27667290420, :type :invoke, :process 2, :f :write, :value 454}
+{:index 577, :time 27671014818, :type :fail, :process 2, :f :write, :value 454, :error "READONLY You can't write against a read only replica."}
+{:index 578, :time 27722665368, :type :invoke, :process 0, :f :read, :value nil}
+{:index 579, :time 27725101798, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 580, :time 27767205040, :type :invoke, :process 0, :f :write, :value 457}
+{:index 581, :time 27770449413, :type :fail, :process 0, :f :write, :value 457, :error "READONLY You can't write against a read only replica."}
+{:index 582, :time 27841781411, :type :invoke, :process 1, :f :write, :value 460}
+{:index 583, :time 27845317799, :type :fail, :process 1, :f :write, :value 460, :error "READONLY You can't write against a read only replica."}
+{:index 584, :time 27908162945, :type :invoke, :process 2, :f :read, :value nil}
+{:index 585, :time 27910094248, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 586, :time 28084182017, :type :invoke, :process 0, :f :write, :value 463}
+{:index 587, :time 28093025688, :type :fail, :process 0, :f :write, :value 463, :error "READONLY You can't write against a read only replica."}
+{:index 588, :time 28252518780, :type :invoke, :process 0, :f :read, :value nil}
+{:index 589, :time 28253867652, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 590, :time 28357918092, :type :invoke, :process 1, :f :read, :value nil}
+{:index 591, :time 28359828694, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 592, :time 28375775643, :type :invoke, :process 2, :f :read, :value nil}
+{:index 593, :time 28378864307, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 594, :time 28386274802, :type :invoke, :process 0, :f :read, :value nil}
+{:index 595, :time 28387592672, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 596, :time 28578763451, :type :invoke, :process 0, :f :read, :value nil}
+{:index 597, :time 28580606349, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 598, :time 28670531037, :type :invoke, :process 1, :f :read, :value nil}
+{:index 599, :time 28674697859, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 600, :time 28723368150, :type :invoke, :process 2, :f :write, :value 466}
+{:index 601, :time 28727908692, :type :fail, :process 2, :f :write, :value 466, :error "READONLY You can't write against a read only replica."}
+{:index 602, :time 28783798468, :type :invoke, :process 0, :f :write, :value 469}
+{:index 603, :time 28794032413, :type :fail, :process 0, :f :write, :value 469, :error "READONLY You can't write against a read only replica."}
+{:index 604, :time 28981349886, :type :invoke, :process 0, :f :read, :value nil}
+{:index 605, :time 28987078891, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 606, :time 29009945809, :type :invoke, :process 1, :f :write, :value 472}
+{:index 607, :time 29013611504, :type :fail, :process 1, :f :write, :value 472, :error "READONLY You can't write against a read only replica."}
+{:index 608, :time 29172314854, :type :invoke, :process 2, :f :read, :value nil}
+{:index 609, :time 29177618136, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 610, :time 29202153543, :type :invoke, :process 0, :f :write, :value 475}
+{:index 611, :time 29207563331, :type :fail, :process 0, :f :write, :value 475, :error "READONLY You can't write against a read only replica."}
+{:index 612, :time 29397929867, :type :invoke, :process 0, :f :write, :value 478}
+{:index 613, :time 29401010731, :type :fail, :process 0, :f :write, :value 478, :error "READONLY You can't write against a read only replica."}
+{:index 614, :time 29416259843, :type :invoke, :process 1, :f :read, :value nil}
+{:index 615, :time 29418542664, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 616, :time 29424095560, :type :invoke, :process 2, :f :read, :value nil}
+{:index 617, :time 29425673844, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 618, :time 29462380198, :type :invoke, :process 0, :f :write, :value 481}
+{:index 619, :time 29465993891, :type :fail, :process 0, :f :write, :value 481, :error "READONLY You can't write against a read only replica."}
+{:index 620, :time 29527488865, :type :invoke, :process 0, :f :write, :value 484}
+{:index 621, :time 29530605431, :type :fail, :process 0, :f :write, :value 484, :error "READONLY You can't write against a read only replica."}
+{:index 622, :time 29641294024, :type :invoke, :process 1, :f :write, :value 487}
+{:index 623, :time 29644072472, :type :fail, :process 1, :f :write, :value 487, :error "READONLY You can't write against a read only replica."}
+{:index 624, :time 29840372324, :type :invoke, :process 2, :f :read, :value nil}
+{:index 625, :time 29842199622, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 626, :time 29870630735, :type :invoke, :process 0, :f :read, :value nil}
+{:index 627, :time 29872034310, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 628, :time 29945244908, :type :invoke, :process 0, :f :read, :value nil}
+{:index 629, :time 29947492828, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 630, :time 29965057863, :type :invoke, :process 1, :f :write, :value 490}
+{:index 631, :time 29968926369, :type :fail, :process 1, :f :write, :value 490, :error "READONLY You can't write against a read only replica."}
+{:index 632, :time 30120263727, :type :invoke, :process 2, :f :read, :value nil}
+{:index 633, :time 30121861112, :type :ok, :process 2, :f :read, :value nil, :node "n4"}

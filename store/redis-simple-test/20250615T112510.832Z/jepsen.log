@@ -1,0 +1,1274 @@
+2025-06-15 11:25:12,555{GMT}	INFO	[jepsen test runner] jepsen.core: Test version e0bc22a099c745abc996a61cae6accb9a40a447b (plus uncommitted changes)
+2025-06-15 11:25:12,775{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 3
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x66df362c"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@66df362c"]
+ :name "redis-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x125ba798" "2025-06-15T11:25:10.832Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196
+         "0x3458be63"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196@3458be63"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x43c20142"
+         "java.util.concurrent.CyclicBarrier@43c20142"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x5cb32140"
+         "jepsen.checker$compose$reify__10552@5cb32140"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@139b3a29"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x748fa354"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x4f5df012"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@4f5df012"],
+                           :gen ({:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 ...)})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x574e4184"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@574e4184"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 200000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Mix
+                                        {:i 0,
+                                         :gens [(jepsen.generator.Repeat
+                                                 {:remaining -1,
+                                                  :gen {:type :invoke, :f :read}})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.test_ssh$simple_test$fn__339
+                                                             "0x70ab1ce0"
+                                                             "jepsen.redis_sentinel.test_ssh$simple_test$fn__339@70ab1ce0"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :write}})})]})})})]})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x50d6af87"
+         "jepsen.os.debian.Debian@50d6af87"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-15 11:25:15,122{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-15 11:25:15,122{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-15 11:25:15,122{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-15 11:25:15,122{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-15 11:25:15,122{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-15 11:25:16,912{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-15 11:25:16,913{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:25:16,913{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:25:16,913{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:25:16,913{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:25:16,913{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:25:16,922{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-15 11:25:16,924{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-15 11:25:16,924{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-15 11:25:16,924{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-15 11:25:16,924{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-15 11:25:16,924{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-15 11:25:16,972{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-15 11:25:16,985{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:25:16,985{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:25:16,985{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:25:16,985{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:25:16,985{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:25:17,128{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:17,253{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:17,334{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	2
+2025-06-15 11:25:17,357{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:17,378{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,379{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	2	READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,380{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:17,386{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:17,386{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:17,386{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:17,387{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:17,387{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:17,387{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:17,576{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	6
+2025-06-15 11:25:17,577{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:17,579{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,580{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	6	READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,582{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	9
+2025-06-15 11:25:17,585{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:17,586{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,587{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	9	READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,674{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:17,676{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:17,677{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:17,830{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:17,832{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:17,832{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:17,872{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	12
+2025-06-15 11:25:17,873{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:17,875{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,876{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	12	READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,898{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	15
+2025-06-15 11:25:17,900{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:17,902{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,902{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	15	READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,957{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	18
+2025-06-15 11:25:17,960{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:17,964{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,964{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	18	READONLY You can't write against a read only replica.
+2025-06-15 11:25:17,986{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:17,987{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:17,987{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:18,071{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:18,079{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:18,080{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:18,109{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	21
+2025-06-15 11:25:18,113{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:18,115{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:18,116{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	21	READONLY You can't write against a read only replica.
+2025-06-15 11:25:18,301{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	24
+2025-06-15 11:25:18,303{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:18,304{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:18,305{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	24	READONLY You can't write against a read only replica.
+2025-06-15 11:25:18,389{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:18,390{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:18,392{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:18,426{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:18,428{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:18,429{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:18,546{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:18,548{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:18,549{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:18,720{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:18,724{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:18,724{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:18,780{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:18,783{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:18,786{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:18,924{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:18,927{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:18,927{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:18,937{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	27
+2025-06-15 11:25:18,939{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:18,941{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:18,943{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	27	READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,025{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	30
+2025-06-15 11:25:19,029{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:19,034{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,036{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	30	READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,197{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	33
+2025-06-15 11:25:19,199{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:19,202{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,205{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	33	READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,321{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:19,323{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:19,324{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:19,519{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	36
+2025-06-15 11:25:19,521{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:19,522{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,523{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	36	READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,590{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:19,594{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:19,596{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:19,666{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	39
+2025-06-15 11:25:19,671{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:19,675{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,676{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	39	READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,779{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:19,782{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:19,784{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:19,792{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:19,793{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:19,794{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:19,898{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	42
+2025-06-15 11:25:19,899{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:19,900{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:19,901{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	42	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,087{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:20,090{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:20,091{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:20,109{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:20,111{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:20,111{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:20,221{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	45
+2025-06-15 11:25:20,225{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:20,231{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,233{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	45	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,288{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:20,289{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:20,290{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:20,304{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:20,305{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:20,306{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:20,396{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	48
+2025-06-15 11:25:20,398{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:20,399{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,400{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	48	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,404{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:20,407{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:20,407{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:20,470{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	51
+2025-06-15 11:25:20,470{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	53
+2025-06-15 11:25:20,471{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:20,472{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:20,473{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,473{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,474{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	53	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,474{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	51	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,557{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	57
+2025-06-15 11:25:20,558{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:20,559{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,560{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	57	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,653{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	60
+2025-06-15 11:25:20,655{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:20,656{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,657{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	60	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,746{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:20,747{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:20,748{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:20,798{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:20,800{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:20,802{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:20,922{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	63
+2025-06-15 11:25:20,923{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:20,924{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,924{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	63	READONLY You can't write against a read only replica.
+2025-06-15 11:25:20,957{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:20,958{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:20,959{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:20,999{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:21,001{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:21,002{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:21,181{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	66
+2025-06-15 11:25:21,183{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:21,184{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,185{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	66	READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,338{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	69
+2025-06-15 11:25:21,339{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:21,341{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,342{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	69	READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,380{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	72
+2025-06-15 11:25:21,383{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:21,386{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,387{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	72	READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,451{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:21,452{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:21,453{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:21,522{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:21,523{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:21,524{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:21,535{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:21,536{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:21,537{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:21,563{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:21,565{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:21,566{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:21,635{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	75
+2025-06-15 11:25:21,636{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:21,637{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,638{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	75	READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,782{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	78
+2025-06-15 11:25:21,786{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:21,794{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,795{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	78	READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,972{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	81
+2025-06-15 11:25:21,974{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:21,976{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:21,977{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	81	READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,084{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:22,085{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:22,086{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:22,129{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:25:22,131{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:25:22,196{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	88
+2025-06-15 11:25:22,201{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:22,207{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,209{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	88	READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,216{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:22,218{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:22,219{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:22,409{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	91
+2025-06-15 11:25:22,410{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:22,412{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,412{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	91	READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,495{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	94
+2025-06-15 11:25:22,497{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:22,498{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:22,499{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:22,499{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,499{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:22,500{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	94	READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,540{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:22,541{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:22,541{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:22,722{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	97
+2025-06-15 11:25:22,724{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:22,725{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,725{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	97	READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,915{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	100
+2025-06-15 11:25:22,916{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:22,919{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:22,919{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	100	READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,106{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	103
+2025-06-15 11:25:23,110{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:23,115{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,116{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	103	READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,170{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	106
+2025-06-15 11:25:23,171{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:23,173{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,173{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	106	READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,269{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	109
+2025-06-15 11:25:23,271{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:23,273{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,274{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	109	READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,368{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:23,370{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:23,372{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:23,514{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	112
+2025-06-15 11:25:23,516{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:23,518{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,519{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	112	READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,667{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	115
+2025-06-15 11:25:23,671{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:23,676{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,677{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	115	READONLY You can't write against a read only replica.
+2025-06-15 11:25:23,711{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:23,715{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:23,718{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:23,902{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:23,907{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:23,909{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:24,062{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:24,065{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:24,067{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:24,126{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:24,127{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:24,128{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:24,310{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	118
+2025-06-15 11:25:24,314{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:24,316{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:24,317{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	118	READONLY You can't write against a read only replica.
+2025-06-15 11:25:24,318{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:24,320{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:24,321{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:24,435{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	121
+2025-06-15 11:25:24,436{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:24,439{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:24,439{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	121	READONLY You can't write against a read only replica.
+2025-06-15 11:25:24,461{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	124
+2025-06-15 11:25:24,463{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:24,464{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:24,465{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	124	READONLY You can't write against a read only replica.
+2025-06-15 11:25:24,617{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:24,618{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:24,619{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:24,726{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:24,730{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:24,732{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:24,791{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:24,794{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:24,796{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:24,801{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:24,802{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:24,802{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:24,855{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:24,859{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:24,862{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:24,946{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	127
+2025-06-15 11:25:24,951{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:24,959{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:24,960{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	127	READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,086{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:25,090{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:25,092{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:25,239{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:25,242{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:25,243{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:25,271{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	130
+2025-06-15 11:25:25,274{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:25,275{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:25,275{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,276{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	130	READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,276{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:25,276{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:25,364{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	134
+2025-06-15 11:25:25,368{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:25,374{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,375{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	134	READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,412{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:25,413{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:25,414{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:25,470{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	137
+2025-06-15 11:25:25,472{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:25,473{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,474{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	137	READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,610{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:25,613{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:25,615{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:25,794{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	140
+2025-06-15 11:25:25,797{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:25,800{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,800{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	140	READONLY You can't write against a read only replica.
+2025-06-15 11:25:25,955{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:25,957{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:25,957{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:26,154{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	143
+2025-06-15 11:25:26,156{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:26,157{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,158{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	143	READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,230{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:26,234{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:26,236{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:26,400{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	146
+2025-06-15 11:25:26,407{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:26,409{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,410{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	146	READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,520{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:26,521{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:26,522{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:26,631{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	149
+2025-06-15 11:25:26,632{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:26,633{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,634{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	149	READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,709{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	152
+2025-06-15 11:25:26,712{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:26,715{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,716{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	152	READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,869{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:26,873{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:26,874{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:26,955{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	155
+2025-06-15 11:25:26,958{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:26,964{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:26,967{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	155	READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,076{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:27,077{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:27,077{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:27,132{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:25:27,133{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:25:27,136{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:27,137{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:27,137{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:27,314{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:27,316{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:27,318{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:27,451{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	158
+2025-06-15 11:25:27,453{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:27,454{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,455{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	158	READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,509{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	161
+2025-06-15 11:25:27,512{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:27,518{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,520{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	161	READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,630{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	164
+2025-06-15 11:25:27,632{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:27,635{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,636{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	164	READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,675{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	167
+2025-06-15 11:25:27,676{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:27,678{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,679{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	167	READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,801{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	170
+2025-06-15 11:25:27,804{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:27,808{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,809{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	170	READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,981{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:27,982{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:27,983{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:27,983{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	172
+2025-06-15 11:25:27,984{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:27,986{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:27,986{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	172	READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,049{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	175
+2025-06-15 11:25:28,051{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:28,052{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,053{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	175	READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,239{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:28,242{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:28,242{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:28,382{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:28,385{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:28,386{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:28,392{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:28,393{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:28,394{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:28,540{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	178
+2025-06-15 11:25:28,544{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:28,546{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,547{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	178	READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,563{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:28,564{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:28,564{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:28,645{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	181
+2025-06-15 11:25:28,651{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:28,656{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,657{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	181	READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,721{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	184
+2025-06-15 11:25:28,723{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:28,726{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,728{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	184	READONLY You can't write against a read only replica.
+2025-06-15 11:25:28,771{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:28,771{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:28,772{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:28,846{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:28,849{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:28,851{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:28,904{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:28,907{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:28,909{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:29,058{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:29,059{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:29,060{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:29,071{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:29,073{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:29,073{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:29,161{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:29,163{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:29,164{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:29,326{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:29,328{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:29,328{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:29,484{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	187
+2025-06-15 11:25:29,487{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:29,489{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:29,490{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	187	READONLY You can't write against a read only replica.
+2025-06-15 11:25:29,504{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	190
+2025-06-15 11:25:29,506{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:29,508{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:29,509{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	190	READONLY You can't write against a read only replica.
+2025-06-15 11:25:29,646{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:29,650{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:29,651{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:29,759{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:29,762{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:29,764{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:29,854{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:29,856{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:29,857{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:29,887{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	193
+2025-06-15 11:25:29,889{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:29,892{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:29,892{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	193	READONLY You can't write against a read only replica.
+2025-06-15 11:25:30,060{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:30,061{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:30,062{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:30,211{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	196
+2025-06-15 11:25:30,215{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:30,220{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:30,221{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	196	READONLY You can't write against a read only replica.
+2025-06-15 11:25:30,404{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:30,406{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:30,407{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:30,559{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:30,560{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:30,561{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:30,726{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:30,729{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:30,730{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:30,832{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	199
+2025-06-15 11:25:30,834{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:30,836{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:30,837{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	199	READONLY You can't write against a read only replica.
+2025-06-15 11:25:30,873{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	202
+2025-06-15 11:25:30,875{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:30,877{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:30,878{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	202	READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,013{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	205
+2025-06-15 11:25:31,015{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:31,017{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,018{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	205	READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,142{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:31,143{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:31,143{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:31,197{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:31,198{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:31,198{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:31,218{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:31,220{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:31,220{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:31,229{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:31,230{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:31,230{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:31,273{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	208
+2025-06-15 11:25:31,274{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:31,275{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,276{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	208	READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,455{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	211
+2025-06-15 11:25:31,458{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:31,460{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,461{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	211	READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,536{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	214
+2025-06-15 11:25:31,537{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:31,539{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,540{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	214	READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,676{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:31,679{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:31,681{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:31,722{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	217
+2025-06-15 11:25:31,725{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:31,730{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,730{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	217	READONLY You can't write against a read only replica.
+2025-06-15 11:25:31,883{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:31,885{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:31,885{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:31,999{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:32,000{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:32,000{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:32,099{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:32,102{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:32,103{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:32,107{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	220
+2025-06-15 11:25:32,109{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:32,110{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,111{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	220	READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,133{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:25:32,134{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:25:32,180{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:32,182{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:32,183{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:32,184{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:32,184{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:32,185{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:32,227{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	223
+2025-06-15 11:25:32,230{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:32,232{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,233{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	223	READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,335{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:32,336{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:32,337{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:32,510{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:32,514{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:32,515{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:32,543{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	226
+2025-06-15 11:25:32,544{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:32,547{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,548{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	226	READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,654{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:32,658{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:32,659{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:32,783{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	229
+2025-06-15 11:25:32,786{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:32,792{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,794{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	229	READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,969{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	232
+2025-06-15 11:25:32,970{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:32,972{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:32,973{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	232	READONLY You can't write against a read only replica.
+2025-06-15 11:25:33,056{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:33,057{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:33,058{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:33,168{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:33,169{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:33,169{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:33,240{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:33,241{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:33,241{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:33,326{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	235
+2025-06-15 11:25:33,328{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:33,329{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:33,329{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	235	READONLY You can't write against a read only replica.
+2025-06-15 11:25:33,435{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:33,436{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:33,437{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:33,535{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:33,538{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:33,539{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:33,540{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:33,545{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:33,547{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:33,738{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	238
+2025-06-15 11:25:33,739{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:33,740{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:33,741{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	238	READONLY You can't write against a read only replica.
+2025-06-15 11:25:33,868{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	241
+2025-06-15 11:25:33,871{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:33,876{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:33,878{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	241	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,037{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:34,040{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:34,043{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:34,050{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:34,053{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:34,055{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:34,106{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	244
+2025-06-15 11:25:34,108{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,112{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,113{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	244	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,119{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	247
+2025-06-15 11:25:34,120{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,121{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,121{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	247	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,214{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	250
+2025-06-15 11:25:34,215{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,216{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,217{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	250	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,245{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	253
+2025-06-15 11:25:34,246{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,247{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,248{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	253	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,434{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	256
+2025-06-15 11:25:34,438{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,443{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,445{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	256	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,584{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:34,587{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:34,589{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:34,649{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	259
+2025-06-15 11:25:34,652{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,657{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,658{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	259	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,771{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	262
+2025-06-15 11:25:34,774{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,780{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,782{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	262	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,832{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:34,834{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:34,834{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:34,862{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:34,863{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:34,863{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:34,937{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	265
+2025-06-15 11:25:34,939{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,942{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,942{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	265	READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,994{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	268
+2025-06-15 11:25:34,996{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:34,997{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:34,997{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	268	READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,126{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	271
+2025-06-15 11:25:35,128{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:35,129{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,130{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	271	READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,224{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:35,225{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:35,226{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:35,256{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:35,257{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:35,257{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:35,281{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	274
+2025-06-15 11:25:35,282{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:35,283{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,284{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	274	READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,403{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:35,406{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:35,408{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:35,462{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:35,464{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:35,466{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:35,592{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:35,595{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:35,597{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:35,635{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	277
+2025-06-15 11:25:35,639{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:35,641{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,641{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	277	READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,746{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:35,749{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:35,751{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:35,906{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	280
+2025-06-15 11:25:35,907{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:35,909{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,910{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	280	READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,967{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	283
+2025-06-15 11:25:35,969{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:35,971{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:35,972{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	283	READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,149{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	286
+2025-06-15 11:25:36,150{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:36,151{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,151{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	286	READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,269{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	289
+2025-06-15 11:25:36,270{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:36,271{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,272{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	289	READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,319{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:36,321{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:36,321{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:36,362{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:36,363{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:36,364{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:36,451{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	292
+2025-06-15 11:25:36,452{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:36,453{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,454{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	292	READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,460{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:36,461{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:36,461{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:36,492{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:36,493{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:36,494{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:36,519{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:36,520{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:36,521{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:36,663{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:36,664{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:36,665{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:36,817{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:36,819{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:36,819{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:36,845{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:36,846{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:36,846{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:36,876{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:36,877{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:36,878{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:36,962{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	295
+2025-06-15 11:25:36,966{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:36,971{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:36,973{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	295	READONLY You can't write against a read only replica.
+2025-06-15 11:25:37,113{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	298
+2025-06-15 11:25:37,114{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:37,116{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:37,117{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	298	READONLY You can't write against a read only replica.
+2025-06-15 11:25:37,135{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:25:37,136{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:25:37,215{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:37,216{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:37,217{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:37,382{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:37,383{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:37,384{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:37,550{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:37,553{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:37,555{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:37,690{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:37,691{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:37,692{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:37,699{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	301
+2025-06-15 11:25:37,700{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:37,701{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:37,701{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	301	READONLY You can't write against a read only replica.
+2025-06-15 11:25:37,887{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:37,890{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:37,892{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:38,073{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:38,074{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:38,074{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:38,140{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:38,142{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:38,142{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:38,247{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	304
+2025-06-15 11:25:38,248{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:38,250{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:38,251{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	304	READONLY You can't write against a read only replica.
+2025-06-15 11:25:38,347{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:38,348{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:38,349{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:38,494{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	307
+2025-06-15 11:25:38,495{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:38,497{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:38,498{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	307	READONLY You can't write against a read only replica.
+2025-06-15 11:25:38,685{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:38,686{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:38,687{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:38,866{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	310
+2025-06-15 11:25:38,867{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:38,869{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:38,869{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	310	READONLY You can't write against a read only replica.
+2025-06-15 11:25:38,971{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:38,972{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:38,973{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:39,170{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	313
+2025-06-15 11:25:39,171{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:39,173{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,173{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	313	READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,266{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	316
+2025-06-15 11:25:39,268{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:39,269{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,270{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	316	READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,327{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	319
+2025-06-15 11:25:39,328{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:39,330{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,331{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	319	READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,401{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:39,402{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:39,403{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:39,581{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	322
+2025-06-15 11:25:39,583{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:39,586{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,586{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	322	READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,631{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:39,633{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:39,633{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:39,753{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	325
+2025-06-15 11:25:39,755{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:39,756{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,757{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	325	READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,781{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	328
+2025-06-15 11:25:39,783{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:39,784{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,785{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	328	READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,977{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	331
+2025-06-15 11:25:39,979{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:39,980{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:39,981{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	331	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,137{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:40,138{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:40,139{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:40,315{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	334
+2025-06-15 11:25:40,317{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,319{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,319{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	334	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,334{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:40,335{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:40,336{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:40,447{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	337
+2025-06-15 11:25:40,449{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,451{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,451{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	337	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,592{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:40,594{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:40,594{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:40,599{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	340
+2025-06-15 11:25:40,602{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,604{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,604{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	340	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,610{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:40,611{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:40,611{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:40,656{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	343
+2025-06-15 11:25:40,659{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,660{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,660{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	343	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,736{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	346
+2025-06-15 11:25:40,739{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,741{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,741{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	346	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,745{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	349
+2025-06-15 11:25:40,747{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,748{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,748{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	349	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,790{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	352
+2025-06-15 11:25:40,792{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,793{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,794{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	352	READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,916{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	355
+2025-06-15 11:25:40,918{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:40,919{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:40,920{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	355	READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,090{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:41,091{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:41,091{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:41,128{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	358
+2025-06-15 11:25:41,129{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:41,130{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,131{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	358	READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,254{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:41,255{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:41,256{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:41,306{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:41,310{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:41,311{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:41,403{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	361
+2025-06-15 11:25:41,404{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:41,406{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,406{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	361	READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,414{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:41,415{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:41,415{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:41,415{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:41,416{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:41,416{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:41,529{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:41,533{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:41,535{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:41,667{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:41,669{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:41,670{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:41,737{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	364
+2025-06-15 11:25:41,738{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:41,740{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,740{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	364	READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,836{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	367
+2025-06-15 11:25:41,837{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:41,839{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,839{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	367	READONLY You can't write against a read only replica.
+2025-06-15 11:25:41,997{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	370
+2025-06-15 11:25:42,000{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:42,002{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,003{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	370	READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,134{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	373
+2025-06-15 11:25:42,135{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:42,136{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,137{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:25:42,140{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	373	READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,140{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:25:42,176{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	380
+2025-06-15 11:25:42,177{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:42,178{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,179{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	380	READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,360{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:42,362{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:42,362{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:42,375{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:42,376{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:42,377{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:42,385{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	383
+2025-06-15 11:25:42,386{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:42,388{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,388{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	383	READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,435{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	386
+2025-06-15 11:25:42,436{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:42,438{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,438{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	386	READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,630{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:42,633{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:42,634{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:42,815{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	389
+2025-06-15 11:25:42,818{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:42,823{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,825{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	389	READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,844{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	392
+2025-06-15 11:25:42,846{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:42,848{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:42,849{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	392	READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,014{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:43,015{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:43,015{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:43,194{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	395
+2025-06-15 11:25:43,198{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:43,200{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,201{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	395	READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,308{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:43,309{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:25:43,309{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:43,498{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	398
+2025-06-15 11:25:43,500{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:43,501{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,502{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	398	READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,658{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	401
+2025-06-15 11:25:43,659{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:43,660{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,661{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	401	READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,732{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	404
+2025-06-15 11:25:43,733{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:43,735{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,735{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	404	READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,886{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:43,887{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:43,888{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:43,903{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	407
+2025-06-15 11:25:43,904{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:43,906{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,906{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	407	READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,954{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:43,955{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:43,956{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:43,986{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:43,986{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:43,987{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:43,996{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	410
+2025-06-15 11:25:43,997{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:43,998{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:43,998{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	410	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,115{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	413
+2025-06-15 11:25:44,115{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	415
+2025-06-15 11:25:44,116{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,116{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,118{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,118{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,118{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	413	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,118{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	415	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,207{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	419
+2025-06-15 11:25:44,208{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,209{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,210{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	419	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,349{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	422
+2025-06-15 11:25:44,350{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,351{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,352{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	422	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,411{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	425
+2025-06-15 11:25:44,412{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,414{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,414{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	425	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,479{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	428
+2025-06-15 11:25:44,480{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,481{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,481{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	428	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,555{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:44,556{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:44,556{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:44,582{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:25:44,583{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:44,583{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:25:44,601{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	431
+2025-06-15 11:25:44,602{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,603{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,604{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	431	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,769{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	434
+2025-06-15 11:25:44,770{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,771{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,772{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	434	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,884{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	437
+2025-06-15 11:25:44,887{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,890{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,890{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	437	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,919{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	440
+2025-06-15 11:25:44,920{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,922{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,923{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	440	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,927{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	443
+2025-06-15 11:25:44,928{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,930{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,930{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	443	READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,971{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	446
+2025-06-15 11:25:44,972{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:44,973{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:44,974{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	446	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,096{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	449
+2025-06-15 11:25:45,097{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:45,099{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,099{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	449	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,241{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	452
+2025-06-15 11:25:45,244{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:45,249{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,250{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	452	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,432{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	455
+2025-06-15 11:25:45,433{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:45,433{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	457
+2025-06-15 11:25:45,434{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,434{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	455	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,434{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:45,435{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,436{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	457	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,504{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	461
+2025-06-15 11:25:45,506{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:45,507{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,507{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	461	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,587{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	464
+2025-06-15 11:25:45,588{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:45,589{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,590{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	464	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,631{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:45,633{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:45,633{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:45,790{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	467
+2025-06-15 11:25:45,793{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:45,797{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,799{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	467	READONLY You can't write against a read only replica.
+2025-06-15 11:25:45,891{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:45,892{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:45,893{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:46,033{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	470
+2025-06-15 11:25:46,034{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:46,036{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:46,036{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	470	READONLY You can't write against a read only replica.
+2025-06-15 11:25:46,168{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:46,169{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:25:46,170{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:46,319{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:46,322{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:46,324{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:46,510{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:25:46,510{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:25:46,511{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:25:46,696{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	473
+2025-06-15 11:25:46,699{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:46,703{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:46,703{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	473	READONLY You can't write against a read only replica.
+2025-06-15 11:25:46,882{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	476
+2025-06-15 11:25:46,883{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:46,884{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:46,884{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	476	READONLY You can't write against a read only replica.
+2025-06-15 11:25:46,903{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:25:46,904{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:25:46,905{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:25:46,968{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	479
+2025-06-15 11:25:46,969{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : Wrong number of args (3) passed to: taoensso.carmine.protocol/raw
+2025-06-15 11:25:46,971{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:25:46,971{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	479	READONLY You can't write against a read only replica.
+2025-06-15 11:25:47,142{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,142{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,142{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,278{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:25:47,278{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:25:47,279{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,278{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:25:47,278{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:25:47,278{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:25:47,278{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,279{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,280{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,280{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:25:47,281{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-15 11:25:47,681{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:25:47,681{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:25:47,681{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:25:47,682{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:25:47,682{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:25:47,684{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-15 11:25:48,243{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-15 11:25:48,270{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/redis-simple-test/20250615T112510.832Z/results.edn
+2025-06-15 11:25:48,307{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :valid? false,
+ :clock-plot {:valid? true},
+ :unhandled-exceptions {:valid? true},
+ :latency-graph {:valid? true},
+ :rate-graph {:valid? true},
+ :linear {:valid? true,
+          :configs ({:model #knossos.model.Register{:value nil},
+                     :last-op {:process 0,
+                               :type :ok,
+                               :f :read,
+                               :value nil,
+                               :index 629,
+                               :time 29939164137,
+                               :node "n3"},
+                     :pending []}),
+          :analyzer :linear,
+          :final-paths ()},
+ :timeline {:valid? true},
+ :stats {:valid? false,
+         :count 311,
+         :ok-count 154,
+         :fail-count 157,
+         :info-count 0,
+         :by-f {:read {:valid? true,
+                       :count 154,
+                       :ok-count 154,
+                       :fail-count 0,
+                       :info-count 0},
+                :write {:valid? false,
+                        :count 157,
+                        :ok-count 0,
+                        :fail-count 157,
+                        :info-count 0}}}}
+
+
+Analysis invalid! (ﾉಥ益ಥ）ﾉ ┻━┻

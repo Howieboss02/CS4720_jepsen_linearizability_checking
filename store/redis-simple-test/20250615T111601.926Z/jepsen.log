@@ -1,0 +1,1054 @@
+2025-06-15 11:16:03,634{GMT}	INFO	[jepsen test runner] jepsen.core: Test version e0bc22a099c745abc996a61cae6accb9a40a447b (plus uncommitted changes)
+2025-06-15 11:16:03,846{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 3
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x5c30decf"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@5c30decf"]
+ :name "redis-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x7827cdfc" "2025-06-15T11:16:01.926Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196
+         "0x4a0f4282"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196@4a0f4282"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x19d3f4fb"
+         "java.util.concurrent.CyclicBarrier@19d3f4fb"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x43cf97a8"
+         "jepsen.checker$compose$reify__10552@43cf97a8"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@5c1ea00"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x3458be63"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x3e265811"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@3e265811"],
+                           :gen ({:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 ...)})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x33986be7"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@33986be7"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 200000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Mix
+                                        {:i 1,
+                                         :gens [(jepsen.generator.Repeat
+                                                 {:remaining -1,
+                                                  :gen {:type :invoke, :f :read}})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.test_ssh$simple_test$fn__334
+                                                             "0x748fa354"
+                                                             "jepsen.redis_sentinel.test_ssh$simple_test$fn__334@748fa354"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :write}})})]})})})]})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x78e59b04"
+         "jepsen.os.debian.Debian@78e59b04"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-15 11:16:06,345{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-15 11:16:06,345{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-15 11:16:06,345{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-15 11:16:06,345{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-15 11:16:06,345{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-15 11:16:08,005{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-15 11:16:08,007{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:16:08,007{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:16:08,007{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:16:08,007{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:16:08,007{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:16:08,018{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-15 11:16:08,020{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-15 11:16:08,020{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-15 11:16:08,020{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-15 11:16:08,020{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-15 11:16:08,020{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-15 11:16:08,064{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-15 11:16:08,079{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:16:08,079{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:16:08,079{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:16:08,079{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:16:08,079{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:16:08,229{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	2
+2025-06-15 11:16:08,381{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:08,442{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	4
+2025-06-15 11:16:08,471{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,471{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,472{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	2	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,472{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	4	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,473{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	5
+2025-06-15 11:16:08,474{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,475{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	5	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,480{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:08,480{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:08,640{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	9
+2025-06-15 11:16:08,641{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,642{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	9	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,811{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	12
+2025-06-15 11:16:08,815{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,818{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	12	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,921{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	15
+2025-06-15 11:16:08,925{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,926{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	15	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:08,961{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:08,964{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:08,965{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:09,134{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:09,136{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:09,136{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:09,274{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:09,278{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:09,280{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:09,400{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	18
+2025-06-15 11:16:09,403{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:09,404{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	18	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:09,518{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	21
+2025-06-15 11:16:09,520{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:09,520{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	21	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:09,538{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:09,539{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:09,540{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:09,618{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	24
+2025-06-15 11:16:09,623{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:09,625{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	24	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:09,656{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:09,657{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:09,658{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:09,835{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:09,836{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:09,837{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:09,904{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:09,905{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:09,906{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:10,092{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:10,093{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:10,093{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:10,100{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	27
+2025-06-15 11:16:10,102{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:10,102{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	27	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:10,247{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:10,251{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:10,252{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:10,393{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	30
+2025-06-15 11:16:10,399{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:10,401{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	30	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:10,573{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	33
+2025-06-15 11:16:10,575{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:10,576{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	33	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:10,600{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:10,601{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:10,603{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:10,783{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:10,784{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:10,785{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:10,920{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:10,920{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:10,922{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:10,922{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:10,922{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:10,922{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:10,925{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	37
+2025-06-15 11:16:10,927{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:10,929{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	37	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:11,124{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:11,128{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:11,129{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:11,196{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:11,198{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:11,198{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:11,368{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:11,370{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:11,370{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:11,484{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	40
+2025-06-15 11:16:11,486{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:11,486{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	40	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:11,549{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:11,550{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:11,551{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:11,726{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:11,727{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:11,729{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:11,795{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:11,796{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:11,797{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:11,872{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:11,873{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:11,874{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:12,009{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	43
+2025-06-15 11:16:12,014{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,015{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	43	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,192{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:12,193{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:12,194{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:12,232{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	46
+2025-06-15 11:16:12,234{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,235{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	46	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,357{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	49
+2025-06-15 11:16:12,358{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,359{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	49	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,487{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:12,490{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:12,491{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:12,494{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:12,496{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:12,496{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:12,550{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	52
+2025-06-15 11:16:12,552{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,552{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	52	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,577{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	55
+2025-06-15 11:16:12,579{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,579{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	55	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,720{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:12,721{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:12,721{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:12,773{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	58
+2025-06-15 11:16:12,775{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,776{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	58	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:12,967{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:12,969{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:12,969{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:13,031{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:13,034{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:13,036{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:13,201{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	61
+2025-06-15 11:16:13,204{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,204{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	61	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,230{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:16:13,230{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:16:13,344{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	68
+2025-06-15 11:16:13,346{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,346{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	68	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,499{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	71
+2025-06-15 11:16:13,504{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	73
+2025-06-15 11:16:13,505{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,506{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	71	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,506{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,507{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	73	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,607{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	77
+2025-06-15 11:16:13,608{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,609{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	77	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,677{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:13,679{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:13,679{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:13,756{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:13,757{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:13,758{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:13,829{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	80
+2025-06-15 11:16:13,831{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,832{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	80	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:13,948{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:13,949{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:13,950{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:14,082{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:14,083{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:14,084{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:14,114{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	83
+2025-06-15 11:16:14,116{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,117{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	83	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,182{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:14,183{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:14,184{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:14,232{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	86
+2025-06-15 11:16:14,236{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,236{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	86	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,421{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	89
+2025-06-15 11:16:14,423{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,424{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	89	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,616{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:14,617{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:14,618{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:14,814{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	92
+2025-06-15 11:16:14,815{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,816{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	92	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,974{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	95
+2025-06-15 11:16:14,975{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:14,976{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	95	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:15,096{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	98
+2025-06-15 11:16:15,097{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:15,098{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	98	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:15,161{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:15,163{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:15,163{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:15,307{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:15,308{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:15,308{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:15,383{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:15,384{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:15,385{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:15,409{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	101
+2025-06-15 11:16:15,410{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:15,411{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	101	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:15,479{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:15,480{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:15,481{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:15,549{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:15,551{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:15,551{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:15,655{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:15,656{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:15,657{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:15,796{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:15,798{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:15,798{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:15,810{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:15,812{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:15,812{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:15,979{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:15,980{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:15,981{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:16,003{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	104
+2025-06-15 11:16:16,005{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,006{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	104	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,142{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	107
+2025-06-15 11:16:16,144{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,145{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	107	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,316{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:16,317{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:16,317{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:16,512{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	110
+2025-06-15 11:16:16,515{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,515{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	110	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,647{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:16,648{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:16,649{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:16,696{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:16,698{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:16,698{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:16,822{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	113
+2025-06-15 11:16:16,824{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,825{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	113	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,991{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	116
+2025-06-15 11:16:16,995{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:16,997{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	116	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,074{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:17,076{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:17,076{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:17,227{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	119
+2025-06-15 11:16:17,228{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,229{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	119	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,274{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	122
+2025-06-15 11:16:17,275{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,276{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	122	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,437{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	125
+2025-06-15 11:16:17,443{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,445{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	125	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,536{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:17,537{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:17,537{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:17,641{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	128
+2025-06-15 11:16:17,643{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,644{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	128	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,782{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:17,783{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:17,784{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:17,921{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	131
+2025-06-15 11:16:17,922{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,923{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	131	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:17,980{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:17,981{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:17,982{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:17,984{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:17,986{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:17,988{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:18,039{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	134
+2025-06-15 11:16:18,041{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,041{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	134	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,231{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	137
+2025-06-15 11:16:18,231{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:16:18,232{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:16:18,233{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,233{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	137	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,284{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	143
+2025-06-15 11:16:18,285{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,287{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	143	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,388{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:18,390{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:18,390{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:18,422{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:18,423{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:18,423{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:18,433{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	146
+2025-06-15 11:16:18,435{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,436{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	146	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,558{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	149
+2025-06-15 11:16:18,562{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,563{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	149	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,751{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	152
+2025-06-15 11:16:18,753{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,753{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	152	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,907{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	155
+2025-06-15 11:16:18,908{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,909{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	155	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,943{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	158
+2025-06-15 11:16:18,945{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:18,945{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	158	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:19,011{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	161
+2025-06-15 11:16:19,012{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:19,013{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	161	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:19,081{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:19,082{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:19,083{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:19,155{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:19,158{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:19,160{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:19,312{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:19,313{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:19,314{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:19,325{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	164
+2025-06-15 11:16:19,326{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:19,327{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	164	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:19,464{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:19,466{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:19,466{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:19,665{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:19,666{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:19,666{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:19,800{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:19,803{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:19,805{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:19,928{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:19,929{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:19,929{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:20,034{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:20,035{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:20,036{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:20,163{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:20,165{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:20,165{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:20,222{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	167
+2025-06-15 11:16:20,223{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:20,224{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	167	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:20,412{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:20,413{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:20,414{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:20,434{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:20,435{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:20,435{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:20,558{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	170
+2025-06-15 11:16:20,560{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:20,560{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	170	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:20,717{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	173
+2025-06-15 11:16:20,718{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:20,718{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	173	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:20,742{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:20,743{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:20,743{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:20,826{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:20,828{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:20,829{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:21,011{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	176
+2025-06-15 11:16:21,015{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,017{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	176	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,076{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	179
+2025-06-15 11:16:21,077{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,078{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	179	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,227{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:21,228{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:21,228{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:21,369{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:21,371{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:21,371{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:21,568{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:21,570{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:21,570{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:21,601{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	182
+2025-06-15 11:16:21,602{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,603{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	182	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,793{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	185
+2025-06-15 11:16:21,798{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,800{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	185	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,857{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	188
+2025-06-15 11:16:21,859{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,859{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	188	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:21,881{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:21,881{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:21,882{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:22,007{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	191
+2025-06-15 11:16:22,008{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:22,008{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	191	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:22,091{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:22,092{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:22,092{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:22,189{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:22,190{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:22,191{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:22,226{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:22,227{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:22,227{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:22,336{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:22,337{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:22,337{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:22,345{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:22,346{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:22,346{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:22,433{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	194
+2025-06-15 11:16:22,435{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:22,435{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	194	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:22,623{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:22,625{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:22,626{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:22,671{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	197
+2025-06-15 11:16:22,673{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:22,673{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	197	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:22,704{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:22,706{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:22,707{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:22,887{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:22,889{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:22,890{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:23,002{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	200
+2025-06-15 11:16:23,006{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,007{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	200	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,014{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	203
+2025-06-15 11:16:23,016{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,016{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	203	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,118{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:23,119{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:23,120{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:23,234{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:16:23,236{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:16:23,294{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	210
+2025-06-15 11:16:23,295{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,295{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	210	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,398{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:23,399{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:23,399{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:23,595{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	213
+2025-06-15 11:16:23,596{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,596{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	213	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,731{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:23,735{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:23,737{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:23,781{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:23,782{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:23,783{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:23,855{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	216
+2025-06-15 11:16:23,856{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:23,856{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	216	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,026{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	219
+2025-06-15 11:16:24,027{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,028{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	219	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,104{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	222
+2025-06-15 11:16:24,106{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,106{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	222	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,153{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:24,154{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:24,154{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:24,345{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:24,346{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:24,347{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:24,414{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	225
+2025-06-15 11:16:24,416{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,418{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	225	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,527{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	228
+2025-06-15 11:16:24,529{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,529{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	228	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,706{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:24,707{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:24,708{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:24,770{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:24,771{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:24,772{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:24,920{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	231
+2025-06-15 11:16:24,921{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:24,921{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	231	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,086{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	234
+2025-06-15 11:16:25,089{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,089{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	234	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,090{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	237
+2025-06-15 11:16:25,092{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,093{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	237	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,118{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:25,119{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:25,119{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:25,255{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:25,256{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:25,256{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:25,345{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:25,348{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:25,348{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:25,522{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:25,524{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:25,524{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:25,622{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:25,623{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:25,624{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:25,730{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	240
+2025-06-15 11:16:25,732{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,733{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	240	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,903{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:25,904{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:25,904{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:25,974{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	243
+2025-06-15 11:16:25,975{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:25,976{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	243	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,001{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:26,002{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:26,003{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:26,046{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	246
+2025-06-15 11:16:26,049{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,049{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	246	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,052{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	249
+2025-06-15 11:16:26,053{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,053{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	249	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,204{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	252
+2025-06-15 11:16:26,205{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,206{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	252	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,352{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	255
+2025-06-15 11:16:26,356{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,357{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	255	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,513{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:26,514{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:26,515{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:26,700{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:26,701{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:26,701{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:26,733{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	258
+2025-06-15 11:16:26,734{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,735{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	258	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,801{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	261
+2025-06-15 11:16:26,803{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,803{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	261	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:26,909{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:26,910{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:26,910{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:26,999{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:27,000{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:27,000{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:27,107{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	264
+2025-06-15 11:16:27,112{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,114{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	264	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,300{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	267
+2025-06-15 11:16:27,303{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,303{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	267	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,412{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:27,414{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:27,415{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:27,422{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	270
+2025-06-15 11:16:27,424{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,424{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	270	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,490{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:27,493{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:27,495{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:27,660{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	273
+2025-06-15 11:16:27,662{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,662{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	273	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,667{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	276
+2025-06-15 11:16:27,668{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,669{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	276	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,793{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	279
+2025-06-15 11:16:27,795{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,795{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	279	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,829{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	282
+2025-06-15 11:16:27,831{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,831{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	282	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,991{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	285
+2025-06-15 11:16:27,995{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:27,996{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	285	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,102{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	288
+2025-06-15 11:16:28,104{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,104{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	288	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,147{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:28,148{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:28,148{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:28,238{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:16:28,238{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:16:28,280{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	295
+2025-06-15 11:16:28,281{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,282{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	295	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,356{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	298
+2025-06-15 11:16:28,357{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,358{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	298	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,466{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:28,466{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	301
+2025-06-15 11:16:28,467{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:28,468{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:28,468{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,468{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	301	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,565{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	305
+2025-06-15 11:16:28,566{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,567{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	305	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:28,582{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:28,584{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:28,584{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:28,619{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:28,620{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:28,621{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:28,667{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:28,668{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:28,668{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:28,750{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:28,753{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:28,755{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:28,850{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:28,853{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:28,856{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:29,049{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:29,049{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:29,050{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:29,154{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	308
+2025-06-15 11:16:29,157{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,159{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	308	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,334{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	311
+2025-06-15 11:16:29,338{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,340{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	311	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,516{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	314
+2025-06-15 11:16:29,520{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,521{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	314	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,602{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:29,603{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:29,604{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:29,801{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	317
+2025-06-15 11:16:29,804{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,805{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	317	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,986{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	320
+2025-06-15 11:16:29,987{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:29,987{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	320	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,070{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	323
+2025-06-15 11:16:30,071{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,072{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	323	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,233{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	326
+2025-06-15 11:16:30,235{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,236{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	326	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,300{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:30,301{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:30,301{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:30,457{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	329
+2025-06-15 11:16:30,459{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,459{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	329	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,537{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	332
+2025-06-15 11:16:30,539{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,539{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	332	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,606{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	335
+2025-06-15 11:16:30,607{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,607{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	335	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:30,621{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:30,622{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:30,622{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:30,803{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:30,804{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:30,804{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:30,923{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:30,927{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:30,928{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:31,097{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:31,098{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:31,098{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:31,243{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	338
+2025-06-15 11:16:31,247{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,248{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	338	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,277{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	341
+2025-06-15 11:16:31,281{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,281{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	341	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,410{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:31,413{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:31,415{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:31,501{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	344
+2025-06-15 11:16:31,503{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,507{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	344	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,604{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:31,607{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:31,609{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:31,668{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	347
+2025-06-15 11:16:31,672{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,673{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	347	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,863{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	350
+2025-06-15 11:16:31,870{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,870{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	350	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,958{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	353
+2025-06-15 11:16:31,960{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:31,961{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	353	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,143{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	356
+2025-06-15 11:16:32,145{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,146{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	356	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,215{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	359
+2025-06-15 11:16:32,216{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,216{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	359	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,273{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:32,274{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:32,275{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:32,314{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:32,315{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:32,315{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:32,468{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:32,470{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:32,470{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:32,652{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	362
+2025-06-15 11:16:32,656{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,658{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	362	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,787{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	365
+2025-06-15 11:16:32,792{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,794{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	365	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,817{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	368
+2025-06-15 11:16:32,818{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,819{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	368	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,916{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:32,917{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:32,918{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:32,947{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	371
+2025-06-15 11:16:32,948{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,949{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	371	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:32,977{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:32,978{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:32,978{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:33,105{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	374
+2025-06-15 11:16:33,106{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,107{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	374	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,237{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:16:33,237{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:16:33,269{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	381
+2025-06-15 11:16:33,271{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,272{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	381	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,426{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	384
+2025-06-15 11:16:33,427{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,428{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	384	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,456{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	387
+2025-06-15 11:16:33,457{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,457{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	387	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,511{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	390
+2025-06-15 11:16:33,515{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,517{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	390	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,622{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:33,625{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:33,627{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:33,806{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:33,809{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:33,811{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:33,830{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	393
+2025-06-15 11:16:33,831{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:33,832{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	393	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,004{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:34,007{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:34,008{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:34,094{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	396
+2025-06-15 11:16:34,095{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,096{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	396	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,160{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	399
+2025-06-15 11:16:34,161{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,162{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	399	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,200{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:34,201{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:34,201{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:34,295{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:34,297{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:34,299{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:34,446{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	402
+2025-06-15 11:16:34,450{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,451{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	402	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,521{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:34,525{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:34,526{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:34,536{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:34,538{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:34,538{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:34,692{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:34,695{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:34,697{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:34,818{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:34,820{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:34,821{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:34,990{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	405
+2025-06-15 11:16:34,992{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:34,992{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	405	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,061{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:35,062{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:35,063{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:35,072{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:35,073{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:35,074{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:35,234{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	408
+2025-06-15 11:16:35,235{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,236{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	408	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,239{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	411
+2025-06-15 11:16:35,241{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,242{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	411	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,397{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	414
+2025-06-15 11:16:35,400{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,402{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	414	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,563{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	417
+2025-06-15 11:16:35,566{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,568{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	417	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,702{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:35,705{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:35,708{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:35,794{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	420
+2025-06-15 11:16:35,798{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,802{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	420	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,920{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	423
+2025-06-15 11:16:35,923{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:35,925{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	423	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:36,117{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:36,120{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:36,121{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:36,260{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:36,261{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:36,261{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:36,378{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:36,381{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:36,383{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:36,402{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	426
+2025-06-15 11:16:36,403{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:36,403{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	426	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:36,417{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:36,417{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:36,418{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:36,559{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:16:36,562{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:36,563{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:16:36,637{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	429
+2025-06-15 11:16:36,640{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:36,641{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	429	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:36,798{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:36,799{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:36,800{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:36,960{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:36,961{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:36,962{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:36,997{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	432
+2025-06-15 11:16:36,998{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:36,999{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	432	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,003{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:37,004{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:37,004{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:37,122{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:37,124{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:37,125{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:37,235{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:37,236{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:37,237{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:37,281{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	435
+2025-06-15 11:16:37,281{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:37,282{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:16:37,282{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,282{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:37,282{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	435	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,364{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:37,365{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:37,366{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:37,403{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:37,404{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:16:37,404{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:37,506{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	438
+2025-06-15 11:16:37,507{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,508{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	438	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,579{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	441
+2025-06-15 11:16:37,582{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,584{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	441	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,715{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	444
+2025-06-15 11:16:37,717{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,717{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	444	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,808{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:16:37,809{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:16:37,809{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:16:37,939{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	447
+2025-06-15 11:16:37,940{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:37,941{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	447	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:38,076{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:16:38,077{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:16:38,077{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:16:38,113{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	450
+2025-06-15 11:16:38,114{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:38,114{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	450	class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:16:38,238{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,238{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,238{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,317{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:16:38,317{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:16:38,317{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:16:38,317{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:16:38,317{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:16:38,318{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,318{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,318{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,318{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,319{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:16:38,320{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-15 11:16:38,726{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:16:38,726{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:16:38,726{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:16:38,726{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:16:38,726{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:16:38,729{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-15 11:16:39,247{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-15 11:16:39,272{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/redis-simple-test/20250615T111601.926Z/results.edn
+2025-06-15 11:16:39,310{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :valid? false,
+ :clock-plot {:valid? true},
+ :unhandled-exceptions {:valid? true},
+ :latency-graph {:valid? true},
+ :rate-graph {:valid? true},
+ :linear {:valid? true,
+          :configs ({:model #knossos.model.Register{:value nil},
+                     :last-op {:process 0,
+                               :type :ok,
+                               :f :read,
+                               :value nil,
+                               :index 587,
+                               :time 30021043581,
+                               :node "n3"},
+                     :pending []}),
+          :analyzer :linear,
+          :final-paths ()},
+ :timeline {:valid? true},
+ :stats {:valid? false,
+         :count 290,
+         :ok-count 146,
+         :fail-count 144,
+         :info-count 0,
+         :by-f {:read {:valid? true,
+                       :count 146,
+                       :ok-count 146,
+                       :fail-count 0,
+                       :info-count 0},
+                :write {:valid? false,
+                        :count 144,
+                        :ok-count 0,
+                        :fail-count 144,
+                        :info-count 0}}}}
+
+
+Analysis invalid! (ﾉಥ益ಥ）ﾉ ┻━┻

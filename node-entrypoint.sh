@@ -61,5 +61,50 @@ else
   fi
 fi
 
-echo "🟢 Node $(hostname) ready"
-exec tail -f /dev/null
+# Start Redis Sentinel
+echo "Starting Redis Sentinel on $(hostname)..."
+
+# Create log directory for Sentinel
+mkdir -p /var/log/redis
+touch /var/log/redis/sentinel-$(hostname).log
+chown redis:redis /var/log/redis/sentinel-$(hostname).log 2>/dev/null || true
+
+# Start Sentinel
+redis-sentinel /etc/redis/sentinel.conf --daemonize yes
+sleep 5
+
+# Test Sentinel
+if redis-cli -p 26379 ping 2>/dev/null | grep -q PONG; then
+  echo "✅ Redis Sentinel responding on $(hostname)"
+else
+  echo "❌ Redis Sentinel not responding on $(hostname)"
+  # Try to restart Sentinel
+  echo "Attempting to restart Sentinel..."
+  redis-sentinel /etc/redis/sentinel.conf --daemonize yes
+  sleep 3
+  if redis-cli -p 26379 ping 2>/dev/null | grep -q PONG; then
+    echo "✅ Redis Sentinel restarted successfully on $(hostname)"
+  else
+    echo "❌ Redis Sentinel failed to start on $(hostname)"
+    echo "Checking Sentinel configuration..."
+    cat /etc/redis/sentinel.conf
+  fi
+fi
+
+# Show Sentinel master info (if Sentinel is working)
+echo "Checking Sentinel master info..."
+redis-cli -p 26379 SENTINEL get-master-addr-by-name mymaster 2>/dev/null || echo "Sentinel master info not available yet"
+
+# Show running processes
+echo "Running Redis processes on $(hostname):"
+ps aux | grep redis | grep -v grep || echo "No Redis processes found"
+
+# Show listening ports
+echo "Listening ports on $(hostname):"
+netstat -tulpn 2>/dev/null | grep -E ':(6379|26379|22)' || echo "Port check not available"
+
+echo "🟢 Node $(hostname) ready with Redis and Sentinel"
+
+# Keep container running and show logs
+echo "Monitoring logs..."
+exec tail -f /var/log/redis/*.log /dev/null 2>/dev/null || exec tail -f /dev/null

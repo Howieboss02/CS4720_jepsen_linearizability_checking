@@ -35,6 +35,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./docker/redis-n1.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n1.conf:/etc/redis/sentinel.conf
       - ./logs:/var/log/redis
       - ssh-keys:/shared-ssh
       - ./node-entrypoint.sh:/node-entrypoint.sh
@@ -53,6 +54,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./docker/redis-n2.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n2.conf:/etc/redis/sentinel.conf
       - ./logs:/var/log/redis
       - ssh-keys:/shared-ssh
       - ./node-entrypoint.sh:/node-entrypoint.sh
@@ -71,6 +73,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./docker/redis-n3.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n3.conf:/etc/redis/sentinel.conf
       - ./logs:/var/log/redis
       - ssh-keys:/shared-ssh
       - ./node-entrypoint.sh:/node-entrypoint.sh
@@ -89,6 +92,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./docker/redis-n4.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n4.conf:/etc/redis/sentinel.conf
       - ./logs:/var/log/redis
       - ssh-keys:/shared-ssh
       - ./node-entrypoint.sh:/node-entrypoint.sh
@@ -107,6 +111,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./docker/redis-n5.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n5.conf:/etc/redis/sentinel.conf
       - ./logs:/var/log/redis
       - ssh-keys:/shared-ssh
       - ./node-entrypoint.sh:/node-entrypoint.sh

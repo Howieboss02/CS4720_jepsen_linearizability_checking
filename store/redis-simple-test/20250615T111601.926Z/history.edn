@@ -1,0 +1,590 @@
+{:index 0, :time 165899556, :type :invoke, :process 1, :f :write, :value 2}
+{:index 1, :time 322548891, :type :invoke, :process 2, :f :read, :value nil}
+{:index 2, :time 383024545, :type :invoke, :process 0, :f :write, :value 4}
+{:index 3, :time 413748145, :type :fail, :process 1, :f :write, :value 2, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 4, :time 413955954, :type :fail, :process 0, :f :write, :value 4, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 5, :time 414011957, :type :invoke, :process 0, :f :write, :value 5}
+{:index 6, :time 416623476, :type :fail, :process 0, :f :write, :value 5, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 7, :time 421911416, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 8, :time 581094867, :type :invoke, :process 1, :f :write, :value 9}
+{:index 9, :time 583192262, :type :fail, :process 1, :f :write, :value 9, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 10, :time 751213115, :type :invoke, :process 2, :f :write, :value 12}
+{:index 11, :time 759244881, :type :fail, :process 2, :f :write, :value 12, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 12, :time 861003116, :type :invoke, :process 0, :f :write, :value 15}
+{:index 13, :time 867922231, :type :fail, :process 0, :f :write, :value 15, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 14, :time 902167591, :type :invoke, :process 0, :f :read, :value nil}
+{:index 15, :time 906125071, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 16, :time 1075348379, :type :invoke, :process 1, :f :read, :value nil}
+{:index 17, :time 1077681085, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 18, :time 1213988293, :type :invoke, :process 2, :f :read, :value nil}
+{:index 19, :time 1221893453, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 20, :time 1340952076, :type :invoke, :process 0, :f :write, :value 18}
+{:index 21, :time 1345286974, :type :fail, :process 0, :f :write, :value 18, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 22, :time 1458880347, :type :invoke, :process 0, :f :write, :value 21}
+{:index 23, :time 1461781080, :type :fail, :process 0, :f :write, :value 21, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 24, :time 1478695250, :type :invoke, :process 1, :f :read, :value nil}
+{:index 25, :time 1481132961, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 26, :time 1557626645, :type :invoke, :process 2, :f :write, :value 24}
+{:index 27, :time 1566656756, :type :fail, :process 2, :f :write, :value 24, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 28, :time 1597511762, :type :invoke, :process 0, :f :read, :value nil}
+{:index 29, :time 1599472951, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 30, :time 1775835284, :type :invoke, :process 0, :f :read, :value nil}
+{:index 31, :time 1778533707, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 32, :time 1845345350, :type :invoke, :process 1, :f :read, :value nil}
+{:index 33, :time 1847236236, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 34, :time 2032708584, :type :invoke, :process 2, :f :read, :value nil}
+{:index 35, :time 2034827280, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 36, :time 2041157769, :type :invoke, :process 0, :f :write, :value 27}
+{:index 37, :time 2043801389, :type :fail, :process 0, :f :write, :value 27, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 38, :time 2187511835, :type :invoke, :process 0, :f :read, :value nil}
+{:index 39, :time 2193574511, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 40, :time 2333351877, :type :invoke, :process 1, :f :write, :value 30}
+{:index 41, :time 2342602799, :type :fail, :process 1, :f :write, :value 30, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 42, :time 2514455126, :type :invoke, :process 2, :f :write, :value 33}
+{:index 43, :time 2517342357, :type :fail, :process 2, :f :write, :value 33, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 44, :time 2540962033, :type :invoke, :process 0, :f :read, :value nil}
+{:index 45, :time 2544481394, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 46, :time 2724080874, :type :invoke, :process 0, :f :read, :value nil}
+{:index 47, :time 2726908703, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 48, :time 2861005110, :type :invoke, :process 1, :f :read, :value nil}
+{:index 49, :time 2861409729, :type :invoke, :process 2, :f :read, :value nil}
+{:index 50, :time 2863783637, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 51, :time 2864250858, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 52, :time 2866327253, :type :invoke, :process 0, :f :write, :value 37}
+{:index 53, :time 2870366037, :type :fail, :process 0, :f :write, :value 37, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 54, :time 3064460177, :type :invoke, :process 0, :f :read, :value nil}
+{:index 55, :time 3070450950, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 56, :time 3136065539, :type :invoke, :process 1, :f :read, :value nil}
+{:index 57, :time 3140102422, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 58, :time 3309194024, :type :invoke, :process 2, :f :read, :value nil}
+{:index 59, :time 3311958450, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 60, :time 3425253010, :type :invoke, :process 0, :f :write, :value 40}
+{:index 61, :time 3428096340, :type :fail, :process 0, :f :write, :value 40, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 62, :time 3489646843, :type :invoke, :process 0, :f :read, :value nil}
+{:index 63, :time 3492273663, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 64, :time 3666827113, :type :invoke, :process 1, :f :read, :value nil}
+{:index 65, :time 3670771593, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 66, :time 3735883259, :type :invoke, :process 2, :f :read, :value nil}
+{:index 67, :time 3738676686, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 68, :time 3813022372, :type :invoke, :process 0, :f :read, :value nil}
+{:index 69, :time 3815271975, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 70, :time 3949474587, :type :invoke, :process 0, :f :write, :value 43}
+{:index 71, :time 3956916526, :type :fail, :process 0, :f :write, :value 43, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 72, :time 4133074350, :type :invoke, :process 1, :f :read, :value nil}
+{:index 73, :time 4135497860, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 74, :time 4173334783, :type :invoke, :process 2, :f :write, :value 46}
+{:index 75, :time 4176511928, :type :fail, :process 2, :f :write, :value 46, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 76, :time 4298128867, :type :invoke, :process 0, :f :write, :value 49}
+{:index 77, :time 4300593280, :type :fail, :process 0, :f :write, :value 49, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 78, :time 4426844130, :type :invoke, :process 0, :f :read, :value nil}
+{:index 79, :time 4432273977, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 80, :time 4434860295, :type :invoke, :process 1, :f :read, :value nil}
+{:index 81, :time 4437811829, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 82, :time 4491596779, :type :invoke, :process 2, :f :write, :value 52}
+{:index 83, :time 4494071092, :type :fail, :process 2, :f :write, :value 52, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 84, :time 4518405600, :type :invoke, :process 0, :f :write, :value 55}
+{:index 85, :time 4520800709, :type :fail, :process 0, :f :write, :value 55, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 86, :time 4661063733, :type :invoke, :process 0, :f :read, :value nil}
+{:index 87, :time 4662972724, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 88, :time 4713764646, :type :invoke, :process 1, :f :write, :value 58}
+{:index 89, :time 4717323016, :type :fail, :process 1, :f :write, :value 58, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 90, :time 4907903604, :type :invoke, :process 2, :f :read, :value nil}
+{:index 91, :time 4910911347, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 92, :time 4971205822, :type :invoke, :process 0, :f :read, :value nil}
+{:index 93, :time 4977910642, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 94, :time 5141216129, :type :invoke, :process 0, :f :write, :value 61}
+{:index 95, :time 5146059760, :type :fail, :process 0, :f :write, :value 61, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 96, :time 5171014450, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 97, :time 5171880492, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 98, :time 5285517111, :type :invoke, :process 0, :f :write, :value 68}
+{:index 99, :time 5287824621, :type :fail, :process 0, :f :write, :value 68, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 100, :time 5439693063, :type :invoke, :process 0, :f :write, :value 71}
+{:index 101, :time 5444081572, :type :invoke, :process 1, :f :write, :value 73}
+{:index 102, :time 5447184720, :type :fail, :process 0, :f :write, :value 71, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 103, :time 5448854999, :type :fail, :process 1, :f :write, :value 73, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 104, :time 5548371145, :type :invoke, :process 2, :f :write, :value 77}
+{:index 105, :time 5550287336, :type :fail, :process 2, :f :write, :value 77, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 106, :time 5618194475, :type :invoke, :process 0, :f :read, :value nil}
+{:index 107, :time 5621102613, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 108, :time 5697420253, :type :invoke, :process 0, :f :read, :value nil}
+{:index 109, :time 5699553954, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 110, :time 5770024015, :type :invoke, :process 1, :f :write, :value 80}
+{:index 111, :time 5773165765, :type :fail, :process 1, :f :write, :value 80, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 112, :time 5888727375, :type :invoke, :process 2, :f :read, :value nil}
+{:index 113, :time 5891122089, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 114, :time 6022734165, :type :invoke, :process 0, :f :read, :value nil}
+{:index 115, :time 6025530299, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 116, :time 6054818395, :type :invoke, :process 0, :f :write, :value 83}
+{:index 117, :time 6059102800, :type :fail, :process 0, :f :write, :value 83, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 118, :time 6123115452, :type :invoke, :process 1, :f :read, :value nil}
+{:index 119, :time 6125132648, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 120, :time 6171987183, :type :invoke, :process 2, :f :write, :value 86}
+{:index 121, :time 6178124275, :type :fail, :process 2, :f :write, :value 86, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 122, :time 6362205153, :type :invoke, :process 0, :f :write, :value 89}
+{:index 123, :time 6365806625, :type :fail, :process 0, :f :write, :value 89, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 124, :time 6557733977, :type :invoke, :process 0, :f :read, :value nil}
+{:index 125, :time 6559419558, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 126, :time 6754135143, :type :invoke, :process 1, :f :write, :value 92}
+{:index 127, :time 6757421100, :type :fail, :process 1, :f :write, :value 92, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 128, :time 6914902609, :type :invoke, :process 2, :f :write, :value 95}
+{:index 129, :time 6917125615, :type :fail, :process 2, :f :write, :value 95, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 130, :time 7036847624, :type :invoke, :process 0, :f :write, :value 98}
+{:index 131, :time 7039486050, :type :fail, :process 0, :f :write, :value 98, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 132, :time 7102436352, :type :invoke, :process 0, :f :read, :value nil}
+{:index 133, :time 7104894969, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 134, :time 7247832986, :type :invoke, :process 1, :f :read, :value nil}
+{:index 135, :time 7249980388, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 136, :time 7324566645, :type :invoke, :process 2, :f :read, :value nil}
+{:index 137, :time 7326454535, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 138, :time 7350026959, :type :invoke, :process 0, :f :write, :value 101}
+{:index 139, :time 7352644184, :type :fail, :process 0, :f :write, :value 101, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 140, :time 7420709429, :type :invoke, :process 0, :f :read, :value nil}
+{:index 141, :time 7422381509, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 142, :time 7490288247, :type :invoke, :process 1, :f :read, :value nil}
+{:index 143, :time 7492810468, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 144, :time 7596316403, :type :invoke, :process 2, :f :read, :value nil}
+{:index 145, :time 7598439405, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 146, :time 7737636442, :type :invoke, :process 0, :f :read, :value nil}
+{:index 147, :time 7739899250, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 148, :time 7750420652, :type :invoke, :process 0, :f :read, :value nil}
+{:index 149, :time 7753951020, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 150, :time 7919682823, :type :invoke, :process 1, :f :read, :value nil}
+{:index 151, :time 7922423454, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 152, :time 7944734918, :type :invoke, :process 2, :f :write, :value 104}
+{:index 153, :time 7947306141, :type :fail, :process 2, :f :write, :value 104, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 154, :time 8082337980, :type :invoke, :process 0, :f :write, :value 107}
+{:index 155, :time 8086170162, :type :fail, :process 0, :f :write, :value 107, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 156, :time 8257069212, :type :invoke, :process 0, :f :read, :value nil}
+{:index 157, :time 8259148911, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 158, :time 8453665787, :type :invoke, :process 1, :f :write, :value 110}
+{:index 159, :time 8457051348, :type :fail, :process 1, :f :write, :value 110, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 160, :time 8587663277, :type :invoke, :process 2, :f :read, :value nil}
+{:index 161, :time 8590177397, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 162, :time 8637370747, :type :invoke, :process 0, :f :read, :value nil}
+{:index 163, :time 8640022873, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 164, :time 8763250550, :type :invoke, :process 0, :f :write, :value 113}
+{:index 165, :time 8766070584, :type :fail, :process 0, :f :write, :value 113, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 166, :time 8931118855, :type :invoke, :process 1, :f :write, :value 116}
+{:index 167, :time 8938447104, :type :fail, :process 1, :f :write, :value 116, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 168, :time 9015549081, :type :invoke, :process 2, :f :read, :value nil}
+{:index 169, :time 9017907193, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 170, :time 9167770440, :type :invoke, :process 0, :f :write, :value 119}
+{:index 171, :time 9170256858, :type :fail, :process 0, :f :write, :value 119, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 172, :time 9215122398, :type :invoke, :process 0, :f :write, :value 122}
+{:index 173, :time 9217636618, :type :fail, :process 0, :f :write, :value 122, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 174, :time 9377408736, :type :invoke, :process 1, :f :write, :value 125}
+{:index 175, :time 9386766583, :type :fail, :process 1, :f :write, :value 125, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 176, :time 9476740273, :type :invoke, :process 2, :f :read, :value nil}
+{:index 177, :time 9478949179, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 178, :time 9582576620, :type :invoke, :process 0, :f :write, :value 128}
+{:index 179, :time 9585630666, :type :fail, :process 0, :f :write, :value 128, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 180, :time 9723062319, :type :invoke, :process 0, :f :read, :value nil}
+{:index 181, :time 9725178520, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 182, :time 9861809336, :type :invoke, :process 1, :f :write, :value 131}
+{:index 183, :time 9864770577, :type :fail, :process 1, :f :write, :value 131, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 184, :time 9921548484, :type :invoke, :process 2, :f :read, :value nil}
+{:index 185, :time 9923187462, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 186, :time 9925534474, :type :invoke, :process 0, :f :read, :value nil}
+{:index 187, :time 9929369657, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 188, :time 9980564499, :type :invoke, :process 0, :f :write, :value 134}
+{:index 189, :time 9982696400, :type :fail, :process 0, :f :write, :value 134, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 190, :time 10172253939, :type :invoke, :process 1, :f :write, :value 137}
+{:index 191, :time 10172699361, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 192, :time 10173710609, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 193, :time 10174798261, :type :fail, :process 1, :f :write, :value 137, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 194, :time 10224869348, :type :invoke, :process 0, :f :write, :value 143}
+{:index 195, :time 10228078001, :type :fail, :process 0, :f :write, :value 143, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 196, :time 10329630144, :type :invoke, :process 1, :f :read, :value nil}
+{:index 197, :time 10331643240, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 198, :time 10362058490, :type :invoke, :process 2, :f :read, :value nil}
+{:index 199, :time 10365086035, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 200, :time 10374216670, :type :invoke, :process 0, :f :write, :value 146}
+{:index 201, :time 10377502327, :type :fail, :process 0, :f :write, :value 146, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 202, :time 10498839213, :type :invoke, :process 0, :f :write, :value 149}
+{:index 203, :time 10504885301, :type :fail, :process 0, :f :write, :value 149, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 204, :time 10692501948, :type :invoke, :process 1, :f :write, :value 152}
+{:index 205, :time 10694648150, :type :fail, :process 1, :f :write, :value 152, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 206, :time 10847760052, :type :invoke, :process 2, :f :write, :value 155}
+{:index 207, :time 10850283972, :type :fail, :process 2, :f :write, :value 155, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 208, :time 10884582308, :type :invoke, :process 0, :f :write, :value 158}
+{:index 209, :time 10886875217, :type :fail, :process 0, :f :write, :value 158, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 210, :time 10951903818, :type :invoke, :process 0, :f :write, :value 161}
+{:index 211, :time 10954535143, :type :fail, :process 0, :f :write, :value 161, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 212, :time 11022709994, :type :invoke, :process 1, :f :read, :value nil}
+{:index 213, :time 11024264968, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 214, :time 11095441063, :type :invoke, :process 2, :f :read, :value nil}
+{:index 215, :time 11101433648, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 216, :time 11253098881, :type :invoke, :process 0, :f :read, :value nil}
+{:index 217, :time 11255499595, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 218, :time 11266207206, :type :invoke, :process 0, :f :write, :value 164}
+{:index 219, :time 11268436412, :type :fail, :process 0, :f :write, :value 164, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 220, :time 11405646455, :type :invoke, :process 1, :f :read, :value nil}
+{:index 221, :time 11407923064, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 222, :time 11605617691, :type :invoke, :process 2, :f :read, :value nil}
+{:index 223, :time 11607933601, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 224, :time 11741048549, :type :invoke, :process 0, :f :read, :value nil}
+{:index 225, :time 11746245297, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 226, :time 11868926947, :type :invoke, :process 0, :f :read, :value nil}
+{:index 227, :time 11870725033, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 228, :time 11975220516, :type :invoke, :process 1, :f :read, :value nil}
+{:index 229, :time 11977215711, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 230, :time 12103892752, :type :invoke, :process 2, :f :read, :value nil}
+{:index 231, :time 12106739687, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 232, :time 12162965468, :type :invoke, :process 0, :f :write, :value 167}
+{:index 233, :time 12165509690, :type :fail, :process 0, :f :write, :value 167, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 234, :time 12353621460, :type :invoke, :process 0, :f :read, :value nil}
+{:index 235, :time 12355588854, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 236, :time 12374981479, :type :invoke, :process 1, :f :read, :value nil}
+{:index 237, :time 12377073578, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 238, :time 12499202002, :type :invoke, :process 2, :f :write, :value 170}
+{:index 239, :time 12501944333, :type :fail, :process 2, :f :write, :value 170, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 240, :time 12657818066, :type :invoke, :process 0, :f :write, :value 173}
+{:index 241, :time 12660070473, :type :fail, :process 0, :f :write, :value 173, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 242, :time 12682533637, :type :invoke, :process 0, :f :read, :value nil}
+{:index 243, :time 12685051356, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 244, :time 12767200546, :type :invoke, :process 1, :f :read, :value nil}
+{:index 245, :time 12770330995, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 246, :time 12952074302, :type :invoke, :process 2, :f :write, :value 176}
+{:index 247, :time 12958246895, :type :fail, :process 2, :f :write, :value 176, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 248, :time 13016608759, :type :invoke, :process 0, :f :write, :value 179}
+{:index 249, :time 13019148779, :type :fail, :process 0, :f :write, :value 179, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 250, :time 13168223339, :type :invoke, :process 0, :f :read, :value nil}
+{:index 251, :time 13169768912, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 252, :time 13310580481, :type :invoke, :process 1, :f :read, :value nil}
+{:index 253, :time 13313054699, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 254, :time 13509596507, :type :invoke, :process 2, :f :read, :value nil}
+{:index 255, :time 13511701107, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 256, :time 13542351558, :type :invoke, :process 0, :f :write, :value 182}
+{:index 257, :time 13544342753, :type :fail, :process 0, :f :write, :value 182, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 258, :time 13733785025, :type :invoke, :process 0, :f :write, :value 185}
+{:index 259, :time 13741363584, :type :fail, :process 0, :f :write, :value 185, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 260, :time 13797934763, :type :invoke, :process 1, :f :write, :value 188}
+{:index 261, :time 13800760597, :type :fail, :process 1, :f :write, :value 188, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 262, :time 13821896598, :type :invoke, :process 2, :f :read, :value nil}
+{:index 263, :time 13823384168, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 264, :time 13947907166, :type :invoke, :process 0, :f :write, :value 191}
+{:index 265, :time 13949594546, :type :fail, :process 0, :f :write, :value 191, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 266, :time 14032033950, :type :invoke, :process 0, :f :read, :value nil}
+{:index 267, :time 14033818935, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 268, :time 14130302904, :type :invoke, :process 1, :f :read, :value nil}
+{:index 269, :time 14132589413, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 270, :time 14167205052, :type :invoke, :process 2, :f :read, :value nil}
+{:index 271, :time 14169076141, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 272, :time 14277098857, :type :invoke, :process 0, :f :read, :value nil}
+{:index 273, :time 14278841139, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 274, :time 14285900273, :type :invoke, :process 0, :f :read, :value nil}
+{:index 275, :time 14287711159, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 276, :time 14374243658, :type :invoke, :process 1, :f :write, :value 194}
+{:index 277, :time 14376784778, :type :fail, :process 1, :f :write, :value 194, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 278, :time 14563501621, :type :invoke, :process 2, :f :read, :value nil}
+{:index 279, :time 14567928631, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 280, :time 14612025719, :type :invoke, :process 0, :f :write, :value 197}
+{:index 281, :time 14615081164, :type :fail, :process 0, :f :write, :value 197, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 282, :time 14645420501, :type :invoke, :process 0, :f :read, :value nil}
+{:index 283, :time 14648747058, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 284, :time 14827971446, :type :invoke, :process 1, :f :read, :value nil}
+{:index 285, :time 14831379008, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 286, :time 14943017595, :type :invoke, :process 2, :f :write, :value 200}
+{:index 287, :time 14949022380, :type :fail, :process 2, :f :write, :value 200, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 288, :time 14955334779, :type :invoke, :process 0, :f :write, :value 203}
+{:index 289, :time 14957744793, :type :fail, :process 0, :f :write, :value 203, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 290, :time 15058746676, :type :invoke, :process 0, :f :read, :value nil}
+{:index 291, :time 15061328699, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 292, :time 15174950480, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 293, :time 15177336993, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 294, :time 15234837516, :type :invoke, :process 0, :f :write, :value 210}
+{:index 295, :time 15237082422, :type :fail, :process 0, :f :write, :value 210, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 296, :time 15338855142, :type :invoke, :process 0, :f :read, :value nil}
+{:index 297, :time 15340867738, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 298, :time 15535872873, :type :invoke, :process 1, :f :write, :value 213}
+{:index 299, :time 15537803765, :type :fail, :process 1, :f :write, :value 213, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 300, :time 15671805111, :type :invoke, :process 2, :f :read, :value nil}
+{:index 301, :time 15678429525, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 302, :time 15722095693, :type :invoke, :process 0, :f :read, :value nil}
+{:index 303, :time 15724432504, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 304, :time 15796044695, :type :invoke, :process 0, :f :write, :value 216}
+{:index 305, :time 15797730175, :type :fail, :process 0, :f :write, :value 216, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 306, :time 15966981091, :type :invoke, :process 1, :f :write, :value 219}
+{:index 307, :time 15969433807, :type :fail, :process 1, :f :write, :value 219, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 308, :time 16045436707, :type :invoke, :process 2, :f :write, :value 222}
+{:index 309, :time 16048124534, :type :fail, :process 2, :f :write, :value 222, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 310, :time 16094107712, :type :invoke, :process 0, :f :read, :value nil}
+{:index 311, :time 16096010302, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 312, :time 16285985299, :type :invoke, :process 0, :f :read, :value nil}
+{:index 313, :time 16288795132, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 314, :time 16355632798, :type :invoke, :process 1, :f :write, :value 225}
+{:index 315, :time 16359263870, :type :fail, :process 1, :f :write, :value 225, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 316, :time 16468397439, :type :invoke, :process 2, :f :write, :value 228}
+{:index 317, :time 16470652645, :type :fail, :process 2, :f :write, :value 228, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 318, :time 16647207807, :type :invoke, :process 0, :f :read, :value nil}
+{:index 319, :time 16649226303, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 320, :time 16711622358, :type :invoke, :process 0, :f :read, :value nil}
+{:index 321, :time 16713543649, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 322, :time 16860653216, :type :invoke, :process 1, :f :write, :value 231}
+{:index 323, :time 16862907823, :type :fail, :process 1, :f :write, :value 231, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 324, :time 17026188156, :type :invoke, :process 2, :f :write, :value 234}
+{:index 325, :time 17031097989, :type :fail, :process 2, :f :write, :value 234, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 326, :time 17031712418, :type :invoke, :process 0, :f :write, :value 237}
+{:index 327, :time 17034349243, :type :fail, :process 0, :f :write, :value 237, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 328, :time 17058934007, :type :invoke, :process 0, :f :read, :value nil}
+{:index 329, :time 17060959703, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 330, :time 17195562378, :type :invoke, :process 1, :f :read, :value nil}
+{:index 331, :time 17197934090, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 332, :time 17286377679, :type :invoke, :process 2, :f :read, :value nil}
+{:index 333, :time 17290028152, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 334, :time 17463673976, :type :invoke, :process 0, :f :read, :value nil}
+{:index 335, :time 17465554565, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 336, :time 17562865774, :type :invoke, :process 0, :f :read, :value nil}
+{:index 337, :time 17565089579, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 338, :time 17670818386, :type :invoke, :process 1, :f :write, :value 240}
+{:index 339, :time 17674304151, :type :fail, :process 1, :f :write, :value 240, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 340, :time 17843967087, :type :invoke, :process 2, :f :read, :value nil}
+{:index 341, :time 17845839776, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 342, :time 17915310866, :type :invoke, :process 0, :f :write, :value 243}
+{:index 343, :time 17917294760, :type :fail, :process 0, :f :write, :value 243, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 344, :time 17942406449, :type :invoke, :process 0, :f :read, :value nil}
+{:index 345, :time 17944333940, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 346, :time 17987321076, :type :invoke, :process 1, :f :write, :value 246}
+{:index 347, :time 17991008051, :type :fail, :process 1, :f :write, :value 246, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 348, :time 17993554972, :type :invoke, :process 2, :f :write, :value 249}
+{:index 349, :time 17995025241, :type :fail, :process 2, :f :write, :value 249, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 350, :time 18145348661, :type :invoke, :process 0, :f :write, :value 252}
+{:index 351, :time 18147552365, :type :fail, :process 0, :f :write, :value 252, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 352, :time 18292609135, :type :invoke, :process 0, :f :write, :value 255}
+{:index 353, :time 18298645721, :type :fail, :process 0, :f :write, :value 255, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 354, :time 18454028080, :type :invoke, :process 1, :f :read, :value nil}
+{:index 355, :time 18456448095, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 356, :time 18640993335, :type :invoke, :process 2, :f :read, :value nil}
+{:index 357, :time 18642504406, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 358, :time 18674534923, :type :invoke, :process 0, :f :write, :value 258}
+{:index 359, :time 18676540218, :type :fail, :process 0, :f :write, :value 258, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 360, :time 18742617248, :type :invoke, :process 0, :f :write, :value 261}
+{:index 361, :time 18744680746, :type :fail, :process 0, :f :write, :value 261, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 362, :time 18849346303, :type :invoke, :process 1, :f :read, :value nil}
+{:index 363, :time 18851766717, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 364, :time 18940548622, :type :invoke, :process 2, :f :read, :value nil}
+{:index 365, :time 18942078995, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 366, :time 19047794601, :type :invoke, :process 0, :f :write, :value 264}
+{:index 367, :time 19055436963, :type :fail, :process 0, :f :write, :value 264, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 368, :time 19241473074, :type :invoke, :process 0, :f :write, :value 267}
+{:index 369, :time 19244908837, :type :fail, :process 0, :f :write, :value 267, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 370, :time 19353122562, :type :invoke, :process 1, :f :read, :value nil}
+{:index 371, :time 19357127552, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 372, :time 19362148089, :type :invoke, :process 2, :f :write, :value 270}
+{:index 373, :time 19365732559, :type :fail, :process 2, :f :write, :value 270, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 374, :time 19430171411, :type :invoke, :process 0, :f :read, :value nil}
+{:index 375, :time 19436581915, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 376, :time 19601764038, :type :invoke, :process 0, :f :write, :value 273}
+{:index 377, :time 19603571523, :type :fail, :process 0, :f :write, :value 273, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 378, :time 19608077037, :type :invoke, :process 1, :f :write, :value 276}
+{:index 379, :time 19610548854, :type :fail, :process 1, :f :write, :value 276, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 380, :time 19734404220, :type :invoke, :process 2, :f :write, :value 279}
+{:index 381, :time 19736847135, :type :fail, :process 2, :f :write, :value 279, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 382, :time 19770706039, :type :invoke, :process 0, :f :write, :value 282}
+{:index 383, :time 19772724935, :type :fail, :process 0, :f :write, :value 282, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 384, :time 19931060034, :type :invoke, :process 0, :f :write, :value 285}
+{:index 385, :time 19937705648, :type :fail, :process 0, :f :write, :value 285, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 386, :time 20043376653, :type :invoke, :process 1, :f :write, :value 288}
+{:index 387, :time 20045678762, :type :fail, :process 1, :f :write, :value 288, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 388, :time 20087807157, :type :invoke, :process 2, :f :read, :value nil}
+{:index 389, :time 20089999661, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 390, :time 20178973475, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 391, :time 20179738311, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 392, :time 20221375583, :type :invoke, :process 1, :f :write, :value 295}
+{:index 393, :time 20223372378, :type :fail, :process 1, :f :write, :value 295, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 394, :time 20297058868, :type :invoke, :process 2, :f :write, :value 298}
+{:index 395, :time 20299159767, :type :fail, :process 2, :f :write, :value 298, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 396, :time 20407667406, :type :invoke, :process 0, :f :write, :value 301}
+{:index 397, :time 20407952820, :type :invoke, :process 1, :f :read, :value nil}
+{:index 398, :time 20409384788, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 399, :time 20410002317, :type :fail, :process 0, :f :write, :value 301, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 400, :time 20506507787, :type :invoke, :process 1, :f :write, :value 305}
+{:index 401, :time 20508516682, :type :fail, :process 1, :f :write, :value 305, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 402, :time 20523674300, :type :invoke, :process 2, :f :read, :value nil}
+{:index 403, :time 20525909406, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 404, :time 20559831713, :type :invoke, :process 0, :f :read, :value nil}
+{:index 405, :time 20562701049, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 406, :time 20607911790, :type :invoke, :process 0, :f :read, :value nil}
+{:index 407, :time 20609769878, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 408, :time 20690729309, :type :invoke, :process 1, :f :read, :value nil}
+{:index 409, :time 20696380318, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 410, :time 20790711207, :type :invoke, :process 2, :f :read, :value nil}
+{:index 411, :time 20796922437, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 412, :time 20990019580, :type :invoke, :process 0, :f :read, :value nil}
+{:index 413, :time 20991342529, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 414, :time 21094308638, :type :invoke, :process 0, :f :write, :value 308}
+{:index 415, :time 21100685074, :type :fail, :process 0, :f :write, :value 308, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 416, :time 21275166028, :type :invoke, :process 1, :f :write, :value 311}
+{:index 417, :time 21281341657, :type :fail, :process 1, :f :write, :value 311, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 418, :time 21456878150, :type :invoke, :process 2, :f :write, :value 314}
+{:index 419, :time 21462856371, :type :fail, :process 2, :f :write, :value 314, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 420, :time 21543662460, :type :invoke, :process 0, :f :read, :value nil}
+{:index 421, :time 21545330022, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 422, :time 21741555280, :type :invoke, :process 0, :f :write, :value 317}
+{:index 423, :time 21746399260, :type :fail, :process 0, :f :write, :value 317, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 424, :time 21926867835, :type :invoke, :process 1, :f :write, :value 320}
+{:index 425, :time 21928672202, :type :fail, :process 1, :f :write, :value 320, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 426, :time 22011442264, :type :invoke, :process 2, :f :write, :value 323}
+{:index 427, :time 22013172028, :type :fail, :process 2, :f :write, :value 323, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 428, :time 22174554198, :type :invoke, :process 0, :f :write, :value 326}
+{:index 429, :time 22177394103, :type :fail, :process 0, :f :write, :value 326, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 430, :time 22241308867, :type :invoke, :process 0, :f :read, :value nil}
+{:index 431, :time 22242800422, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 432, :time 22398613486, :type :invoke, :process 1, :f :write, :value 329}
+{:index 433, :time 22401102178, :type :fail, :process 1, :f :write, :value 329, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 434, :time 22478415638, :type :invoke, :process 2, :f :write, :value 332}
+{:index 435, :time 22480554317, :type :fail, :process 2, :f :write, :value 332, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 436, :time 22546791867, :type :invoke, :process 0, :f :write, :value 335}
+{:index 437, :time 22548768240, :type :fail, :process 0, :f :write, :value 335, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 438, :time 22562263440, :type :invoke, :process 0, :f :read, :value nil}
+{:index 439, :time 22563900900, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 440, :time 22743923660, :type :invoke, :process 1, :f :read, :value nil}
+{:index 441, :time 22745522619, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 442, :time 22863371278, :type :invoke, :process 2, :f :read, :value nil}
+{:index 443, :time 22869929621, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 444, :time 23038785367, :type :invoke, :process 0, :f :read, :value nil}
+{:index 445, :time 23040025913, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 446, :time 23183915635, :type :invoke, :process 0, :f :write, :value 338}
+{:index 447, :time 23189875456, :type :fail, :process 0, :f :write, :value 338, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 448, :time 23218233705, :type :invoke, :process 1, :f :write, :value 341}
+{:index 449, :time 23222905378, :type :fail, :process 1, :f :write, :value 341, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 450, :time 23350723006, :type :invoke, :process 2, :f :read, :value nil}
+{:index 451, :time 23356356114, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 452, :time 23444704682, :type :invoke, :process 0, :f :write, :value 344}
+{:index 453, :time 23450726805, :type :fail, :process 0, :f :write, :value 344, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 454, :time 23547236775, :type :invoke, :process 0, :f :read, :value nil}
+{:index 455, :time 23553031489, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 456, :time 23610971232, :type :invoke, :process 1, :f :write, :value 347}
+{:index 457, :time 23616918052, :type :fail, :process 1, :f :write, :value 347, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 458, :time 23806091850, :type :invoke, :process 2, :f :write, :value 350}
+{:index 459, :time 23814443859, :type :fail, :process 2, :f :write, :value 350, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 460, :time 23901903194, :type :invoke, :process 0, :f :write, :value 353}
+{:index 461, :time 23904692097, :type :fail, :process 0, :f :write, :value 353, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 462, :time 24086701530, :type :invoke, :process 0, :f :write, :value 356}
+{:index 463, :time 24089910049, :type :fail, :process 0, :f :write, :value 356, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 464, :time 24158247377, :type :invoke, :process 1, :f :write, :value 359}
+{:index 465, :time 24160163348, :type :fail, :process 1, :f :write, :value 359, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 466, :time 24217010250, :type :invoke, :process 2, :f :read, :value nil}
+{:index 467, :time 24218995224, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 468, :time 24257249839, :type :invoke, :process 0, :f :read, :value nil}
+{:index 469, :time 24258996404, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 470, :time 24412187570, :type :invoke, :process 0, :f :read, :value nil}
+{:index 471, :time 24414002137, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 472, :time 24595258442, :type :invoke, :process 1, :f :write, :value 362}
+{:index 473, :time 24602191799, :type :fail, :process 1, :f :write, :value 362, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 474, :time 24729960025, :type :invoke, :process 2, :f :write, :value 365}
+{:index 475, :time 24737908619, :type :fail, :process 2, :f :write, :value 365, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 476, :time 24760700462, :type :invoke, :process 0, :f :write, :value 368}
+{:index 477, :time 24762647334, :type :fail, :process 0, :f :write, :value 368, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 478, :time 24859717525, :type :invoke, :process 0, :f :read, :value nil}
+{:index 479, :time 24861779201, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 480, :time 24890734772, :type :invoke, :process 1, :f :write, :value 371}
+{:index 481, :time 24892536039, :type :fail, :process 1, :f :write, :value 371, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 482, :time 24920232164, :type :invoke, :process 2, :f :read, :value nil}
+{:index 483, :time 24922141334, :type :ok, :process 2, :f :read, :value nil, :node "n4"}
+{:index 484, :time 25048486408, :type :invoke, :process 0, :f :write, :value 374}
+{:index 485, :time 25050810094, :type :fail, :process 0, :f :write, :value 374, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 486, :time 25180496291, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 487, :time 25181334522, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 488, :time 25212139362, :type :invoke, :process 2, :f :write, :value 381}
+{:index 489, :time 25216070007, :type :fail, :process 2, :f :write, :value 381, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 490, :time 25369294275, :type :invoke, :process 0, :f :write, :value 384}
+{:index 491, :time 25371768767, :type :fail, :process 0, :f :write, :value 384, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 492, :time 25399574195, :type :invoke, :process 0, :f :write, :value 387}
+{:index 493, :time 25401377862, :type :fail, :process 0, :f :write, :value 387, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 494, :time 25454054110, :type :invoke, :process 1, :f :write, :value 390}
+{:index 495, :time 25460729957, :type :fail, :process 1, :f :write, :value 390, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 496, :time 25565250824, :type :invoke, :process 2, :f :read, :value nil}
+{:index 497, :time 25570983136, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 498, :time 25748893217, :type :invoke, :process 0, :f :read, :value nil}
+{:index 499, :time 25754569327, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 500, :time 25773749736, :type :invoke, :process 0, :f :write, :value 393}
+{:index 501, :time 25775931317, :type :fail, :process 0, :f :write, :value 393, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 502, :time 25946949243, :type :invoke, :process 1, :f :read, :value nil}
+{:index 503, :time 25952500949, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 504, :time 26037939909, :type :invoke, :process 2, :f :write, :value 396}
+{:index 505, :time 26039864080, :type :fail, :process 2, :f :write, :value 396, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 506, :time 26103893949, :type :invoke, :process 0, :f :write, :value 399}
+{:index 507, :time 26105495108, :type :fail, :process 0, :f :write, :value 399, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 508, :time 26143234004, :type :invoke, :process 0, :f :read, :value nil}
+{:index 509, :time 26145045171, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 510, :time 26238103714, :type :invoke, :process 1, :f :read, :value nil}
+{:index 511, :time 26242436974, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 512, :time 26389167302, :type :invoke, :process 2, :f :write, :value 402}
+{:index 513, :time 26394693506, :type :fail, :process 2, :f :write, :value 402, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 514, :time 26464401585, :type :invoke, :process 0, :f :read, :value nil}
+{:index 515, :time 26470092495, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 516, :time 26480120866, :type :invoke, :process 0, :f :read, :value nil}
+{:index 517, :time 26482119240, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 518, :time 26635162601, :type :invoke, :process 1, :f :read, :value nil}
+{:index 519, :time 26641166023, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 520, :time 26760996456, :type :invoke, :process 2, :f :read, :value nil}
+{:index 521, :time 26765056706, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 522, :time 26933898952, :type :invoke, :process 0, :f :write, :value 405}
+{:index 523, :time 26936213638, :type :fail, :process 0, :f :write, :value 405, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 524, :time 27004529165, :type :invoke, :process 0, :f :read, :value nil}
+{:index 525, :time 27007317668, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 526, :time 27016132594, :type :invoke, :process 1, :f :read, :value nil}
+{:index 527, :time 27017951861, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 528, :time 27177681970, :type :invoke, :process 2, :f :write, :value 408}
+{:index 529, :time 27179915752, :type :fail, :process 2, :f :write, :value 408, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 530, :time 27182877862, :type :invoke, :process 0, :f :write, :value 411}
+{:index 531, :time 27185812871, :type :fail, :process 0, :f :write, :value 411, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 532, :time 27339771066, :type :invoke, :process 0, :f :write, :value 414}
+{:index 533, :time 27345658684, :type :fail, :process 0, :f :write, :value 414, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 534, :time 27505773406, :type :invoke, :process 1, :f :write, :value 417}
+{:index 535, :time 27512304948, :type :fail, :process 1, :f :write, :value 417, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 536, :time 27644849351, :type :invoke, :process 2, :f :read, :value nil}
+{:index 537, :time 27651268488, :type :ok, :process 2, :f :read, :value nil, :node "n3"}
+{:index 538, :time 27736914557, :type :invoke, :process 0, :f :write, :value 420}
+{:index 539, :time 27745459473, :type :fail, :process 0, :f :write, :value 420, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 540, :time 27862816314, :type :invoke, :process 0, :f :write, :value 423}
+{:index 541, :time 27868960341, :type :fail, :process 0, :f :write, :value 423, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 542, :time 28060099412, :type :invoke, :process 1, :f :read, :value nil}
+{:index 543, :time 28065432309, :type :ok, :process 1, :f :read, :value nil, :node "n2"}
+{:index 544, :time 28203349711, :type :invoke, :process 2, :f :read, :value nil}
+{:index 545, :time 28205010872, :type :ok, :process 2, :f :read, :value nil, :node "n2"}
+{:index 546, :time 28321494281, :type :invoke, :process 0, :f :read, :value nil}
+{:index 547, :time 28327046486, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 548, :time 28345472668, :type :invoke, :process 0, :f :write, :value 426}
+{:index 549, :time 28347167731, :type :fail, :process 0, :f :write, :value 426, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 550, :time 28360167412, :type :invoke, :process 1, :f :read, :value nil}
+{:index 551, :time 28361600365, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 552, :time 28501379935, :type :invoke, :process 2, :f :read, :value nil}
+{:index 553, :time 28507067346, :type :ok, :process 2, :f :read, :value nil, :node "n5"}
+{:index 554, :time 28579984243, :type :invoke, :process 0, :f :write, :value 429}
+{:index 555, :time 28584554512, :type :fail, :process 0, :f :write, :value 429, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 556, :time 28742045661, :type :invoke, :process 0, :f :read, :value nil}
+{:index 557, :time 28743642436, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 558, :time 28903446085, :type :invoke, :process 1, :f :read, :value nil}
+{:index 559, :time 28905867198, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 560, :time 28940255600, :type :invoke, :process 2, :f :write, :value 432}
+{:index 561, :time 28942497705, :type :fail, :process 2, :f :write, :value 432, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 562, :time 28947201524, :type :invoke, :process 0, :f :read, :value nil}
+{:index 563, :time 28948449482, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 564, :time 29065774851, :type :invoke, :process 0, :f :read, :value nil}
+{:index 565, :time 29068949900, :type :ok, :process 0, :f :read, :value nil, :node "n4"}
+{:index 566, :time 29179003630, :type :invoke, :process 1, :f :read, :value nil}
+{:index 567, :time 29180563102, :type :ok, :process 1, :f :read, :value nil, :node "n3"}
+{:index 568, :time 29224240838, :type :invoke, :process 2, :f :write, :value 435}
+{:index 569, :time 29224538552, :type :invoke, :process 0, :f :read, :value nil}
+{:index 570, :time 29226024621, :type :ok, :process 0, :f :read, :value nil, :node "n2"}
+{:index 571, :time 29226242932, :type :fail, :process 2, :f :write, :value 435, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 572, :time 29307966641, :type :invoke, :process 0, :f :read, :value nil}
+{:index 573, :time 29309513413, :type :ok, :process 0, :f :read, :value nil, :node "n5"}
+{:index 574, :time 29346589642, :type :invoke, :process 1, :f :read, :value nil}
+{:index 575, :time 29348294921, :type :ok, :process 1, :f :read, :value nil, :node "n5"}
+{:index 576, :time 29449684047, :type :invoke, :process 2, :f :write, :value 438}
+{:index 577, :time 29451516633, :type :fail, :process 2, :f :write, :value 438, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 578, :time 29521802909, :type :invoke, :process 0, :f :write, :value 441}
+{:index 579, :time 29528207207, :type :fail, :process 0, :f :write, :value 441, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 580, :time 29658934801, :type :invoke, :process 0, :f :write, :value 444}
+{:index 581, :time 29660890392, :type :fail, :process 0, :f :write, :value 444, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 582, :time 29751314508, :type :invoke, :process 1, :f :read, :value nil}
+{:index 583, :time 29752844379, :type :ok, :process 1, :f :read, :value nil, :node "n4"}
+{:index 584, :time 29883060049, :type :invoke, :process 2, :f :write, :value 447}
+{:index 585, :time 29884870333, :type :fail, :process 2, :f :write, :value 447, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}
+{:index 586, :time 30019393404, :type :invoke, :process 0, :f :read, :value nil}
+{:index 587, :time 30021043581, :type :ok, :process 0, :f :read, :value nil, :node "n3"}
+{:index 588, :time 30056549936, :type :invoke, :process 0, :f :write, :value 450}
+{:index 589, :time 30058348220, :type :fail, :process 0, :f :write, :value 450, :error "class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')"}

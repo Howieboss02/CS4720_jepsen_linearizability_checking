@@ -1,0 +1,1203 @@
+2025-06-15 11:33:30,271{GMT}	INFO	[jepsen test runner] jepsen.core: Test version e0bc22a099c745abc996a61cae6accb9a40a447b (plus uncommitted changes)
+2025-06-15 11:33:30,496{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 3
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x3458be63"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@3458be63"]
+ :name "redis-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x43c20142" "2025-06-15T11:33:28.342Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196
+         "0x5cb32140"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196@5cb32140"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x139b3a29"
+         "java.util.concurrent.CyclicBarrier@139b3a29"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x62c1259f"
+         "jepsen.checker$compose$reify__10552@62c1259f"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@31daf094"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x2e6f1f48"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x574e4184"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@574e4184"],
+                           :gen ({:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 ...)})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x50d6af87"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@50d6af87"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 200000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Mix
+                                        {:i 1,
+                                         :gens [(jepsen.generator.Repeat
+                                                 {:remaining -1,
+                                                  :gen {:type :invoke, :f :read}})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.test_ssh$simple_test$fn__339
+                                                             "0x765eb801"
+                                                             "jepsen.redis_sentinel.test_ssh$simple_test$fn__339@765eb801"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :write}})})]})})})]})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x53b9952f"
+         "jepsen.os.debian.Debian@53b9952f"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-15 11:33:34,222{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-15 11:33:34,222{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-15 11:33:34,222{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-15 11:33:34,222{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-15 11:33:34,223{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-15 11:33:36,011{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-15 11:33:36,013{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:33:36,013{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:33:36,013{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:33:36,013{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:33:36,014{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:33:36,026{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-15 11:33:36,029{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-15 11:33:36,029{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-15 11:33:36,029{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-15 11:33:36,029{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-15 11:33:36,030{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-15 11:33:36,061{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-15 11:33:36,078{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:33:36,078{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:33:36,078{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:33:36,078{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:33:36,078{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:33:36,249{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	1
+2025-06-15 11:33:36,310{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:36,411{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:36,521{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:36,525{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,526{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	1	READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,526{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	2
+2025-06-15 11:33:36,528{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:36,529{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,530{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	2	READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,530{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:36,533{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:36,533{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:36,533{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:36,534{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:36,534{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:36,534{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:36,669{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	5
+2025-06-15 11:33:36,670{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:36,673{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,674{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	5	READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,776{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	8
+2025-06-15 11:33:36,777{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:36,779{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,780{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	8	READONLY You can't write against a read only replica.
+2025-06-15 11:33:36,972{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:36,974{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:36,974{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:37,044{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:37,046{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:37,047{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:37,234{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	11
+2025-06-15 11:33:37,236{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:37,238{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,238{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	11	READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,248{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:37,251{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:37,251{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:37,323{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:37,325{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:37,325{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:37,358{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:37,359{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:37,360{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:37,505{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	14
+2025-06-15 11:33:37,507{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:37,508{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,509{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	14	READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,605{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	17
+2025-06-15 11:33:37,607{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:37,608{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,609{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	17	READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,661{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	20
+2025-06-15 11:33:37,663{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:37,664{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,665{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	20	READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,714{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	23
+2025-06-15 11:33:37,716{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:37,718{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,719{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	23	READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,726{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:37,727{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:37,728{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:37,739{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:37,746{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:37,747{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:37,933{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	26
+2025-06-15 11:33:37,934{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:37,936{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:37,936{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	26	READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,131{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:38,133{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:38,133{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:38,164{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	29
+2025-06-15 11:33:38,167{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:38,169{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,170{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	29	READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,332{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	32
+2025-06-15 11:33:38,334{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:38,336{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,337{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	32	READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,422{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:38,423{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:38,424{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:38,479{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:38,481{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:38,481{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:38,655{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	35
+2025-06-15 11:33:38,657{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:38,658{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,659{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	35	READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,708{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:38,709{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:38,710{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:38,766{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	38
+2025-06-15 11:33:38,768{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:38,771{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,772{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	38	READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,951{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	41
+2025-06-15 11:33:38,953{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:38,956{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:38,957{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	41	READONLY You can't write against a read only replica.
+2025-06-15 11:33:39,021{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	44
+2025-06-15 11:33:39,023{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:39,025{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:39,026{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	44	READONLY You can't write against a read only replica.
+2025-06-15 11:33:39,154{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:39,155{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:39,156{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:39,322{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	47
+2025-06-15 11:33:39,323{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:39,325{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:39,326{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	47	READONLY You can't write against a read only replica.
+2025-06-15 11:33:39,514{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	50
+2025-06-15 11:33:39,515{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:39,517{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:39,518{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	50	READONLY You can't write against a read only replica.
+2025-06-15 11:33:39,669{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:39,671{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:39,671{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:39,808{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:39,810{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:39,811{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:39,841{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:39,843{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:39,844{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:40,031{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	53
+2025-06-15 11:33:40,032{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:40,034{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,034{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	53	READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,045{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:40,046{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:40,047{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:40,195{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	56
+2025-06-15 11:33:40,197{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:40,198{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,200{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	56	READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,310{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	59
+2025-06-15 11:33:40,313{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:40,316{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,318{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	59	READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,408{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	62
+2025-06-15 11:33:40,410{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:40,412{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,413{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	62	READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,418{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:40,420{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:40,420{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:40,505{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:40,507{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:40,508{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:40,529{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	65
+2025-06-15 11:33:40,530{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:40,532{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,532{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	65	READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,673{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:40,675{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:40,675{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:40,735{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	68
+2025-06-15 11:33:40,736{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:40,738{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,738{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	68	READONLY You can't write against a read only replica.
+2025-06-15 11:33:40,860{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:40,862{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:40,863{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:41,053{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:41,054{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:41,055{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:41,233{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	71
+2025-06-15 11:33:41,235{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:41,236{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:41,237{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	71	READONLY You can't write against a read only replica.
+2025-06-15 11:33:41,250{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:33:41,250{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:33:41,330{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	78
+2025-06-15 11:33:41,331{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:41,333{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:41,334{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	78	READONLY You can't write against a read only replica.
+2025-06-15 11:33:41,524{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	81
+2025-06-15 11:33:41,526{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:41,527{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:41,527{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	81	READONLY You can't write against a read only replica.
+2025-06-15 11:33:41,633{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:41,634{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:41,635{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:41,664{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:41,665{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:41,666{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:41,742{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:41,745{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:41,745{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:41,831{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:41,834{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:41,836{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:41,916{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	84
+2025-06-15 11:33:41,918{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:41,919{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:41,920{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	84	READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,012{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	87
+2025-06-15 11:33:42,014{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:42,015{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,016{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	87	READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,108{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	90
+2025-06-15 11:33:42,109{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:42,110{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,111{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	90	READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,187{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	93
+2025-06-15 11:33:42,189{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:42,190{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,191{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	93	READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,231{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:42,232{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:42,233{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:42,364{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:42,365{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:42,366{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:42,533{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:42,534{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:42,535{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:42,685{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	96
+2025-06-15 11:33:42,686{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:42,688{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,689{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	96	READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,698{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:42,699{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:42,699{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:42,805{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	99
+2025-06-15 11:33:42,806{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:42,808{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,808{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:42,809{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	99	READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,809{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:42,810{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:42,895{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:42,897{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:42,897{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:42,917{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	102
+2025-06-15 11:33:42,920{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:42,922{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,922{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	102	READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,925{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	105
+2025-06-15 11:33:42,926{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:42,927{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:42,927{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	105	READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,085{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:43,086{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:43,087{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:43,279{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	108
+2025-06-15 11:33:43,281{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:43,283{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,284{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	108	READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,457{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	111
+2025-06-15 11:33:43,459{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:43,460{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,461{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	111	READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,571{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	114
+2025-06-15 11:33:43,572{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:43,574{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,574{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	114	READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,729{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:43,731{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:43,732{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:43,815{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:43,816{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:43,817{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:43,918{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	117
+2025-06-15 11:33:43,919{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:43,921{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:43,922{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	117	READONLY You can't write against a read only replica.
+2025-06-15 11:33:44,117{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	120
+2025-06-15 11:33:44,118{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:44,121{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:44,122{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	120	READONLY You can't write against a read only replica.
+2025-06-15 11:33:44,227{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:44,228{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:44,229{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:44,387{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:44,389{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:44,389{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:44,552{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	123
+2025-06-15 11:33:44,554{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:44,556{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:44,556{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	123	READONLY You can't write against a read only replica.
+2025-06-15 11:33:44,672{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:44,675{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:44,676{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:44,865{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:44,866{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:44,866{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	125
+2025-06-15 11:33:44,866{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:44,867{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:44,869{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:44,870{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	125	READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,055{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	129
+2025-06-15 11:33:45,057{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:45,059{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,060{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	129	READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,153{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:45,154{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:45,155{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:45,202{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	132
+2025-06-15 11:33:45,203{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:45,204{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,205{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	132	READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,330{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:45,332{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:45,332{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:45,394{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:45,397{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:45,398{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:45,546{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:45,548{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:45,550{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:45,679{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	135
+2025-06-15 11:33:45,680{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:45,681{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,682{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	135	READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,800{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:45,801{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:45,802{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:45,875{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	138
+2025-06-15 11:33:45,877{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:45,879{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,880{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	138	READONLY You can't write against a read only replica.
+2025-06-15 11:33:45,930{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:45,931{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:45,932{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:45,986{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:45,987{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:45,987{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:46,186{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	141
+2025-06-15 11:33:46,187{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:46,189{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,190{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	141	READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,251{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:33:46,252{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:33:46,365{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:46,366{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:46,367{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:46,509{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:46,510{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:46,511{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:46,695{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	144
+2025-06-15 11:33:46,696{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:46,699{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,699{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	144	READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,747{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	147
+2025-06-15 11:33:46,748{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:46,751{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,751{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	147	READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,879{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:46,881{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:46,881{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:46,945{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	150
+2025-06-15 11:33:46,946{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:46,948{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,948{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	150	READONLY You can't write against a read only replica.
+2025-06-15 11:33:46,999{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:47,001{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:47,001{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:47,188{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	153
+2025-06-15 11:33:47,190{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,191{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,192{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	153	READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,287{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	156
+2025-06-15 11:33:47,289{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,292{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,293{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	156	READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,395{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	159
+2025-06-15 11:33:47,396{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,397{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,398{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	159	READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,415{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	162
+2025-06-15 11:33:47,417{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,420{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,421{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	162	READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,560{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	165
+2025-06-15 11:33:47,562{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,564{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,565{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	165	READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,666{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:47,667{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:47,669{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:47,849{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	168
+2025-06-15 11:33:47,851{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,853{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,854{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	168	READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,865{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	171
+2025-06-15 11:33:47,866{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,869{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,870{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	171	READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,952{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	174
+2025-06-15 11:33:47,954{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:47,955{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:47,956{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	174	READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,003{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:48,004{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:48,004{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:48,052{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:48,053{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:48,054{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:48,139{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:48,140{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:48,140{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:48,326{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	177
+2025-06-15 11:33:48,327{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:48,328{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,329{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	177	READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,340{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:48,341{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:48,341{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:48,454{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:48,455{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:48,456{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:48,589{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	180
+2025-06-15 11:33:48,590{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:48,592{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,593{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	180	READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,712{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:48,714{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:48,714{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:48,761{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	183
+2025-06-15 11:33:48,763{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:48,766{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,767{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	183	READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,816{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:48,817{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:48,817{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:48,854{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	186
+2025-06-15 11:33:48,855{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:48,857{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,857{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	186	READONLY You can't write against a read only replica.
+2025-06-15 11:33:48,873{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:48,874{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:48,874{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:48,929{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:48,931{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:48,933{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:49,079{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:49,080{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:49,081{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:49,183{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	189
+2025-06-15 11:33:49,184{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:49,186{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,186{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	189	READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,323{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	192
+2025-06-15 11:33:49,325{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:49,327{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,327{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	192	READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,441{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	195
+2025-06-15 11:33:49,443{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:49,446{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,446{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:49,447{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	195	READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,448{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:49,449{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:49,524{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	199
+2025-06-15 11:33:49,526{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:49,527{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,527{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	199	READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,613{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:49,615{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:49,616{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:49,757{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:49,761{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:49,763{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:49,918{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	202
+2025-06-15 11:33:49,919{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:49,920{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:49,921{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	202	READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,032{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	205
+2025-06-15 11:33:50,033{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:50,034{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,035{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	205	READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,135{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:50,136{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:50,137{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:50,269{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	208
+2025-06-15 11:33:50,270{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:50,271{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,272{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	208	READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,391{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:50,392{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:50,393{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:50,551{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	211
+2025-06-15 11:33:50,553{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:50,555{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,555{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	211	READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,702{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	214
+2025-06-15 11:33:50,704{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:50,706{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,707{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	214	READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,780{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	217
+2025-06-15 11:33:50,781{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:50,783{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,783{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	217	READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,844{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:50,846{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:50,846{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:50,896{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	220
+2025-06-15 11:33:50,898{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:50,899{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,900{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	220	READONLY You can't write against a read only replica.
+2025-06-15 11:33:50,979{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:50,981{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:50,981{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:51,134{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	223
+2025-06-15 11:33:51,136{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:51,138{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,138{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	223	READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,153{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:51,154{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:51,154{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:51,242{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:51,243{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:51,244{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:51,253{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:33:51,254{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:33:51,330{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	230
+2025-06-15 11:33:51,331{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:51,333{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,334{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	230	READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,420{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:51,421{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:51,421{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:51,441{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	233
+2025-06-15 11:33:51,442{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:51,445{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,445{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	233	READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,567{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	236
+2025-06-15 11:33:51,571{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:51,572{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,573{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	236	READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,607{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:51,609{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:51,609{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:51,701{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	239
+2025-06-15 11:33:51,702{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:51,703{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,704{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	239	READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,851{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	242
+2025-06-15 11:33:51,852{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:51,854{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,854{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	242	READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,905{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	245
+2025-06-15 11:33:51,907{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:51,908{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,909{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	245	READONLY You can't write against a read only replica.
+2025-06-15 11:33:51,988{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:51,989{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:51,989{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:52,128{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:52,129{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:52,130{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:52,265{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:52,266{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:52,267{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:52,341{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	248
+2025-06-15 11:33:52,342{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:52,343{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:52,344{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	248	READONLY You can't write against a read only replica.
+2025-06-15 11:33:52,410{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:52,412{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:52,412{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:52,498{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:52,499{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:52,499{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:52,627{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:52,628{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:52,628{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:52,735{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	251
+2025-06-15 11:33:52,736{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:52,738{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:52,739{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	251	READONLY You can't write against a read only replica.
+2025-06-15 11:33:52,888{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	254
+2025-06-15 11:33:52,889{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:52,890{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:52,891{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	254	READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,008{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	257
+2025-06-15 11:33:53,010{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:53,012{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,012{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	257	READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,178{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	260
+2025-06-15 11:33:53,179{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:53,181{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,181{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	260	READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,246{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	263
+2025-06-15 11:33:53,248{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:53,249{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,250{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	263	READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,442{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	266
+2025-06-15 11:33:53,444{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:53,446{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,447{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	266	READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,488{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:53,489{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:53,490{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:53,586{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:53,587{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:53,588{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:53,657{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	269
+2025-06-15 11:33:53,659{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:53,660{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,660{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	269	READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,673{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	272
+2025-06-15 11:33:53,674{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:53,675{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,676{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	272	READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,836{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	275
+2025-06-15 11:33:53,838{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:53,839{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:53,840{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	275	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,023{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:54,024{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:54,025{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:54,114{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:54,116{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:54,116{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:54,211{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:54,212{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:54,213{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:54,227{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	278
+2025-06-15 11:33:54,228{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,229{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,230{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	278	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,417{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	281
+2025-06-15 11:33:54,419{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,421{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,421{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	281	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,459{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	284
+2025-06-15 11:33:54,460{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,461{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,461{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	284	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,485{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:54,486{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:54,487{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:54,525{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	287
+2025-06-15 11:33:54,526{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,527{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,528{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	287	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,566{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	290
+2025-06-15 11:33:54,567{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,568{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,569{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	290	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,637{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	293
+2025-06-15 11:33:54,638{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,639{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,640{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	293	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,758{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:54,759{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:54,760{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:54,819{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	296
+2025-06-15 11:33:54,820{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,822{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,822{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	296	READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,848{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:54,849{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:54,850{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:54,942{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	299
+2025-06-15 11:33:54,946{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:54,950{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:54,951{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	299	READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,102{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:55,103{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:55,103{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:55,169{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:55,170{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:55,171{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:55,295{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:55,296{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:55,297{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:55,329{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:55,330{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:55,331{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:55,522{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	302
+2025-06-15 11:33:55,524{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:55,525{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,526{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	302	READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,561{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	305
+2025-06-15 11:33:55,563{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:55,565{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,566{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	305	READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,566{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	307
+2025-06-15 11:33:55,567{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:55,569{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,570{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	307	READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,620{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:55,621{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:55,621{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:55,661{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	310
+2025-06-15 11:33:55,662{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:55,664{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,665{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	310	READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,698{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:55,699{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:55,699{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:55,712{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	313
+2025-06-15 11:33:55,714{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:55,716{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,716{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	313	READONLY You can't write against a read only replica.
+2025-06-15 11:33:55,874{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:55,875{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:55,875{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:55,977{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:55,978{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:55,979{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:56,159{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:56,160{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:56,161{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:56,186{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:56,187{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:56,188{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:56,255{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:33:56,255{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:33:56,334{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	320
+2025-06-15 11:33:56,335{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:56,337{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:56,338{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	320	READONLY You can't write against a read only replica.
+2025-06-15 11:33:56,512{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:56,513{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:56,513{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:56,516{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:56,517{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:56,518{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:56,589{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:56,590{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:56,591{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:56,641{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	323
+2025-06-15 11:33:56,643{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:56,644{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:56,645{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	323	READONLY You can't write against a read only replica.
+2025-06-15 11:33:56,824{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:56,825{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:56,825{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:56,909{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	326
+2025-06-15 11:33:56,911{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:56,915{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:56,916{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	326	READONLY You can't write against a read only replica.
+2025-06-15 11:33:56,954{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	329
+2025-06-15 11:33:56,956{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:56,959{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:56,959{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	329	READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,113{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	332
+2025-06-15 11:33:57,114{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:57,115{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,116{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	332	READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,307{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:57,308{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:57,309{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:57,378{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	335
+2025-06-15 11:33:57,379{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:57,380{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,381{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	335	READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,561{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:57,562{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:57,563{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:57,660{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	338
+2025-06-15 11:33:57,661{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:57,663{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,663{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	338	READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,789{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	341
+2025-06-15 11:33:57,791{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:57,792{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,793{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	341	READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,934{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	344
+2025-06-15 11:33:57,936{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:57,937{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,938{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	344	READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,978{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	347
+2025-06-15 11:33:57,980{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:57,981{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:57,982{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	347	READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,153{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:58,154{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:33:58,154{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:58,337{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	350
+2025-06-15 11:33:58,339{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:58,340{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,341{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	350	READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,374{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	353
+2025-06-15 11:33:58,376{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:58,377{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,378{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	353	READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,404{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	356
+2025-06-15 11:33:58,405{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:58,407{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,407{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	356	READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,566{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:58,567{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:58,567{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:58,652{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	359
+2025-06-15 11:33:58,654{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:58,655{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,656{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	359	READONLY You can't write against a read only replica.
+2025-06-15 11:33:58,713{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:58,714{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:58,715{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:58,897{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:33:58,899{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:58,900{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:33:59,080{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:59,081{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:33:59,082{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:59,248{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	362
+2025-06-15 11:33:59,249{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:59,250{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,251{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	362	READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,330{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:33:59,332{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:33:59,332{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:33:59,526{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	365
+2025-06-15 11:33:59,528{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:59,531{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,532{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	365	READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,617{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:33:59,618{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:33:59,619{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:33:59,773{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	368
+2025-06-15 11:33:59,775{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:59,776{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,777{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	368	READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,852{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	371
+2025-06-15 11:33:59,853{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:59,855{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,856{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	371	READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,965{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	374
+2025-06-15 11:33:59,969{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:33:59,971{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:33:59,972{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	374	READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,000{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	377
+2025-06-15 11:34:00,002{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:00,003{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,004{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	377	READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,082{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	380
+2025-06-15 11:34:00,084{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:00,086{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,086{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	380	READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,109{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:00,110{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:00,110{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:00,267{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:00,268{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:34:00,269{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:00,426{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	383
+2025-06-15 11:34:00,427{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:00,429{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,429{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	383	READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,545{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	386
+2025-06-15 11:34:00,547{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:00,549{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,549{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	386	READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,613{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:00,614{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:34:00,615{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:00,810{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	389
+2025-06-15 11:34:00,812{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:00,813{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,814{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	389	READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,932{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	392
+2025-06-15 11:34:00,933{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:00,934{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,935{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	392	READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,941{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	395
+2025-06-15 11:34:00,942{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:00,944{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:00,945{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	395	READONLY You can't write against a read only replica.
+2025-06-15 11:34:01,109{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:01,110{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:34:01,110{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:01,256{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:34:01,257{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:34:01,259{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:01,261{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:34:01,261{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:01,445{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:01,446{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:01,446{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:01,639{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:01,641{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:34:01,641{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:01,761{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	398
+2025-06-15 11:34:01,763{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:01,764{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:01,765{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	398	READONLY You can't write against a read only replica.
+2025-06-15 11:34:01,924{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:01,925{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:34:01,926{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:02,103{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	401
+2025-06-15 11:34:02,104{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:02,106{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,106{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	401	READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,166{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	404
+2025-06-15 11:34:02,167{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:02,168{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,168{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	404	READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,305{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:34:02,306{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:34:02,306{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:34:02,486{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:02,488{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:02,488{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:02,584{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	407
+2025-06-15 11:34:02,586{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:02,587{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,588{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	407	READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,734{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:02,735{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:02,736{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:02,908{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	410
+2025-06-15 11:34:02,909{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:02,911{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,912{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	410	READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,923{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	413
+2025-06-15 11:34:02,925{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:02,928{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,928{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	413	READONLY You can't write against a read only replica.
+2025-06-15 11:34:02,949{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:02,951{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:02,952{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:03,028{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	416
+2025-06-15 11:34:03,030{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:03,033{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,033{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	416	READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,181{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	419
+2025-06-15 11:34:03,182{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:03,184{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,185{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	419	READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,347{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	422
+2025-06-15 11:34:03,349{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:03,350{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,351{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	422	READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,392{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:03,392{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:03,393{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:03,464{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	425
+2025-06-15 11:34:03,465{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:03,466{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,467{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	425	READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,603{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	428
+2025-06-15 11:34:03,604{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:03,605{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,606{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	428	READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,803{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	431
+2025-06-15 11:34:03,805{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:03,806{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,807{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	431	READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,972{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	434
+2025-06-15 11:34:03,973{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:03,974{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:03,974{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	434	READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,049{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:04,050{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:34:04,050{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:04,148{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	437
+2025-06-15 11:34:04,149{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:04,150{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,150{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	437	READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,304{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:04,306{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:34:04,306{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:04,313{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	440
+2025-06-15 11:34:04,316{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:04,318{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,320{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	440	READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,355{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:04,356{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:04,357{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:04,445{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:34:04,446{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:34:04,446{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:34:04,503{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:04,504{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:34:04,505{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:04,546{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	443
+2025-06-15 11:34:04,547{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n1 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:04,549{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,550{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	443	READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,694{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:04,695{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:34:04,695{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:04,732{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	446
+2025-06-15 11:34:04,733{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:04,734{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,735{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	446	READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,849{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:04,852{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:34:04,853{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:04,981{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	449
+2025-06-15 11:34:04,982{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:04,984{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:04,985{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	449	READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,033{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	452
+2025-06-15 11:34:05,034{GMT}	WARN	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n3 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:05,036{GMT}	ERROR	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,036{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:fail	:write	452	READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,186{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:34:05,187{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:34:05,187{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:34:05,234{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	455
+2025-06-15 11:34:05,235{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:05,236{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,237{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	455	READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,330{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:05,331{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: nil
+2025-06-15 11:34:05,331{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:05,390{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:05,391{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:34:05,391{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:05,542{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	458
+2025-06-15 11:34:05,544{GMT}	WARN	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n2 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:05,545{GMT}	ERROR	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,545{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:fail	:write	458	READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,649{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	461
+2025-06-15 11:34:05,651{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n5 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:05,652{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,653{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	461	READONLY You can't write against a read only replica.
+2025-06-15 11:34:05,742{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:34:05,743{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:34:05,744{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:34:05,860{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:34:05,861{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:34:05,861{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:34:05,935{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:34:05,936{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: nil
+2025-06-15 11:34:05,937{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	nil
+2025-06-15 11:34:06,131{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	464
+2025-06-15 11:34:06,132{GMT}	WARN	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Failed to contact Sentinel n4 : class java.lang.Character cannot be cast to class clojure.lang.Named (java.lang.Character is in module java.base of loader 'bootstrap'; clojure.lang.Named is in unnamed module of loader 'app')
+2025-06-15 11:34:06,133{GMT}	ERROR	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Operation failed: READONLY You can't write against a read only replica.
+2025-06-15 11:34:06,133{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:fail	:write	464	READONLY You can't write against a read only replica.
+2025-06-15 11:34:06,256{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,256{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,256{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,417{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:34:06,417{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:34:06,417{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:34:06,417{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:34:06,418{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,417{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:34:06,417{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,417{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,418{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,419{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:34:06,420{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-15 11:34:06,965{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:34:06,965{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:34:06,965{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:34:06,966{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:34:06,966{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:34:06,970{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-15 11:34:07,823{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-15 11:34:07,863{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/redis-simple-test/20250615T113328.342Z/results.edn
+2025-06-15 11:34:07,916{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :valid? false,
+ :clock-plot {:valid? true},
+ :unhandled-exceptions {:valid? true},
+ :latency-graph {:valid? true},
+ :rate-graph {:valid? true},
+ :linear {:valid? true,
+          :configs ({:model #knossos.model.Register{:value nil},
+                     :last-op {:process 2,
+                               :type :ok,
+                               :f :read,
+                               :value nil,
+                               :index 585,
+                               :time 29885145428,
+                               :node "n3"},
+                     :pending []}),
+          :analyzer :linear,
+          :final-paths ()},
+ :timeline {:valid? true},
+ :stats {:valid? false,
+         :count 289,
+         :ok-count 137,
+         :fail-count 152,
+         :info-count 0,
+         :by-f {:read {:valid? true,
+                       :count 137,
+                       :ok-count 137,
+                       :fail-count 0,
+                       :info-count 0},
+                :write {:valid? false,
+                        :count 152,
+                        :ok-count 0,
+                        :fail-count 152,
+                        :info-count 0}}}}
+
+
+Analysis invalid! (ﾉಥ益ಥ）ﾉ ┻━┻

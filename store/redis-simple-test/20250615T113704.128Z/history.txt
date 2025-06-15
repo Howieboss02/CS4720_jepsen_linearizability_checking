@@ -1,0 +1,634 @@
+0	:invoke	:read	nil
+2	:invoke	:write	3
+1	:invoke	:read	nil
+2	:fail	:write	3	READONLY You can't write against a read only replica.
+2	:invoke	:write	4
+2	:fail	:write	4	READONLY You can't write against a read only replica.
+0	:ok	:read	nil
+1	:ok	:read	nil
+1	:invoke	:write	7
+1	:fail	:write	7	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	10
+1	:fail	:write	10	READONLY You can't write against a read only replica.
+2	:invoke	:write	13
+2	:fail	:write	13	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	16
+1	:fail	:write	16	READONLY You can't write against a read only replica.
+2	:invoke	:write	19
+2	:fail	:write	19	READONLY You can't write against a read only replica.
+0	:invoke	:write	22
+0	:fail	:write	22	READONLY You can't write against a read only replica.
+0	:invoke	:write	25
+0	:fail	:write	25	READONLY You can't write against a read only replica.
+1	:invoke	:write	28
+1	:fail	:write	28	READONLY You can't write against a read only replica.
+2	:invoke	:write	31
+2	:fail	:write	31	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	34
+0	:fail	:write	34	READONLY You can't write against a read only replica.
+1	:invoke	:write	37
+1	:fail	:write	37	READONLY You can't write against a read only replica.
+2	:invoke	:write	40
+2	:fail	:write	40	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	43
+0	:fail	:write	43	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	46
+2	:fail	:write	46	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	49
+2	:fail	:write	49	READONLY You can't write against a read only replica.
+0	:invoke	:write	52
+0	:fail	:write	52	READONLY You can't write against a read only replica.
+0	:invoke	:write	55
+0	:fail	:write	55	READONLY You can't write against a read only replica.
+1	:invoke	:write	58
+2	:invoke	:read	nil
+1	:fail	:write	58	READONLY You can't write against a read only replica.
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	61
+2	:invoke	:write	63
+1	:fail	:write	61	READONLY You can't write against a read only replica.
+2	:fail	:write	63	READONLY You can't write against a read only replica.
+0	:invoke	:write	67
+0	:fail	:write	67	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	70
+2	:fail	:write	70	READONLY You can't write against a read only replica.
+0	:invoke	:write	73
+0	:fail	:write	73	READONLY You can't write against a read only replica.
+0	:invoke	:write	76
+0	:fail	:write	76	READONLY You can't write against a read only replica.
+1	:invoke	:write	79
+1	:fail	:write	79	READONLY You can't write against a read only replica.
+2	:invoke	:write	82
+2	:fail	:write	82	READONLY You can't write against a read only replica.
+:nemesis	:info	:start	nil
+:nemesis	:info	:start	nil
+1	:invoke	:write	89
+1	:fail	:write	89	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	92
+0	:fail	:write	92	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	95
+2	:fail	:write	95	READONLY You can't write against a read only replica.
+0	:invoke	:write	98
+0	:fail	:write	98	READONLY You can't write against a read only replica.
+0	:invoke	:write	101
+0	:fail	:write	101	READONLY You can't write against a read only replica.
+1	:invoke	:write	104
+1	:fail	:write	104	READONLY You can't write against a read only replica.
+2	:invoke	:write	107
+2	:fail	:write	107	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+1	:invoke	:write	109
+0	:ok	:read	nil
+1	:fail	:write	109	READONLY You can't write against a read only replica.
+1	:invoke	:write	113
+1	:fail	:write	113	READONLY You can't write against a read only replica.
+2	:invoke	:write	116
+2	:fail	:write	116	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	119
+0	:fail	:write	119	READONLY You can't write against a read only replica.
+1	:invoke	:write	122
+1	:fail	:write	122	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	125
+1	:fail	:write	125	READONLY You can't write against a read only replica.
+2	:invoke	:write	128
+2	:fail	:write	128	READONLY You can't write against a read only replica.
+0	:invoke	:write	131
+0	:fail	:write	131	READONLY You can't write against a read only replica.
+0	:invoke	:write	134
+0	:fail	:write	134	READONLY You can't write against a read only replica.
+1	:invoke	:write	137
+1	:fail	:write	137	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	140
+0	:fail	:write	140	READONLY You can't write against a read only replica.
+1	:invoke	:write	143
+1	:fail	:write	143	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	146
+0	:fail	:write	146	READONLY You can't write against a read only replica.
+0	:invoke	:write	149
+0	:fail	:write	149	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	152
+0	:fail	:write	152	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	155
+0	:fail	:write	155	READONLY You can't write against a read only replica.
+1	:invoke	:write	158
+2	:invoke	:write	160
+1	:fail	:write	158	READONLY You can't write against a read only replica.
+2	:fail	:write	160	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	163
+0	:fail	:write	163	READONLY You can't write against a read only replica.
+1	:invoke	:write	166
+1	:fail	:write	166	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	169
+0	:fail	:write	169	READONLY You can't write against a read only replica.
+0	:invoke	:write	172
+0	:fail	:write	172	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	175
+2	:fail	:write	175	READONLY You can't write against a read only replica.
+:nemesis	:info	:stop	nil
+:nemesis	:info	:stop	nil
+1	:invoke	:write	182
+1	:fail	:write	182	READONLY You can't write against a read only replica.
+2	:invoke	:write	185
+2	:fail	:write	185	READONLY You can't write against a read only replica.
+0	:invoke	:write	188
+0	:fail	:write	188	READONLY You can't write against a read only replica.
+0	:invoke	:write	191
+0	:fail	:write	191	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	194
+2	:fail	:write	194	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	197
+0	:fail	:write	197	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	200
+2	:fail	:write	200	READONLY You can't write against a read only replica.
+0	:invoke	:write	203
+0	:fail	:write	203	READONLY You can't write against a read only replica.
+0	:invoke	:write	206
+0	:fail	:write	206	READONLY You can't write against a read only replica.
+1	:invoke	:write	209
+1	:fail	:write	209	READONLY You can't write against a read only replica.
+2	:invoke	:write	212
+2	:fail	:write	212	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	215
+0	:fail	:write	215	READONLY You can't write against a read only replica.
+1	:invoke	:write	218
+1	:fail	:write	218	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	221
+1	:fail	:write	221	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	224
+0	:fail	:write	224	READONLY You can't write against a read only replica.
+1	:invoke	:write	227
+1	:fail	:write	227	READONLY You can't write against a read only replica.
+2	:invoke	:write	230
+2	:fail	:write	230	READONLY You can't write against a read only replica.
+0	:invoke	:write	233
+1	:invoke	:write	234
+0	:fail	:write	233	READONLY You can't write against a read only replica.
+1	:fail	:write	234	READONLY You can't write against a read only replica.
+1	:invoke	:write	238
+1	:fail	:write	238	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	241
+0	:fail	:write	241	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	244
+2	:fail	:write	244	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	247
+0	:fail	:write	247	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	250
+0	:fail	:write	250	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	253
+1	:fail	:write	253	READONLY You can't write against a read only replica.
+2	:invoke	:write	256
+2	:fail	:write	256	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	259
+0	:fail	:write	259	READONLY You can't write against a read only replica.
+1	:invoke	:write	262
+1	:fail	:write	262	READONLY You can't write against a read only replica.
+2	:invoke	:write	265
+2	:fail	:write	265	READONLY You can't write against a read only replica.
+0	:invoke	:write	268
+0	:fail	:write	268	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	271
+1	:fail	:write	271	READONLY You can't write against a read only replica.
+:nemesis	:info	:start	nil
+:nemesis	:info	:start	nil
+0	:invoke	:write	278
+0	:fail	:write	278	READONLY You can't write against a read only replica.
+1	:invoke	:write	281
+1	:fail	:write	281	READONLY You can't write against a read only replica.
+2	:invoke	:write	284
+2	:fail	:write	284	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	287
+0	:fail	:write	287	READONLY You can't write against a read only replica.
+1	:invoke	:write	290
+1	:fail	:write	290	READONLY You can't write against a read only replica.
+2	:invoke	:write	293
+2	:fail	:write	293	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	296
+0	:fail	:write	296	READONLY You can't write against a read only replica.
+1	:invoke	:write	299
+1	:fail	:write	299	READONLY You can't write against a read only replica.
+2	:invoke	:write	302
+2	:fail	:write	302	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	305
+1	:fail	:write	305	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+1	:invoke	:write	307
+0	:ok	:read	nil
+1	:fail	:write	307	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	310
+2	:fail	:write	310	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	313
+1	:fail	:write	313	READONLY You can't write against a read only replica.
+2	:invoke	:write	316
+2	:fail	:write	316	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	319
+1	:fail	:write	319	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	322
+0	:fail	:write	322	READONLY You can't write against a read only replica.
+1	:invoke	:write	325
+1	:fail	:write	325	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	328
+0	:fail	:write	328	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	331
+2	:fail	:write	331	READONLY You can't write against a read only replica.
+0	:invoke	:write	334
+0	:fail	:write	334	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	337
+0	:fail	:write	337	READONLY You can't write against a read only replica.
+0	:invoke	:write	340
+0	:fail	:write	340	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+:nemesis	:info	:stop	nil
+1	:invoke	:read	nil
+:nemesis	:info	:stop	nil
+1	:ok	:read	nil
+0	:invoke	:write	345
+0	:fail	:write	345	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	348
+1	:fail	:write	348	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	351
+0	:fail	:write	351	READONLY You can't write against a read only replica.
+0	:invoke	:write	354
+0	:fail	:write	354	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	357
+2	:fail	:write	357	READONLY You can't write against a read only replica.
+0	:invoke	:write	360
+0	:fail	:write	360	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	363
+2	:fail	:write	363	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	366
+1	:fail	:write	366	READONLY You can't write against a read only replica.
+2	:invoke	:write	369
+2	:fail	:write	369	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	372
+0	:fail	:write	372	READONLY You can't write against a read only replica.
+1	:invoke	:write	375
+1	:fail	:write	375	READONLY You can't write against a read only replica.
+2	:invoke	:write	378
+2	:fail	:write	378	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	381
+2	:fail	:write	381	READONLY You can't write against a read only replica.
+0	:invoke	:write	384
+0	:fail	:write	384	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	387
+1	:fail	:write	387	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+1	:invoke	:write	389
+0	:ok	:read	nil
+1	:fail	:write	389	READONLY You can't write against a read only replica.
+2	:invoke	:write	393
+2	:fail	:write	393	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	396
+0	:fail	:write	396	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	399
+1	:fail	:write	399	READONLY You can't write against a read only replica.
+2	:invoke	:write	402
+2	:fail	:write	402	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	405
+1	:fail	:write	405	READONLY You can't write against a read only replica.
+2	:invoke	:write	408
+2	:fail	:write	408	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	411
+1	:fail	:write	411	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+:nemesis	:info	:start	nil
+:nemesis	:info	:start	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+1	:invoke	:read	nil
+2	:invoke	:read	nil
+0	:ok	:read	nil
+2	:ok	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	415
+2	:fail	:write	415	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	418
+0	:fail	:write	418	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	421
+2	:fail	:write	421	READONLY You can't write against a read only replica.
+0	:invoke	:write	424
+0	:fail	:write	424	READONLY You can't write against a read only replica.
+0	:invoke	:write	427
+0	:fail	:write	427	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	430
+0	:fail	:write	430	READONLY You can't write against a read only replica.
+0	:invoke	:write	433
+0	:fail	:write	433	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	436
+2	:fail	:write	436	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	439
+1	:fail	:write	439	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	442
+0	:fail	:write	442	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	445
+2	:fail	:write	445	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	448
+0	:fail	:write	448	READONLY You can't write against a read only replica.
+1	:invoke	:write	451
+1	:fail	:write	451	READONLY You can't write against a read only replica.
+2	:invoke	:write	454
+2	:fail	:write	454	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:write	457
+0	:fail	:write	457	READONLY You can't write against a read only replica.
+1	:invoke	:write	460
+1	:fail	:write	460	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	463
+0	:fail	:write	463	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:write	466
+2	:fail	:write	466	READONLY You can't write against a read only replica.
+0	:invoke	:write	469
+0	:fail	:write	469	READONLY You can't write against a read only replica.
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	472
+1	:fail	:write	472	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	475
+0	:fail	:write	475	READONLY You can't write against a read only replica.
+0	:invoke	:write	478
+0	:fail	:write	478	READONLY You can't write against a read only replica.
+1	:invoke	:read	nil
+1	:ok	:read	nil
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:write	481
+0	:fail	:write	481	READONLY You can't write against a read only replica.
+0	:invoke	:write	484
+0	:fail	:write	484	READONLY You can't write against a read only replica.
+1	:invoke	:write	487
+1	:fail	:write	487	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+0	:invoke	:read	nil
+0	:ok	:read	nil
+1	:invoke	:write	490
+1	:fail	:write	490	READONLY You can't write against a read only replica.
+2	:invoke	:read	nil
+2	:ok	:read	nil
