@@ -248,3 +248,228 @@
 38:X 15 Jun 2025 11:06:46.268 # -sdown sentinel dec3cd919e946bbd71c7e58388bafa9d12b268fe 172.20.0.11 26379 @ mymaster 172.20.0.15 6379
 38:X 15 Jun 2025 11:06:46.269 # -sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.15 6379
 38:X 15 Jun 2025 11:06:46.831 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:57:47.464 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:57:47.465 # +sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:57:47.466 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:57:47.468 # +sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:02.222 # -sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:02.223 # -sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:02.224 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:02.225 # -sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:02.329 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:58:02.330 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:58:02.331 # +new-epoch 13
+38:X 15 Jun 2025 11:58:17.128 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:58:17.129 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:58:17.130 # +new-epoch 14
+38:X 15 Jun 2025 11:58:17.135 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:58:17.136 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:58:17.137 # +vote-for-leader dec3cd919e946bbd71c7e58388bafa9d12b268fe 14
+38:X 15 Jun 2025 11:58:17.537 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:17.539 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:17.662 # +sdown master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:17.662 # +sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:17.722 # +odown master mymaster 172.20.0.15 6379 #quorum 3/2
+38:X 15 Jun 2025 11:58:17.724 * Next failover delay: I will not start a failover before Sun Jun 15 11:58:37 2025
+38:X 15 Jun 2025 11:58:18.245 # +config-update-from sentinel dec3cd919e946bbd71c7e58388bafa9d12b268fe 172.20.0.11 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 11:58:18.245 # +switch-master mymaster 172.20.0.15 6379 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:18.247 * +slave slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:18.247 * +slave slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:18.248 * +slave slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:18.249 * +slave slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:18.256 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:58:18.257 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:58:23.263 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:23.264 # +sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:28.306 * +fix-slave-config slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:28.307 * +fix-slave-config slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:32.461 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:32.462 # -sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:33.453 # -sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:33.454 # -sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:47.322 # +sdown slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:47.323 # +sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:47.787 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:47.787 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:47.788 # +sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:58:47.909 # +sdown sentinel dec3cd919e946bbd71c7e58388bafa9d12b268fe 172.20.0.11 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:59:02.147 # -sdown slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:59:02.148 # -sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:59:02.571 # -sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:59:02.712 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:59:02.713 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:59:02.714 # +new-epoch 15
+38:X 15 Jun 2025 11:59:02.715 # +config-update-from sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 11:59:02.715 # +switch-master mymaster 172.20.0.13 6379 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:02.717 * +slave slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:02.717 * +slave slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:02.718 * +slave slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:02.719 * +slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:02.724 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:59:02.725 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:59:02.729 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:02.729 # -sdown sentinel dec3cd919e946bbd71c7e58388bafa9d12b268fe 172.20.0.11 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:12.773 * +convert-to-slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:17.884 # +sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:17.885 # +sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:18.102 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:18.175 # +sdown master mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:18.177 # +sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:18.178 # +sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:18.281 # +odown master mymaster 172.20.0.12 6379 #quorum 2/2
+38:X 15 Jun 2025 11:59:18.282 # +new-epoch 16
+38:X 15 Jun 2025 11:59:18.283 # +try-failover master mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:18.289 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:59:18.290 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:59:18.293 # +vote-for-leader 79439c4dbbd97d7929796f67d92d70a394eb592d 16
+38:X 15 Jun 2025 11:59:18.312 * dec3cd919e946bbd71c7e58388bafa9d12b268fe voted for 79439c4dbbd97d7929796f67d92d70a394eb592d 16
+38:X 15 Jun 2025 11:59:29.075 # -failover-abort-not-elected master mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:29.160 * Next failover delay: I will not start a failover before Sun Jun 15 11:59:39 2025
+38:X 15 Jun 2025 11:59:32.565 # -sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:32.720 # -sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:32.854 # -odown master mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:32.923 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:32.987 # -sdown master mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:32.989 # -sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:32.990 # -sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:47.392 # +sdown master mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:47.393 # +sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:47.393 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:47.820 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:59:47.821 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:59:47.821 # +new-epoch 17
+38:X 15 Jun 2025 11:59:47.829 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:59:47.831 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:59:47.832 # +vote-for-leader caad67cc162e24bb4d792db17fdfb9bd1805493c 17
+38:X 15 Jun 2025 11:59:48.117 # +sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:48.537 # +odown master mymaster 172.20.0.12 6379 #quorum 3/2
+38:X 15 Jun 2025 11:59:48.538 * Next failover delay: I will not start a failover before Sun Jun 15 12:00:07 2025
+38:X 15 Jun 2025 11:59:48.937 # +config-update-from sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.12 6379
+38:X 15 Jun 2025 11:59:48.938 # +switch-master mymaster 172.20.0.12 6379 172.20.0.14 6379
+38:X 15 Jun 2025 11:59:48.939 * +slave slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 11:59:48.941 * +slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 11:59:48.942 * +slave slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 11:59:48.944 * +slave slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 11:59:48.954 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 11:59:48.955 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 11:59:54.003 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 11:59:54.004 # +sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:02.833 # -sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:03.182 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:04.101 # -sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:04.102 # -sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:17.630 # +sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.172 # +sdown master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.265 # +odown master mymaster 172.20.0.14 6379 #quorum 2/2
+38:X 15 Jun 2025 12:00:18.268 # +new-epoch 18
+38:X 15 Jun 2025 12:00:18.270 # +try-failover master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.276 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:00:18.278 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:00:18.278 # +vote-for-leader 79439c4dbbd97d7929796f67d92d70a394eb592d 18
+38:X 15 Jun 2025 12:00:18.294 * dec3cd919e946bbd71c7e58388bafa9d12b268fe voted for 79439c4dbbd97d7929796f67d92d70a394eb592d 18
+38:X 15 Jun 2025 12:00:18.294 * dcf134b5ac9771828e2087a91ae9222ee6c933fb voted for 79439c4dbbd97d7929796f67d92d70a394eb592d 18
+38:X 15 Jun 2025 12:00:18.336 # +elected-leader master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.337 # +failover-state-select-slave master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.393 # +selected-slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.394 * +failover-state-send-slaveof-noone slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.449 * +failover-state-wait-promotion slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.450 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:18.607 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:19.308 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:00:19.309 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:00:19.310 # +promoted-slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:19.311 # +failover-state-reconf-slaves master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:19.371 * +slave-reconf-sent slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:20.360 * +slave-reconf-inprog slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:20.362 * +slave-reconf-done slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:20.435 # -odown master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:20.437 * +slave-reconf-sent slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:29.352 # +failover-end-for-timeout master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:29.353 # +failover-end master mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:29.354 * +slave-reconf-sent-be slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.14 6379
+38:X 15 Jun 2025 12:00:29.355 # +switch-master mymaster 172.20.0.14 6379 172.20.0.13 6379
+38:X 15 Jun 2025 12:00:29.356 * +slave slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:00:29.357 * +slave slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:00:29.357 * +slave slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:00:29.358 * +slave slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:00:29.362 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:00:29.365 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:00:33.389 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:00:33.467 # -sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:04:43.812 # +sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:04:43.817 # +sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:04:43.823 # +sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:04:44.392 # +sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:08.550 # -sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:10.936 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:05:10.938 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:05:10.939 # +new-epoch 20
+38:X 15 Jun 2025 12:05:11.754 # -sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:11.756 # -sdown slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:11.757 # -sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:43.831 # +sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:43.832 # +sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:44.041 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:05:44.045 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:06:08.668 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:06:08.669 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:06:08.671 # +new-epoch 21
+38:X 15 Jun 2025 12:06:08.771 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:06:08.773 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:06:08.774 # +new-epoch 22
+38:X 15 Jun 2025 12:06:09.766 # +config-update-from sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:06:09.768 # +switch-master mymaster 172.20.0.13 6379 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:09.769 * +slave slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:09.771 * +slave slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:09.772 * +slave slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:09.773 * +slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:09.780 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:06:09.781 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:06:11.605 # -sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:11.899 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:43.922 # +sdown master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:43.923 # +sdown slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:43.925 # +sdown slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:43.926 # +sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:44.113 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:06:44.114 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:06:44.115 # +new-epoch 23
+38:X 15 Jun 2025 12:06:44.121 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:06:44.122 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:06:44.123 # +vote-for-leader dec3cd919e946bbd71c7e58388bafa9d12b268fe 23
+38:X 15 Jun 2025 12:06:44.186 # +sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:44.845 # +sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:06:45.014 # +odown master mymaster 172.20.0.15 6379 #quorum 2/2
+38:X 15 Jun 2025 12:06:45.015 * Next failover delay: I will not start a failover before Sun Jun 15 12:07:04 2025
+38:X 15 Jun 2025 12:07:04.811 # +new-epoch 24
+38:X 15 Jun 2025 12:07:04.812 # +try-failover master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:04.817 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:07:04.818 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:07:04.819 # +vote-for-leader 79439c4dbbd97d7929796f67d92d70a394eb592d 24
+38:X 15 Jun 2025 12:07:04.832 * dec3cd919e946bbd71c7e58388bafa9d12b268fe voted for 79439c4dbbd97d7929796f67d92d70a394eb592d 24
+38:X 15 Jun 2025 12:07:08.839 * caad67cc162e24bb4d792db17fdfb9bd1805493c voted for 79439c4dbbd97d7929796f67d92d70a394eb592d 24
+38:X 15 Jun 2025 12:07:08.857 # +elected-leader master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:08.858 # +failover-state-select-slave master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:08.859 # -sdown sentinel caad67cc162e24bb4d792db17fdfb9bd1805493c 172.20.0.14 26379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:08.919 # +selected-slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:08.920 * +failover-state-send-slaveof-noone slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:08.977 * +failover-state-wait-promotion slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:09.812 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:07:09.813 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:07:09.814 # +promoted-slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:09.814 # +failover-state-reconf-slaves master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:09.881 * +slave-reconf-sent slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:10.028 # -odown master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:10.868 * +slave-reconf-inprog slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:10.872 * +slave-reconf-done slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:10.938 * +slave-reconf-sent slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:10.940 # +failover-end master mymaster 172.20.0.15 6379
+38:X 15 Jun 2025 12:07:10.941 # +switch-master mymaster 172.20.0.15 6379 172.20.0.13 6379
+38:X 15 Jun 2025 12:07:10.943 * +slave slave 172.20.0.11:6379 172.20.0.11 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:07:10.944 * +slave slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:07:10.944 * +slave slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:07:10.945 * +slave slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:07:10.951 # Could not rename tmp config file (Device or resource busy)
+38:X 15 Jun 2025 12:07:10.952 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 15 Jun 2025 12:07:11.833 # -sdown sentinel fff456ecdb01c111a11add3a751acd5ead022d64 172.20.0.12 26379 @ mymaster 172.20.0.13 6379
+38:X 15 Jun 2025 12:07:12.110 # -sdown sentinel dcf134b5ac9771828e2087a91ae9222ee6c933fb 172.20.0.15 26379 @ mymaster 172.20.0.13 6379

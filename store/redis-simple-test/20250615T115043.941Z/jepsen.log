@@ -1,0 +1,1550 @@
+2025-06-15 11:51:06,294{GMT}	INFO	[jepsen test runner] jepsen.core: Test version 1fee2177d8acb24360d706db8a20eae7b6643397 (plus uncommitted changes)
+2025-06-15 11:51:06,533{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 3
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x53b9952f"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@53b9952f"]
+ :name "redis-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x7bdddfa4" "2025-06-15T11:50:43.941Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196
+         "0x1e12fdcf"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196@1e12fdcf"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x1d0fc0bc"
+         "java.util.concurrent.CyclicBarrier@1d0fc0bc"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x2003edf"
+         "jepsen.checker$compose$reify__10552@2003edf"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@1735e1c4"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x7674f9d4"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0xfef2768"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@fef2768"],
+                           :gen ({:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 ...)})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x733e3c19"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@733e3c19"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 200000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Mix
+                                        {:i 0,
+                                         :gens [(jepsen.generator.Repeat
+                                                 {:remaining -1,
+                                                  :gen {:type :invoke, :f :read}})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.test_ssh$simple_test$fn__347
+                                                             "0x5418893c"
+                                                             "jepsen.redis_sentinel.test_ssh$simple_test$fn__347@5418893c"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :write}})})]})})})]})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x22ba30b0"
+         "jepsen.os.debian.Debian@22ba30b0"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-15 11:51:09,881{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-15 11:51:09,881{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-15 11:51:09,881{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-15 11:51:09,881{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-15 11:51:09,881{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-15 11:51:11,882{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-15 11:51:11,884{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:51:11,884{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:51:11,885{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:51:11,884{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:51:11,884{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:51:11,896{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-15 11:51:11,899{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-15 11:51:11,899{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-15 11:51:11,899{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-15 11:51:11,899{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-15 11:51:11,899{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-15 11:51:11,945{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-15 11:51:11,964{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:51:11,965{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:51:11,964{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:51:11,964{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:51:11,965{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis Sentinel client
+2025-06-15 11:51:12,170{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:12,227{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	2
+2025-06-15 11:51:12,324{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:12,467{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: nil
+2025-06-15 11:51:12,467{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: nil
+2025-06-15 11:51:12,467{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	nil
+2025-06-15 11:51:12,468{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	nil
+2025-06-15 11:51:12,468{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	3
+2025-06-15 11:51:12,477{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:12,477{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:12,478{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:12,478{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:12,479{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:12,479{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:12,482{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 2
+2025-06-15 11:51:12,482{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 3
+2025-06-15 11:51:12,482{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	2
+2025-06-15 11:51:12,483{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	3
+2025-06-15 11:51:12,516{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:12,517{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 2
+2025-06-15 11:51:12,518{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	2
+2025-06-15 11:51:12,547{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	6
+2025-06-15 11:51:12,549{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:12,550{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:12,551{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:12,552{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 6
+2025-06-15 11:51:12,554{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	6
+2025-06-15 11:51:12,650{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:12,652{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 6
+2025-06-15 11:51:12,653{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	6
+2025-06-15 11:51:12,660{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	9
+2025-06-15 11:51:12,673{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	11
+2025-06-15 11:51:12,674{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:12,675{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:12,676{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:12,677{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 11
+2025-06-15 11:51:12,677{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	11
+2025-06-15 11:51:12,708{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:12,708{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:12,709{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:12,710{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 9
+2025-06-15 11:51:12,710{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	9
+2025-06-15 11:51:12,874{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:12,877{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 9
+2025-06-15 11:51:12,879{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	9
+2025-06-15 11:51:12,966{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:12,967{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 9
+2025-06-15 11:51:12,968{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	9
+2025-06-15 11:51:13,086{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:13,087{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 9
+2025-06-15 11:51:13,088{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	9
+2025-06-15 11:51:13,254{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	14
+2025-06-15 11:51:13,256{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:13,257{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:13,257{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:13,260{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 14
+2025-06-15 11:51:13,261{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	14
+2025-06-15 11:51:13,377{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:13,380{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 14
+2025-06-15 11:51:13,382{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	14
+2025-06-15 11:51:13,536{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	17
+2025-06-15 11:51:13,543{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:13,544{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:13,544{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:13,546{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 17
+2025-06-15 11:51:13,546{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	17
+2025-06-15 11:51:13,684{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:13,685{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 17
+2025-06-15 11:51:13,686{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	17
+2025-06-15 11:51:13,839{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:13,840{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 17
+2025-06-15 11:51:13,841{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	17
+2025-06-15 11:51:13,965{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	20
+2025-06-15 11:51:13,967{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:13,967{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:13,968{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:13,970{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 20
+2025-06-15 11:51:13,971{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	20
+2025-06-15 11:51:14,020{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	23
+2025-06-15 11:51:14,021{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:14,021{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:14,022{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:14,023{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 23
+2025-06-15 11:51:14,023{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	23
+2025-06-15 11:51:14,152{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:14,154{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 23
+2025-06-15 11:51:14,154{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	23
+2025-06-15 11:51:14,246{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:14,250{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 23
+2025-06-15 11:51:14,252{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	23
+2025-06-15 11:51:14,285{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	26
+2025-06-15 11:51:14,286{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:14,286{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:14,287{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:14,288{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 26
+2025-06-15 11:51:14,289{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	26
+2025-06-15 11:51:14,426{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:14,428{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 26
+2025-06-15 11:51:14,428{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	26
+2025-06-15 11:51:14,484{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:14,487{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 26
+2025-06-15 11:51:14,488{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	26
+2025-06-15 11:51:14,633{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	29
+2025-06-15 11:51:14,635{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:14,636{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:14,636{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:14,637{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 29
+2025-06-15 11:51:14,638{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	29
+2025-06-15 11:51:14,712{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:14,713{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 29
+2025-06-15 11:51:14,714{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	29
+2025-06-15 11:51:14,740{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:14,742{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 29
+2025-06-15 11:51:14,742{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	29
+2025-06-15 11:51:14,795{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	32
+2025-06-15 11:51:14,797{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:14,798{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:14,798{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:14,799{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 32
+2025-06-15 11:51:14,800{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	32
+2025-06-15 11:51:14,949{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:14,950{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 32
+2025-06-15 11:51:14,951{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	32
+2025-06-15 11:51:15,026{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:15,027{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 32
+2025-06-15 11:51:15,028{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	32
+2025-06-15 11:51:15,145{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:15,147{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 32
+2025-06-15 11:51:15,147{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	32
+2025-06-15 11:51:15,201{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:15,202{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 32
+2025-06-15 11:51:15,203{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	32
+2025-06-15 11:51:15,288{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:15,290{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 32
+2025-06-15 11:51:15,290{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	32
+2025-06-15 11:51:15,363{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	35
+2025-06-15 11:51:15,367{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:15,368{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:15,369{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:15,372{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 35
+2025-06-15 11:51:15,372{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	35
+2025-06-15 11:51:15,403{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	38
+2025-06-15 11:51:15,405{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:15,405{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:15,405{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:15,406{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 38
+2025-06-15 11:51:15,407{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	38
+2025-06-15 11:51:15,428{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:15,429{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 38
+2025-06-15 11:51:15,430{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	38
+2025-06-15 11:51:15,469{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:15,472{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 38
+2025-06-15 11:51:15,473{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	38
+2025-06-15 11:51:15,653{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:15,656{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 38
+2025-06-15 11:51:15,658{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	38
+2025-06-15 11:51:15,776{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	41
+2025-06-15 11:51:15,778{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:15,778{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:15,779{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:15,780{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 41
+2025-06-15 11:51:15,781{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	41
+2025-06-15 11:51:15,809{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:15,810{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 41
+2025-06-15 11:51:15,811{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	41
+2025-06-15 11:51:15,893{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:15,894{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 41
+2025-06-15 11:51:15,894{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	41
+2025-06-15 11:51:16,029{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	44
+2025-06-15 11:51:16,032{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:16,034{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:16,035{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:16,039{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 44
+2025-06-15 11:51:16,040{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	44
+2025-06-15 11:51:16,157{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	47
+2025-06-15 11:51:16,158{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:16,159{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:16,159{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:16,161{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 47
+2025-06-15 11:51:16,161{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	47
+2025-06-15 11:51:16,347{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:16,351{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 47
+2025-06-15 11:51:16,353{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	47
+2025-06-15 11:51:16,470{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	50
+2025-06-15 11:51:16,472{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:16,473{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:16,473{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:16,474{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 50
+2025-06-15 11:51:16,475{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	50
+2025-06-15 11:51:16,557{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:16,559{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 50
+2025-06-15 11:51:16,559{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	50
+2025-06-15 11:51:16,738{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:16,739{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 50
+2025-06-15 11:51:16,740{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	50
+2025-06-15 11:51:16,844{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:16,845{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 50
+2025-06-15 11:51:16,845{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	50
+2025-06-15 11:51:16,871{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	53
+2025-06-15 11:51:16,872{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:16,873{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:16,873{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:16,874{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 53
+2025-06-15 11:51:16,874{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	53
+2025-06-15 11:51:17,049{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:17,050{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 53
+2025-06-15 11:51:17,050{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	53
+2025-06-15 11:51:17,156{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	56
+2025-06-15 11:51:17,157{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:17,158{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:17,158{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:17,161{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 56
+2025-06-15 11:51:17,161{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	56
+2025-06-15 11:51:17,164{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	59
+2025-06-15 11:51:17,165{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:17,165{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:17,166{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:17,167{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 59
+2025-06-15 11:51:17,167{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	59
+2025-06-15 11:51:17,170{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:51:17,170{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:51:17,292{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:17,296{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 59
+2025-06-15 11:51:17,298{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	59
+2025-06-15 11:51:17,351{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:17,352{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 59
+2025-06-15 11:51:17,352{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	59
+2025-06-15 11:51:17,542{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	62
+2025-06-15 11:51:17,544{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:17,544{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:17,544{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:17,546{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 62
+2025-06-15 11:51:17,546{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	62
+2025-06-15 11:51:17,593{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:17,594{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 62
+2025-06-15 11:51:17,595{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	62
+2025-06-15 11:51:17,710{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	65
+2025-06-15 11:51:17,711{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:17,712{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:17,713{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:17,714{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 65
+2025-06-15 11:51:17,714{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	65
+2025-06-15 11:51:17,741{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:17,742{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 65
+2025-06-15 11:51:17,743{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	65
+2025-06-15 11:51:17,879{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	68
+2025-06-15 11:51:17,882{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:17,883{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:17,883{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:17,885{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 68
+2025-06-15 11:51:17,885{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	68
+2025-06-15 11:51:17,929{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:17,930{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 68
+2025-06-15 11:51:17,930{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	68
+2025-06-15 11:51:18,120{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:18,123{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 68
+2025-06-15 11:51:18,126{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	68
+2025-06-15 11:51:18,272{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	71
+2025-06-15 11:51:18,273{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:18,273{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:18,274{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:18,275{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 71
+2025-06-15 11:51:18,276{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	71
+2025-06-15 11:51:18,393{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:18,394{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 71
+2025-06-15 11:51:18,395{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	71
+2025-06-15 11:51:18,486{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:18,489{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 71
+2025-06-15 11:51:18,490{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	71
+2025-06-15 11:51:18,532{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:18,535{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 71
+2025-06-15 11:51:18,536{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	71
+2025-06-15 11:51:18,706{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:18,712{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 71
+2025-06-15 11:51:18,714{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	71
+2025-06-15 11:51:18,740{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:18,742{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 71
+2025-06-15 11:51:18,742{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	71
+2025-06-15 11:51:18,799{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	74
+2025-06-15 11:51:18,800{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:18,801{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:18,801{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:18,803{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 74
+2025-06-15 11:51:18,803{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	74
+2025-06-15 11:51:18,997{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	77
+2025-06-15 11:51:18,998{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:18,998{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:18,999{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,001{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 77
+2025-06-15 11:51:19,001{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	77
+2025-06-15 11:51:19,044{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	80
+2025-06-15 11:51:19,045{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,046{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,046{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,047{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 80
+2025-06-15 11:51:19,047{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	80
+2025-06-15 11:51:19,072{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	83
+2025-06-15 11:51:19,073{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,074{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,074{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,076{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 83
+2025-06-15 11:51:19,076{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	83
+2025-06-15 11:51:19,258{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	86
+2025-06-15 11:51:19,259{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,260{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,260{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,261{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 86
+2025-06-15 11:51:19,261{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	86
+2025-06-15 11:51:19,347{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:19,350{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 86
+2025-06-15 11:51:19,353{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	86
+2025-06-15 11:51:19,458{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	89
+2025-06-15 11:51:19,462{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,463{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,464{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,468{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 89
+2025-06-15 11:51:19,469{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	89
+2025-06-15 11:51:19,534{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:19,535{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 89
+2025-06-15 11:51:19,536{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	89
+2025-06-15 11:51:19,627{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	92
+2025-06-15 11:51:19,629{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,629{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,630{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,631{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 92
+2025-06-15 11:51:19,631{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	92
+2025-06-15 11:51:19,825{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	95
+2025-06-15 11:51:19,827{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,827{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,827{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,828{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 95
+2025-06-15 11:51:19,829{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	95
+2025-06-15 11:51:19,846{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:19,847{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 95
+2025-06-15 11:51:19,848{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	95
+2025-06-15 11:51:19,861{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	98
+2025-06-15 11:51:19,861{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,862{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,862{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,863{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 98
+2025-06-15 11:51:19,864{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	98
+2025-06-15 11:51:19,894{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	101
+2025-06-15 11:51:19,895{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,896{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:19,896{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,896{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,897{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 98
+2025-06-15 11:51:19,897{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	98
+2025-06-15 11:51:19,897{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 101
+2025-06-15 11:51:19,898{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	101
+2025-06-15 11:51:19,971{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	105
+2025-06-15 11:51:19,972{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:19,972{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:19,973{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:19,974{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 105
+2025-06-15 11:51:19,974{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	105
+2025-06-15 11:51:20,010{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	108
+2025-06-15 11:51:20,011{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,012{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,012{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,013{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 108
+2025-06-15 11:51:20,014{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	108
+2025-06-15 11:51:20,080{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	111
+2025-06-15 11:51:20,081{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,081{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,082{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,083{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 111
+2025-06-15 11:51:20,083{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	111
+2025-06-15 11:51:20,086{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	114
+2025-06-15 11:51:20,087{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,088{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,088{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,089{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 114
+2025-06-15 11:51:20,089{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	114
+2025-06-15 11:51:20,139{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	117
+2025-06-15 11:51:20,140{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,140{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,141{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,141{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 117
+2025-06-15 11:51:20,142{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	117
+2025-06-15 11:51:20,168{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	120
+2025-06-15 11:51:20,170{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,171{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,171{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,173{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 120
+2025-06-15 11:51:20,174{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	120
+2025-06-15 11:51:20,266{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	123
+2025-06-15 11:51:20,267{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,268{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,268{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,269{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 123
+2025-06-15 11:51:20,270{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	123
+2025-06-15 11:51:20,294{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	126
+2025-06-15 11:51:20,296{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,296{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,296{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,297{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 126
+2025-06-15 11:51:20,297{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	126
+2025-06-15 11:51:20,415{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:20,416{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 126
+2025-06-15 11:51:20,416{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	126
+2025-06-15 11:51:20,600{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	129
+2025-06-15 11:51:20,611{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,612{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,613{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,615{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 129
+2025-06-15 11:51:20,616{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	129
+2025-06-15 11:51:20,794{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	132
+2025-06-15 11:51:20,798{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:20,799{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:20,801{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:20,805{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 132
+2025-06-15 11:51:20,807{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	132
+2025-06-15 11:51:20,884{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:20,885{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 132
+2025-06-15 11:51:20,886{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	132
+2025-06-15 11:51:21,078{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	135
+2025-06-15 11:51:21,079{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,080{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,080{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,082{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 135
+2025-06-15 11:51:21,082{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	135
+2025-06-15 11:51:21,088{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	138
+2025-06-15 11:51:21,089{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,089{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,089{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,090{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 138
+2025-06-15 11:51:21,090{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	138
+2025-06-15 11:51:21,200{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	141
+2025-06-15 11:51:21,204{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,206{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,208{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,213{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 141
+2025-06-15 11:51:21,214{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	141
+2025-06-15 11:51:21,215{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	144
+2025-06-15 11:51:21,217{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,218{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,218{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,220{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 144
+2025-06-15 11:51:21,220{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	144
+2025-06-15 11:51:21,280{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	147
+2025-06-15 11:51:21,282{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,282{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,282{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,283{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 147
+2025-06-15 11:51:21,284{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	147
+2025-06-15 11:51:21,467{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	150
+2025-06-15 11:51:21,469{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,470{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,470{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,471{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 150
+2025-06-15 11:51:21,472{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	150
+2025-06-15 11:51:21,649{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	153
+2025-06-15 11:51:21,654{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,654{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	155
+2025-06-15 11:51:21,655{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,656{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,656{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,661{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,661{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,661{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 153
+2025-06-15 11:51:21,662{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	153
+2025-06-15 11:51:21,662{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 155
+2025-06-15 11:51:21,662{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	155
+2025-06-15 11:51:21,722{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	159
+2025-06-15 11:51:21,724{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,724{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,724{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,725{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 159
+2025-06-15 11:51:21,726{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	159
+2025-06-15 11:51:21,766{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:21,768{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 159
+2025-06-15 11:51:21,768{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	159
+2025-06-15 11:51:21,840{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	162
+2025-06-15 11:51:21,841{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:21,842{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:21,842{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:21,844{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 162
+2025-06-15 11:51:21,844{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	162
+2025-06-15 11:51:22,001{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:22,004{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 162
+2025-06-15 11:51:22,007{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	162
+2025-06-15 11:51:22,082{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	165
+2025-06-15 11:51:22,084{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:22,085{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:22,085{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:22,086{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 165
+2025-06-15 11:51:22,087{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	165
+2025-06-15 11:51:22,173{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:51:22,175{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:51:22,261{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	172
+2025-06-15 11:51:22,262{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:22,262{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:22,263{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:22,264{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 172
+2025-06-15 11:51:22,264{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	172
+2025-06-15 11:51:22,328{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	175
+2025-06-15 11:51:22,331{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:22,333{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:22,334{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:22,339{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 175
+2025-06-15 11:51:22,340{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	175
+2025-06-15 11:51:22,392{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	178
+2025-06-15 11:51:22,393{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:22,394{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:22,394{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:22,395{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 178
+2025-06-15 11:51:22,396{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	178
+2025-06-15 11:51:22,435{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	181
+2025-06-15 11:51:22,436{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:22,436{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:22,437{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:22,438{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 181
+2025-06-15 11:51:22,438{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	181
+2025-06-15 11:51:22,537{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:22,540{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 181
+2025-06-15 11:51:22,541{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	181
+2025-06-15 11:51:22,712{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	184
+2025-06-15 11:51:22,716{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:22,717{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:22,719{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:22,722{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 184
+2025-06-15 11:51:22,723{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	184
+2025-06-15 11:51:22,744{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:22,747{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 184
+2025-06-15 11:51:22,749{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	184
+2025-06-15 11:51:22,775{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	187
+2025-06-15 11:51:22,777{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:22,777{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:22,778{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:22,779{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 187
+2025-06-15 11:51:22,779{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	187
+2025-06-15 11:51:22,855{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:22,857{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 187
+2025-06-15 11:51:22,857{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	187
+2025-06-15 11:51:23,019{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:23,022{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 187
+2025-06-15 11:51:23,022{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	187
+2025-06-15 11:51:23,158{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	190
+2025-06-15 11:51:23,159{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:23,160{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:23,160{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:23,162{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 190
+2025-06-15 11:51:23,162{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	190
+2025-06-15 11:51:23,316{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	193
+2025-06-15 11:51:23,320{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:23,321{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:23,322{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:23,325{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 193
+2025-06-15 11:51:23,325{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	193
+2025-06-15 11:51:23,455{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:23,456{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 193
+2025-06-15 11:51:23,457{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	193
+2025-06-15 11:51:23,529{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	196
+2025-06-15 11:51:23,531{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:23,532{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:23,532{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:23,534{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 196
+2025-06-15 11:51:23,535{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	196
+2025-06-15 11:51:23,613{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	199
+2025-06-15 11:51:23,616{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:23,617{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:23,617{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:23,620{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 199
+2025-06-15 11:51:23,621{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	199
+2025-06-15 11:51:23,806{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	202
+2025-06-15 11:51:23,807{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:23,808{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:23,808{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:23,809{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 202
+2025-06-15 11:51:23,810{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	202
+2025-06-15 11:51:23,834{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	205
+2025-06-15 11:51:23,836{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:23,836{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:23,836{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:23,837{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 205
+2025-06-15 11:51:23,838{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	205
+2025-06-15 11:51:24,033{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:24,035{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 205
+2025-06-15 11:51:24,035{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	205
+2025-06-15 11:51:24,048{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:24,051{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 205
+2025-06-15 11:51:24,052{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	205
+2025-06-15 11:51:24,067{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	208
+2025-06-15 11:51:24,068{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:24,069{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:24,069{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:24,071{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 208
+2025-06-15 11:51:24,071{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	208
+2025-06-15 11:51:24,073{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:24,074{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 208
+2025-06-15 11:51:24,074{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	208
+2025-06-15 11:51:24,177{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:24,179{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 208
+2025-06-15 11:51:24,180{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	208
+2025-06-15 11:51:24,363{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	211
+2025-06-15 11:51:24,364{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:24,364{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:24,364{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:24,365{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 211
+2025-06-15 11:51:24,366{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	211
+2025-06-15 11:51:24,507{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	214
+2025-06-15 11:51:24,508{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:24,509{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:24,510{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:24,511{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 214
+2025-06-15 11:51:24,512{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	214
+2025-06-15 11:51:24,578{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	217
+2025-06-15 11:51:24,580{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:24,580{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:24,580{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:24,582{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 217
+2025-06-15 11:51:24,582{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	217
+2025-06-15 11:51:24,596{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:24,597{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 217
+2025-06-15 11:51:24,597{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	217
+2025-06-15 11:51:24,696{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:24,701{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 217
+2025-06-15 11:51:24,701{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	217
+2025-06-15 11:51:24,794{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:24,796{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 217
+2025-06-15 11:51:24,797{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	217
+2025-06-15 11:51:24,956{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	220
+2025-06-15 11:51:24,958{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:24,958{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:24,959{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:24,960{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 220
+2025-06-15 11:51:24,961{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	220
+2025-06-15 11:51:25,017{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	223
+2025-06-15 11:51:25,018{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:25,019{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:25,020{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:25,021{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 223
+2025-06-15 11:51:25,022{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	223
+2025-06-15 11:51:25,187{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	226
+2025-06-15 11:51:25,188{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:25,188{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:25,189{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:25,192{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 226
+2025-06-15 11:51:25,192{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	226
+2025-06-15 11:51:25,252{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	229
+2025-06-15 11:51:25,253{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:25,254{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:25,254{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:25,256{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 229
+2025-06-15 11:51:25,257{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	229
+2025-06-15 11:51:25,313{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	232
+2025-06-15 11:51:25,314{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:25,314{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:25,314{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:25,315{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 232
+2025-06-15 11:51:25,316{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	232
+2025-06-15 11:51:25,467{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:25,468{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 232
+2025-06-15 11:51:25,469{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	232
+2025-06-15 11:51:25,637{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:25,638{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 232
+2025-06-15 11:51:25,639{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	232
+2025-06-15 11:51:25,656{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	235
+2025-06-15 11:51:25,658{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:25,658{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:25,659{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:25,660{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 235
+2025-06-15 11:51:25,660{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	235
+2025-06-15 11:51:25,787{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:25,789{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 235
+2025-06-15 11:51:25,789{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	235
+2025-06-15 11:51:25,795{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	238
+2025-06-15 11:51:25,796{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:25,797{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:25,797{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:25,798{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 238
+2025-06-15 11:51:25,799{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	238
+2025-06-15 11:51:25,902{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:25,904{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 238
+2025-06-15 11:51:25,907{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	238
+2025-06-15 11:51:25,932{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:25,933{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 238
+2025-06-15 11:51:25,934{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	238
+2025-06-15 11:51:26,043{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:26,044{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 238
+2025-06-15 11:51:26,044{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	238
+2025-06-15 11:51:26,125{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:26,126{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 238
+2025-06-15 11:51:26,126{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	238
+2025-06-15 11:51:26,300{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	241
+2025-06-15 11:51:26,301{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:26,302{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:26,302{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:26,304{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 241
+2025-06-15 11:51:26,305{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	241
+2025-06-15 11:51:26,427{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:26,428{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 241
+2025-06-15 11:51:26,428{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	241
+2025-06-15 11:51:26,468{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:26,469{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 241
+2025-06-15 11:51:26,469{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	241
+2025-06-15 11:51:26,540{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	244
+2025-06-15 11:51:26,541{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:26,542{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:26,542{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:26,543{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 244
+2025-06-15 11:51:26,544{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	244
+2025-06-15 11:51:26,719{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	247
+2025-06-15 11:51:26,722{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:26,723{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:26,725{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:26,728{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 247
+2025-06-15 11:51:26,729{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	249
+2025-06-15 11:51:26,729{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	247
+2025-06-15 11:51:26,730{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:26,731{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:26,731{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:26,732{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 249
+2025-06-15 11:51:26,734{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	249
+2025-06-15 11:51:26,738{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	253
+2025-06-15 11:51:26,739{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:26,740{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:26,740{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:26,741{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 253
+2025-06-15 11:51:26,741{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	253
+2025-06-15 11:51:26,758{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:26,760{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 253
+2025-06-15 11:51:26,760{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	253
+2025-06-15 11:51:26,799{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:26,803{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 253
+2025-06-15 11:51:26,805{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	253
+2025-06-15 11:51:26,935{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:26,936{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 253
+2025-06-15 11:51:26,936{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	253
+2025-06-15 11:51:27,108{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:27,109{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 253
+2025-06-15 11:51:27,110{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	253
+2025-06-15 11:51:27,177{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:51:27,177{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:51:27,227{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	260
+2025-06-15 11:51:27,228{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:27,229{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:27,229{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:27,230{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 260
+2025-06-15 11:51:27,231{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	260
+2025-06-15 11:51:27,244{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:27,245{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 260
+2025-06-15 11:51:27,245{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	260
+2025-06-15 11:51:27,355{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:27,356{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 260
+2025-06-15 11:51:27,357{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	260
+2025-06-15 11:51:27,365{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:27,366{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 260
+2025-06-15 11:51:27,367{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	260
+2025-06-15 11:51:27,514{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:27,517{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 260
+2025-06-15 11:51:27,518{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	260
+2025-06-15 11:51:27,588{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:27,590{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 260
+2025-06-15 11:51:27,590{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	260
+2025-06-15 11:51:27,603{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:27,604{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 260
+2025-06-15 11:51:27,605{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	260
+2025-06-15 11:51:27,759{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	263
+2025-06-15 11:51:27,761{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:27,761{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:27,762{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:27,763{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 263
+2025-06-15 11:51:27,763{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	263
+2025-06-15 11:51:27,797{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	266
+2025-06-15 11:51:27,799{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:27,801{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:27,802{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:27,803{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 266
+2025-06-15 11:51:27,804{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	266
+2025-06-15 11:51:27,989{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:27,990{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 266
+2025-06-15 11:51:27,991{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	266
+2025-06-15 11:51:28,129{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:28,130{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 266
+2025-06-15 11:51:28,131{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	266
+2025-06-15 11:51:28,170{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:28,171{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 266
+2025-06-15 11:51:28,171{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	266
+2025-06-15 11:51:28,355{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:28,356{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 266
+2025-06-15 11:51:28,357{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	266
+2025-06-15 11:51:28,399{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:28,400{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 266
+2025-06-15 11:51:28,401{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	266
+2025-06-15 11:51:28,553{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:28,555{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 266
+2025-06-15 11:51:28,555{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	266
+2025-06-15 11:51:28,606{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	269
+2025-06-15 11:51:28,607{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:28,607{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:28,608{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:28,610{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 269
+2025-06-15 11:51:28,611{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	269
+2025-06-15 11:51:28,721{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:28,722{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 269
+2025-06-15 11:51:28,722{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	269
+2025-06-15 11:51:28,750{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:28,752{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 269
+2025-06-15 11:51:28,753{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	269
+2025-06-15 11:51:28,919{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:28,922{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 269
+2025-06-15 11:51:28,923{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:28,924{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	269
+2025-06-15 11:51:28,925{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 269
+2025-06-15 11:51:28,925{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	269
+2025-06-15 11:51:29,089{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:29,092{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 269
+2025-06-15 11:51:29,093{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	269
+2025-06-15 11:51:29,256{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:29,259{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 269
+2025-06-15 11:51:29,261{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	269
+2025-06-15 11:51:29,347{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:29,348{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 269
+2025-06-15 11:51:29,349{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	269
+2025-06-15 11:51:29,504{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:29,505{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 269
+2025-06-15 11:51:29,506{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	269
+2025-06-15 11:51:29,524{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	272
+2025-06-15 11:51:29,525{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:29,525{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:29,526{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:29,529{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 272
+2025-06-15 11:51:29,530{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	272
+2025-06-15 11:51:29,622{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	275
+2025-06-15 11:51:29,625{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:29,627{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:29,629{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:29,634{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 275
+2025-06-15 11:51:29,635{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	275
+2025-06-15 11:51:29,666{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	278
+2025-06-15 11:51:29,667{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:29,667{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:29,668{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:29,669{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 278
+2025-06-15 11:51:29,669{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	278
+2025-06-15 11:51:29,704{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	281
+2025-06-15 11:51:29,705{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:29,706{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:29,706{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:29,707{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 281
+2025-06-15 11:51:29,707{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	281
+2025-06-15 11:51:29,802{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:29,804{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 281
+2025-06-15 11:51:29,806{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	281
+2025-06-15 11:51:29,934{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	284
+2025-06-15 11:51:29,936{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:29,936{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:29,936{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:29,938{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 284
+2025-06-15 11:51:29,938{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	284
+2025-06-15 11:51:30,061{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:30,061{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:30,063{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 284
+2025-06-15 11:51:30,063{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 284
+2025-06-15 11:51:30,063{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	284
+2025-06-15 11:51:30,063{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	284
+2025-06-15 11:51:30,218{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:30,219{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 284
+2025-06-15 11:51:30,219{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	284
+2025-06-15 11:51:30,330{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:30,331{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 284
+2025-06-15 11:51:30,332{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	284
+2025-06-15 11:51:30,419{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	287
+2025-06-15 11:51:30,424{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:30,426{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:30,427{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:30,433{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 287
+2025-06-15 11:51:30,435{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	287
+2025-06-15 11:51:30,524{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	290
+2025-06-15 11:51:30,528{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:30,529{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:30,529{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:30,530{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 290
+2025-06-15 11:51:30,530{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	290
+2025-06-15 11:51:30,671{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	293
+2025-06-15 11:51:30,675{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:30,675{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:30,676{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:30,677{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 293
+2025-06-15 11:51:30,678{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	293
+2025-06-15 11:51:30,728{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	296
+2025-06-15 11:51:30,731{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:30,732{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:30,733{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:30,737{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 296
+2025-06-15 11:51:30,740{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	296
+2025-06-15 11:51:30,758{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:30,759{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 296
+2025-06-15 11:51:30,760{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	296
+2025-06-15 11:51:30,798{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:30,799{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 296
+2025-06-15 11:51:30,800{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	296
+2025-06-15 11:51:30,819{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	299
+2025-06-15 11:51:30,820{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:30,820{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:30,820{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:30,822{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 299
+2025-06-15 11:51:30,823{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	299
+2025-06-15 11:51:30,845{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:30,846{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 299
+2025-06-15 11:51:30,847{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	299
+2025-06-15 11:51:31,032{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	302
+2025-06-15 11:51:31,033{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:31,034{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:31,034{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:31,035{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 302
+2025-06-15 11:51:31,035{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	302
+2025-06-15 11:51:31,099{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	305
+2025-06-15 11:51:31,101{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:31,101{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:31,101{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:31,103{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 305
+2025-06-15 11:51:31,103{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	305
+2025-06-15 11:51:31,211{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:31,212{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 305
+2025-06-15 11:51:31,212{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	305
+2025-06-15 11:51:31,240{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:31,241{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 305
+2025-06-15 11:51:31,241{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	305
+2025-06-15 11:51:31,344{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:31,351{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 305
+2025-06-15 11:51:31,352{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	305
+2025-06-15 11:51:31,403{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	308
+2025-06-15 11:51:31,407{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:31,409{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:31,410{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:31,411{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 308
+2025-06-15 11:51:31,412{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	308
+2025-06-15 11:51:31,571{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:31,573{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 308
+2025-06-15 11:51:31,573{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	308
+2025-06-15 11:51:31,733{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	311
+2025-06-15 11:51:31,734{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:31,735{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:31,735{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:31,737{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 311
+2025-06-15 11:51:31,738{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	311
+2025-06-15 11:51:31,872{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:31,874{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 311
+2025-06-15 11:51:31,878{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	311
+2025-06-15 11:51:32,065{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:32,069{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 311
+2025-06-15 11:51:32,069{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	311
+2025-06-15 11:51:32,177{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:51:32,178{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-15 11:51:32,251{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	318
+2025-06-15 11:51:32,253{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:32,253{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:32,254{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:32,256{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 318
+2025-06-15 11:51:32,257{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	318
+2025-06-15 11:51:32,326{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	321
+2025-06-15 11:51:32,328{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:32,328{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:32,328{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:32,330{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 321
+2025-06-15 11:51:32,331{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	321
+2025-06-15 11:51:32,370{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	324
+2025-06-15 11:51:32,371{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:32,371{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:32,372{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:32,373{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 324
+2025-06-15 11:51:32,373{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	324
+2025-06-15 11:51:32,394{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:32,395{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 324
+2025-06-15 11:51:32,395{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	324
+2025-06-15 11:51:32,435{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:32,436{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 324
+2025-06-15 11:51:32,437{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	324
+2025-06-15 11:51:32,464{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	327
+2025-06-15 11:51:32,465{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:32,466{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:32,466{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:32,468{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 327
+2025-06-15 11:51:32,468{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	327
+2025-06-15 11:51:32,607{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:32,608{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 327
+2025-06-15 11:51:32,608{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	327
+2025-06-15 11:51:32,647{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	330
+2025-06-15 11:51:32,648{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:32,649{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:32,655{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:32,657{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 330
+2025-06-15 11:51:32,657{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	330
+2025-06-15 11:51:32,817{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	333
+2025-06-15 11:51:32,818{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:32,819{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:32,819{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:32,820{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 333
+2025-06-15 11:51:32,820{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	333
+2025-06-15 11:51:32,849{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:32,850{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 333
+2025-06-15 11:51:32,851{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	333
+2025-06-15 11:51:32,962{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:32,965{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 333
+2025-06-15 11:51:32,967{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	333
+2025-06-15 11:51:32,990{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	336
+2025-06-15 11:51:32,991{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:32,991{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:32,992{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:32,993{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 336
+2025-06-15 11:51:32,993{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	336
+2025-06-15 11:51:33,040{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:33,041{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 336
+2025-06-15 11:51:33,041{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	336
+2025-06-15 11:51:33,161{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:33,163{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 336
+2025-06-15 11:51:33,163{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	336
+2025-06-15 11:51:33,316{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:33,317{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 336
+2025-06-15 11:51:33,317{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	336
+2025-06-15 11:51:33,332{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	339
+2025-06-15 11:51:33,333{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:33,333{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:33,333{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:33,335{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 339
+2025-06-15 11:51:33,335{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	339
+2025-06-15 11:51:33,341{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	342
+2025-06-15 11:51:33,341{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:33,342{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:33,342{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:33,344{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 342
+2025-06-15 11:51:33,345{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	342
+2025-06-15 11:51:33,536{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	345
+2025-06-15 11:51:33,539{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:33,540{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:33,541{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:33,542{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 345
+2025-06-15 11:51:33,543{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	345
+2025-06-15 11:51:33,572{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:33,573{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 345
+2025-06-15 11:51:33,574{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	345
+2025-06-15 11:51:33,595{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:33,596{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 345
+2025-06-15 11:51:33,596{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	345
+2025-06-15 11:51:33,780{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:33,783{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 345
+2025-06-15 11:51:33,785{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	345
+2025-06-15 11:51:33,976{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	348
+2025-06-15 11:51:33,977{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:33,978{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:33,979{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:33,980{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 348
+2025-06-15 11:51:33,981{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	348
+2025-06-15 11:51:34,156{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:34,159{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 348
+2025-06-15 11:51:34,161{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	348
+2025-06-15 11:51:34,325{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:34,327{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 348
+2025-06-15 11:51:34,328{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	348
+2025-06-15 11:51:34,423{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:34,424{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 348
+2025-06-15 11:51:34,424{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	348
+2025-06-15 11:51:34,464{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	351
+2025-06-15 11:51:34,465{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:34,465{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:34,466{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:34,468{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 351
+2025-06-15 11:51:34,468{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	351
+2025-06-15 11:51:34,594{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:34,595{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 351
+2025-06-15 11:51:34,596{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	351
+2025-06-15 11:51:34,694{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:34,695{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 351
+2025-06-15 11:51:34,695{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	351
+2025-06-15 11:51:34,711{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:34,712{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 351
+2025-06-15 11:51:34,712{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	351
+2025-06-15 11:51:34,836{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	354
+2025-06-15 11:51:34,837{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:34,838{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:34,838{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:34,840{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 354
+2025-06-15 11:51:34,841{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	354
+2025-06-15 11:51:34,922{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:34,926{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 354
+2025-06-15 11:51:34,928{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	354
+2025-06-15 11:51:35,041{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:35,044{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 354
+2025-06-15 11:51:35,046{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	354
+2025-06-15 11:51:35,119{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:35,122{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 354
+2025-06-15 11:51:35,123{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	354
+2025-06-15 11:51:35,279{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	357
+2025-06-15 11:51:35,280{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:35,281{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:35,281{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:35,283{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 357
+2025-06-15 11:51:35,283{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	357
+2025-06-15 11:51:35,312{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:35,313{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 357
+2025-06-15 11:51:35,313{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	357
+2025-06-15 11:51:35,425{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:35,426{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 357
+2025-06-15 11:51:35,427{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	357
+2025-06-15 11:51:35,504{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	360
+2025-06-15 11:51:35,506{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:35,507{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:35,511{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:35,512{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 360
+2025-06-15 11:51:35,513{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	360
+2025-06-15 11:51:35,589{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:35,589{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 360
+2025-06-15 11:51:35,590{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	360
+2025-06-15 11:51:35,748{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	363
+2025-06-15 11:51:35,749{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:35,750{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:35,750{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:35,751{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 363
+2025-06-15 11:51:35,752{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	363
+2025-06-15 11:51:35,873{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	366
+2025-06-15 11:51:35,875{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:35,876{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:35,876{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:35,878{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 366
+2025-06-15 11:51:35,878{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	366
+2025-06-15 11:51:35,978{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	369
+2025-06-15 11:51:35,979{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:35,980{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:35,980{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:35,981{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 369
+2025-06-15 11:51:35,981{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	369
+2025-06-15 11:51:36,084{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	372
+2025-06-15 11:51:36,086{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:36,087{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:36,087{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:36,088{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 372
+2025-06-15 11:51:36,090{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	372
+2025-06-15 11:51:36,250{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	375
+2025-06-15 11:51:36,252{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:36,252{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:36,253{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:36,255{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 375
+2025-06-15 11:51:36,255{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	375
+2025-06-15 11:51:36,325{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:36,328{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 375
+2025-06-15 11:51:36,330{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	375
+2025-06-15 11:51:36,465{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	378
+2025-06-15 11:51:36,467{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:36,467{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:36,468{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:36,469{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 378
+2025-06-15 11:51:36,469{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	378
+2025-06-15 11:51:36,596{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	381
+2025-06-15 11:51:36,597{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:36,598{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:36,598{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:36,599{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 381
+2025-06-15 11:51:36,600{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	381
+2025-06-15 11:51:36,670{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	384
+2025-06-15 11:51:36,672{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:36,672{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:36,672{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:36,673{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 384
+2025-06-15 11:51:36,674{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	384
+2025-06-15 11:51:36,830{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:36,831{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 384
+2025-06-15 11:51:36,831{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	384
+2025-06-15 11:51:37,014{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:37,017{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 384
+2025-06-15 11:51:37,019{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	384
+2025-06-15 11:51:37,103{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	387
+2025-06-15 11:51:37,107{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:37,108{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:37,110{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:37,116{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 387
+2025-06-15 11:51:37,117{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	387
+2025-06-15 11:51:37,132{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:37,134{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 387
+2025-06-15 11:51:37,134{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	387
+2025-06-15 11:51:37,179{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:37,180{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 387
+2025-06-15 11:51:37,181{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	387
+2025-06-15 11:51:37,182{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:51:37,183{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-15 11:51:37,245{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	394
+2025-06-15 11:51:37,246{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:37,247{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:37,247{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:37,249{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 394
+2025-06-15 11:51:37,249{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	394
+2025-06-15 11:51:37,437{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	397
+2025-06-15 11:51:37,438{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:37,439{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:37,439{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:37,440{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 397
+2025-06-15 11:51:37,441{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	397
+2025-06-15 11:51:37,553{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	400
+2025-06-15 11:51:37,555{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:37,555{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:37,556{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:37,557{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 400
+2025-06-15 11:51:37,558{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	400
+2025-06-15 11:51:37,592{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	403
+2025-06-15 11:51:37,593{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:37,594{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:37,594{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:37,595{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 403
+2025-06-15 11:51:37,596{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	403
+2025-06-15 11:51:37,751{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:37,752{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 403
+2025-06-15 11:51:37,753{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	403
+2025-06-15 11:51:37,828{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:37,830{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 403
+2025-06-15 11:51:37,830{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	403
+2025-06-15 11:51:37,974{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	406
+2025-06-15 11:51:37,977{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:37,979{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:37,980{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:37,981{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 406
+2025-06-15 11:51:37,982{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	406
+2025-06-15 11:51:38,114{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:38,117{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 406
+2025-06-15 11:51:38,119{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	406
+2025-06-15 11:51:38,273{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	409
+2025-06-15 11:51:38,274{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:38,275{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:38,275{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:38,277{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 409
+2025-06-15 11:51:38,277{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	409
+2025-06-15 11:51:38,464{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	412
+2025-06-15 11:51:38,466{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:38,466{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:38,466{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:38,468{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 412
+2025-06-15 11:51:38,468{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	412
+2025-06-15 11:51:38,511{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	415
+2025-06-15 11:51:38,515{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:38,515{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:38,516{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:38,517{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 415
+2025-06-15 11:51:38,517{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	415
+2025-06-15 11:51:38,705{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	418
+2025-06-15 11:51:38,706{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n3 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:38,706{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:38,707{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n3 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:38,708{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 418
+2025-06-15 11:51:38,708{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	418
+2025-06-15 11:51:38,719{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	421
+2025-06-15 11:51:38,720{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:38,720{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:38,721{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:38,722{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 421
+2025-06-15 11:51:38,722{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	421
+2025-06-15 11:51:38,730{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:38,731{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 421
+2025-06-15 11:51:38,732{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	421
+2025-06-15 11:51:38,794{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	424
+2025-06-15 11:51:38,797{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:38,799{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:38,800{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:38,805{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 424
+2025-06-15 11:51:38,806{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	424
+2025-06-15 11:51:38,847{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:38,848{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 424
+2025-06-15 11:51:38,849{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	424
+2025-06-15 11:51:38,902{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	427
+2025-06-15 11:51:38,904{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:38,904{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:38,904{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:38,905{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 427
+2025-06-15 11:51:38,906{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	427
+2025-06-15 11:51:39,051{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	430
+2025-06-15 11:51:39,052{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:39,053{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:39,053{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:39,055{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 430
+2025-06-15 11:51:39,056{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	430
+2025-06-15 11:51:39,124{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	433
+2025-06-15 11:51:39,127{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:39,128{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:39,130{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:39,134{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 433
+2025-06-15 11:51:39,136{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	433
+2025-06-15 11:51:39,309{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:39,311{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 433
+2025-06-15 11:51:39,311{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	433
+2025-06-15 11:51:39,330{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	436
+2025-06-15 11:51:39,331{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:39,331{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:39,331{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:39,333{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 436
+2025-06-15 11:51:39,333{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	436
+2025-06-15 11:51:39,479{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:39,481{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n2 value: 436
+2025-06-15 11:51:39,482{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	436
+2025-06-15 11:51:39,668{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:39,669{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 436
+2025-06-15 11:51:39,670{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	436
+2025-06-15 11:51:39,830{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:39,831{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 436
+2025-06-15 11:51:39,832{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	436
+2025-06-15 11:51:39,997{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:39,998{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 436
+2025-06-15 11:51:39,998{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	436
+2025-06-15 11:51:40,031{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:40,032{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 436
+2025-06-15 11:51:40,032{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	436
+2025-06-15 11:51:40,104{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	439
+2025-06-15 11:51:40,106{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:40,106{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:40,107{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:40,108{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 439
+2025-06-15 11:51:40,109{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	439
+2025-06-15 11:51:40,124{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:40,126{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 439
+2025-06-15 11:51:40,127{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	439
+2025-06-15 11:51:40,211{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	442
+2025-06-15 11:51:40,212{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:40,213{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:40,213{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:40,214{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 442
+2025-06-15 11:51:40,215{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	442
+2025-06-15 11:51:40,409{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:40,410{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 442
+2025-06-15 11:51:40,411{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	442
+2025-06-15 11:51:40,561{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	445
+2025-06-15 11:51:40,563{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:40,563{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:40,563{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:40,565{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 445
+2025-06-15 11:51:40,565{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	445
+2025-06-15 11:51:40,617{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:40,618{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 445
+2025-06-15 11:51:40,618{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	445
+2025-06-15 11:51:40,802{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:40,803{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 445
+2025-06-15 11:51:40,803{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	445
+2025-06-15 11:51:40,987{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	448
+2025-06-15 11:51:40,990{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:40,992{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:40,993{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:40,994{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 448
+2025-06-15 11:51:40,995{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	448
+2025-06-15 11:51:41,152{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:41,153{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n3 value: 448
+2025-06-15 11:51:41,153{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	448
+2025-06-15 11:51:41,160{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:write	451
+2025-06-15 11:51:41,161{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n4 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:41,161{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:41,161{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Sentinel n4 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:41,162{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 451
+2025-06-15 11:51:41,162{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:write	451
+2025-06-15 11:51:41,298{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read	nil
+2025-06-15 11:51:41,298{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 451
+2025-06-15 11:51:41,299{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read	451
+2025-06-15 11:51:41,460{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:41,461{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n5 value: 451
+2025-06-15 11:51:41,461{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	451
+2025-06-15 11:51:41,642{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read	nil
+2025-06-15 11:51:41,643{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 451
+2025-06-15 11:51:41,643{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read	451
+2025-06-15 11:51:41,747{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read	nil
+2025-06-15 11:51:41,750{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Reading from replica n4 value: 451
+2025-06-15 11:51:41,751{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read	451
+2025-06-15 11:51:41,797{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:write	454
+2025-06-15 11:51:41,800{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n1 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:41,801{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:41,802{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Sentinel n1 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:41,809{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 454
+2025-06-15 11:51:41,810{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:write	454
+2025-06-15 11:51:41,952{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	457
+2025-06-15 11:51:41,953{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n5 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:41,953{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:41,954{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n5 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:41,955{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 457
+2025-06-15 11:51:41,956{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	457
+2025-06-15 11:51:42,062{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:write	460
+2025-06-15 11:51:42,064{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Raw Sentinel response from n2 : [172.20.0.15 6379] Type: clojure.lang.PersistentVector
+2025-06-15 11:51:42,065{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Parsed Sentinel info: [172.20.0.15 6379]
+2025-06-15 11:51:42,066{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Sentinel n2 reports primary: n5 ( 172.20.0.15 )
+2025-06-15 11:51:42,068{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Writing to primary n5 value: 460
+2025-06-15 11:51:42,069{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:write	460
+2025-06-15 11:51:42,184{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,184{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,184{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,291{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:51:42,291{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:51:42,291{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:51:42,291{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:51:42,291{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Tearing down Redis Sentinel client
+2025-06-15 11:51:42,291{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,292{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,292{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,292{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,292{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.test-ssh: Closing Redis Sentinel client
+2025-06-15 11:51:42,294{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-15 11:51:42,646{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-15 11:51:42,646{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-15 11:51:42,646{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-15 11:51:42,646{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-15 11:51:42,647{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-15 11:51:42,649{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-15 11:51:42,766{GMT}	INFO	[clojure-agent-send-off-pool-7] knossos.model.memo: More than 1024 reachable models; not memoizing models for this search
+2025-06-15 11:51:43,151{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-15 11:51:43,175{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/redis-simple-test/20250615T115043.941Z/results.edn
+2025-06-15 11:51:43,209{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :valid? true,
+ :clock-plot {:valid? true},
+ :unhandled-exceptions {:valid? true},
+ :latency-graph {:valid? true},
+ :rate-graph {:valid? true},
+ :linear {:valid? true,
+          :configs ({:model #knossos.model.Register{:value 460},
+                     :last-op {:process 0,
+                               :type :ok,
+                               :f :write,
+                               :value 460,
+                               :index 621,
+                               :time 30137548013,
+                               :node "n5"},
+                     :pending []}),
+          :analyzer :linear,
+          :final-paths ()},
+ :timeline {:valid? true},
+ :stats {:valid? true,
+         :count 306,
+         :ok-count 306,
+         :fail-count 0,
+         :info-count 0,
+         :by-f {:read {:valid? true,
+                       :count 157,
+                       :ok-count 157,
+                       :fail-count 0,
+                       :info-count 0},
+                :write {:valid? true,
+                        :count 149,
+                        :ok-count 149,
+                        :fail-count 0,
+                        :info-count 0}}}}
+
+
+Everything looks good! ヽ(‘ー`)ノ
