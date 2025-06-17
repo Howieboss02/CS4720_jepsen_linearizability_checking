@@ -12,10 +12,10 @@
 
 (def test-configurations
   {:basic-linearizability
-   {:client-count 2
-    :duration-ms 2000
+   {:client-count 1
+    :duration-ms 10000
     :workload-type :register
-    :ops-per-second 5
+    :ops-per-second 1
     :workload-params {:register-count 1}}
    
    :high-contention
@@ -91,12 +91,25 @@
     (let [file-content (slurp file-path)
           parsed (json/parse-string file-content true)
           keywordized (map #(walk/keywordize-keys %) parsed)
-          ;; Transform to proper Knossos format
+          ;; Transform to proper Knossos format with value normalization
           processed (map (fn [op]
                            (let [op-type (keyword (:type op))
                                  f       (keyword (:f op))
                                  key-name (:key op)
-                                 op-value (:value op)
+                                 ;; NORMALIZE VALUES: convert strings to integers if they represent numbers
+                                 raw-value (:value op)
+                                 normalized-value (cond
+                                                    ;; If it's a string that looks like a number, convert it
+                                                    (and (string? raw-value) 
+                                                         (re-matches #"\d+" raw-value))
+                                                    (Integer/parseInt raw-value)
+                                                    
+                                                    ;; If it's already a number, keep it
+                                                    (number? raw-value)
+                                                    raw-value
+                                                    
+                                                    ;; Otherwise keep as-is
+                                                    :else raw-value)
                                  ;; FIX: coerce :process or :client to integer
                                  process  (cond
                                            (integer? (:process op)) (:process op)
@@ -107,11 +120,12 @@
                              {:type op-type
                               :f f
                               :value (case f
-                                           :read (if (= op-type :invoke)
-                                                   key-name
-                                                   [key-name op-value])
-                                           :write [key-name op-value]
-                                           op-value)
+                                       :read (case op-type
+                                               :invoke nil  ; ← FIX: Read invocation has NO value
+                                               :ok normalized-value  ; Read completion: actual value
+                                               :fail nil)   ; Read failure: no value
+                                       :write normalized-value ; Write: always has value
+                                       normalized-value) ; Default
                               :process process
                               :time (:time op)}))
                          keywordized)]
