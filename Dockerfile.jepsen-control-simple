@@ -54,7 +54,6 @@ RUN lein deps
 
 # Copy source code
 COPY src/ /jepsen/src/
-COPY dev/ /jepsen/dev/
 COPY resources/ /jepsen/resources/
 COPY docker/ /jepsen/docker/
 
