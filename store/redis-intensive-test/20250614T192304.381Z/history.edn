@@ -1,4 +1,0 @@
-{:index 0, :time 8463436, :type :invoke, :process 0, :f :read, :value nil, :weight 7}
-{:index 1, :time 15043652, :type :invoke, :process 1, :f :write, :value 953, :weight 3}
-{:index 2, :time 17908133, :type :invoke, :process 0, :f :read, :value nil, :weight 7, :node "n3"}
-{:index 3, :time 18615178, :type :invoke, :process 1, :f :write, :value 953, :weight 3, :node "n1"}

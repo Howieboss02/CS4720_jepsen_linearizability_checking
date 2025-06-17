@@ -56,7 +56,6 @@
               (let [sentinel-node (rand-nth sentinel-nodes)]
                 (try
                   (let [sentinel-conn {:pool {} :spec {:host sentinel-node :port 26379}}
-                        ;; Fixed: Use vector of strings for redis-call arguments
                         primary-info (wcar sentinel-conn
                                            (car/redis-call ["SENTINEL" "get-master-addr-by-name" "mymaster"]))]
                     (info "Raw Sentinel response from" sentinel-node ":" primary-info

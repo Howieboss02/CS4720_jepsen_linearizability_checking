@@ -1,9 +1,0 @@
-{:perf {:latency-graph {:valid? true},
-        :rate-graph {:valid? true},
-        :valid? true},
- :timeline {:valid? true},
- :linear {:valid? true,
-          :model #knossos.model.Register{:value nil},
-          :final-paths (),
-          :configs ()},
- :valid? true}

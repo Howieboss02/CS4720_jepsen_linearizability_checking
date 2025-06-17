@@ -39,7 +39,7 @@ echo "SSH keys generated and shared"
 echo "Waiting for nodes to copy SSH keys..."
 sleep 30
 
-# Test SSH and Redis with retry logic
+# Test SSH and Redis
 for node in n1 n2 n3 n4 n5; do
   echo "Testing SSH to $node..."
   max_attempts=10
@@ -71,8 +71,7 @@ done
 echo "=== Jepsen control ready ==="
 echo "Available commands:"
 echo "  cd /jepsen"
-echo "  lein run test --test-name linearizability --time-limit 60"
-echo "  lein run test --test-name split-brain --time-limit 120"
+echo "  lein run test [TEST NAME]"
 echo ""
 echo "Debug commands:"
 echo "  ssh n1 'redis-cli info'"
@@ -81,5 +80,4 @@ echo ""
 echo "Container will stay running. Use 'docker exec -it jepsen-control bash' to interact."
 echo ""
 
-# Keep container running indefinitely
 tail -f /dev/null

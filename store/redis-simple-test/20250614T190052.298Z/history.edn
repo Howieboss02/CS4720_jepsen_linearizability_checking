@@ -1,4 +1,0 @@
-{:index 0, :time 168502819, :type :invoke, :process 0, :f :read, :value nil}
-{:index 1, :time 206046496, :type :invoke, :process 1, :f :write, :value 1}
-{:index 2, :time 652876879, :type :fail, :process 1, :f :write, :value 1, :error "READONLY You can't write against a read only replica."}
-{:index 3, :time 658669361, :type :ok, :process 0, :f :read, :value nil}

@@ -498,3 +498,73 @@
 38:X 15 Jun 2025 12:07:10.248 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
 38:X 15 Jun 2025 12:07:12.252 # -sdown sentinel dec3cd919e946bbd71c7e58388bafa9d12b268fe 172.20.0.11 26379 @ mymaster 172.20.0.13 6379
 38:X 15 Jun 2025 12:07:12.253 # -sdown sentinel 79439c4dbbd97d7929796f67d92d70a394eb592d 172.20.0.13 26379 @ mymaster 172.20.0.13 6379
+39:X 17 Jun 2025 17:05:21.595 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+39:X 17 Jun 2025 17:05:21.601 * Redis version=7.4.1, bits=64, commit=00000000, modified=0, pid=39, just started
+39:X 17 Jun 2025 17:05:21.606 * Configuration loaded
+39:X 17 Jun 2025 17:05:21.615 * monotonic clock: POSIX clock_gettime
+39:X 17 Jun 2025 17:05:21.620 * Running mode=sentinel, port=26379.
+39:X 17 Jun 2025 17:05:21.658 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:21.662 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:21.666 * Sentinel ID is 2ce22277b0ea84eb8a23867839c7840e6d7a26e5
+39:X 17 Jun 2025 17:05:21.668 # +monitor master mymaster 172.20.0.11 6379 quorum 2
+39:X 17 Jun 2025 17:05:21.673 * +slave slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:21.685 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:21.688 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:21.691 * +slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:21.700 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:21.715 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:21.719 * +slave slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:21.732 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:21.734 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:21.739 * +slave slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:21.750 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:21.752 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:23.628 * +sentinel sentinel 651c2a092ef34c0f27ed8898e2df2a82ed310255 172.20.0.11 26379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:23.649 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:23.654 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:23.661 * +sentinel sentinel bf5357957ac2738585a771cf047a64235ee604f3 172.20.0.13 26379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:23.688 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:23.692 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:23.697 * +sentinel sentinel 702c3a72c398146a4cdc817b96862bd1f65e3ec7 172.20.0.15 26379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:23.718 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:23.724 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+39:X 17 Jun 2025 17:05:23.729 * +sentinel sentinel 7d7fd69fdcc3c1b40c278dbd0d36ea45010ad5ec 172.20.0.14 26379 @ mymaster 172.20.0.11 6379
+39:X 17 Jun 2025 17:05:23.742 # Could not rename tmp config file (Device or resource busy)
+39:X 17 Jun 2025 17:05:23.745 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:12.801 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+38:X 17 Jun 2025 17:18:12.804 * Redis version=7.4.1, bits=64, commit=00000000, modified=0, pid=38, just started
+38:X 17 Jun 2025 17:18:12.807 * Configuration loaded
+38:X 17 Jun 2025 17:18:12.816 * monotonic clock: POSIX clock_gettime
+38:X 17 Jun 2025 17:18:12.842 * Running mode=sentinel, port=26379.
+38:X 17 Jun 2025 17:18:12.862 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:12.865 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:12.868 * Sentinel ID is 5d47593fd6ac05aedfb8e4aac58a77616f7237cd
+38:X 17 Jun 2025 17:18:12.870 # +monitor master mymaster 172.20.0.11 6379 quorum 2
+38:X 17 Jun 2025 17:18:12.883 * +slave slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:12.899 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:12.901 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:12.904 * +slave slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:12.916 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:12.920 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:12.922 * +slave slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:12.932 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:12.935 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:12.937 * +slave slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:12.947 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:12.949 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:14.813 * +sentinel sentinel 0f2fcec6d097c4fc24c5c10392d00eb1d9841e87 172.20.0.14 26379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:14.821 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:14.824 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:14.830 * +sentinel sentinel ff98c441f904d7c5cec65b5100cf1d14ad3c7e22 172.20.0.15 26379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:14.838 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:14.840 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:14.868 * +sentinel sentinel f24428204da589f1c6e38f2764c03e39c8ce7686 172.20.0.13 26379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:14.879 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:14.882 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:14.883 * +sentinel sentinel 6b12d54930f6550040217268e344eb21e6be1fbc 172.20.0.11 26379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:15.055 # Could not rename tmp config file (Device or resource busy)
+38:X 17 Jun 2025 17:18:15.057 # WARNING: Sentinel was not able to save the new configuration on disk!!!: Device or resource busy
+38:X 17 Jun 2025 17:18:22.966 * +fix-slave-config slave 172.20.0.12:6379 172.20.0.12 6379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:22.969 * +fix-slave-config slave 172.20.0.14:6379 172.20.0.14 6379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:22.971 * +fix-slave-config slave 172.20.0.13:6379 172.20.0.13 6379 @ mymaster 172.20.0.11 6379
+38:X 17 Jun 2025 17:18:22.972 * +fix-slave-config slave 172.20.0.15:6379 172.20.0.15 6379 @ mymaster 172.20.0.11 6379
