@@ -639,180 +639,80 @@
 20:S 17 Jun 2025 17:18:23.067 * Trying a partial resynchronization (request 66d061b31770c8ea551018f95d414e7eaed6b715:3189).
 20:S 17 Jun 2025 17:18:23.070 * Successful partial resynchronization with master.
 20:S 17 Jun 2025 17:18:23.071 * MASTER <-> REPLICA sync: Master accepted a Partial Resynchronization.
-19:C 17 Jun 2025 17:42:41.841 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-19:C 17 Jun 2025 17:42:41.844 * Redis version=7.4.1, bits=64, commit=00000000, modified=0, pid=19, just started
-19:C 17 Jun 2025 17:42:41.845 * Configuration loaded
-19:S 17 Jun 2025 17:42:41.847 * monotonic clock: POSIX clock_gettime
-19:S 17 Jun 2025 17:42:41.850 * Running mode=standalone, port=6379.
-19:S 17 Jun 2025 17:42:41.852 * Server initialized
-19:S 17 Jun 2025 17:42:41.863 * Creating AOF base file appendonly-n3.aof.1.base.rdb on server start
-19:S 17 Jun 2025 17:42:41.870 * Creating AOF incr file appendonly-n3.aof.1.incr.aof on server start
-19:S 17 Jun 2025 17:42:41.872 * Ready to accept connections tcp
-19:S 17 Jun 2025 17:42:41.873 * Connecting to MASTER n1:6379
-19:S 17 Jun 2025 17:42:41.878 * MASTER <-> REPLICA sync started
-19:S 17 Jun 2025 17:42:41.879 * Non blocking connect for SYNC fired the event.
-19:S 17 Jun 2025 17:42:41.883 * Master replied to PING, replication can continue...
-19:S 17 Jun 2025 17:42:41.885 * Partial resynchronization not possible (no cached master)
-19:S 17 Jun 2025 17:42:41.901 * Full resync from master: 3fe3adb7d792f113f23fbcc7f47082a50385f7bd:0
-19:S 17 Jun 2025 17:42:41.978 * MASTER <-> REPLICA sync: receiving 171 bytes from master to disk
-19:S 17 Jun 2025 17:42:41.981 * MASTER <-> REPLICA sync: Flushing old data
-19:S 17 Jun 2025 17:42:41.983 * MASTER <-> REPLICA sync: Loading DB in memory
-19:S 17 Jun 2025 17:42:41.992 * Loading RDB produced by version 7.4.1
-19:S 17 Jun 2025 17:42:41.993 * RDB age 0 seconds
-19:S 17 Jun 2025 17:42:41.995 * RDB memory usage when created 1.06 Mb
-19:S 17 Jun 2025 17:42:41.997 * Done loading RDB, keys loaded: 0, keys expired: 0.
-19:S 17 Jun 2025 17:42:41.999 * MASTER <-> REPLICA sync: Finished with success
-19:S 17 Jun 2025 17:42:42.001 * Creating AOF incr file temp-appendonly-n3.aof.incr on background rewrite
-19:S 17 Jun 2025 17:42:42.003 * Background append only file rewriting started by pid 26
-26:C 17 Jun 2025 17:42:42.009 * Successfully created the temporary AOF base file temp-rewriteaof-bg-26.aof
-26:C 17 Jun 2025 17:42:42.011 * Fork CoW for AOF rewrite: current 0 MB, peak 0 MB, average 0 MB
-19:S 17 Jun 2025 17:42:42.081 * Background AOF rewrite terminated with success
-19:S 17 Jun 2025 17:42:42.084 * Successfully renamed the temporary AOF base file temp-rewriteaof-bg-26.aof into appendonly-n3.aof.2.base.rdb
-19:S 17 Jun 2025 17:42:42.085 * Successfully renamed the temporary AOF incr file temp-appendonly-n3.aof.incr into appendonly-n3.aof.2.incr.aof
-19:S 17 Jun 2025 17:42:42.092 * Removing the history file appendonly-n3.aof.1.incr.aof in the background
-19:S 17 Jun 2025 17:42:42.094 * Removing the history file appendonly-n3.aof.1.base.rdb in the background
-19:S 17 Jun 2025 17:42:42.101 * Background AOF rewrite finished successfully
-19:M 17 Jun 2025 17:42:56.972 * Connection with master lost.
-19:M 17 Jun 2025 17:42:56.973 * Caching the disconnected master state.
-19:S 17 Jun 2025 17:42:56.975 * Connecting to MASTER 172.20.0.11:6379
-19:S 17 Jun 2025 17:42:56.976 * MASTER <-> REPLICA sync started
-19:S 17 Jun 2025 17:42:56.977 * REPLICAOF 172.20.0.11:6379 enabled (user request from 'id=8 addr=172.20.0.14:35072 laddr=172.20.0.13:6379 fd=15 name=sentinel-05c3a6d8-cmd age=10 idle=0 flags=x db=0 sub=0 psub=0 ssub=0 multi=4 watch=0 qbuf=199 qbuf-free=20275 argv-mem=4 multi-mem=179 rbs=1024 rbp=1024 obl=45 oll=0 omem=0 tot-mem=22703 events=r cmd=exec user=default redir=-1 resp=2 lib-name= lib-ver=')
-19:S 17 Jun 2025 17:42:57.016 # Could not rename tmp config file (Device or resource busy)
-19:S 17 Jun 2025 17:42:57.017 # CONFIG REWRITE failed: Device or resource busy
-19:S 17 Jun 2025 17:42:57.019 * Non blocking connect for SYNC fired the event.
-19:S 17 Jun 2025 17:42:57.020 * Master replied to PING, replication can continue...
-19:S 17 Jun 2025 17:42:57.021 * Trying a partial resynchronization (request 3fe3adb7d792f113f23fbcc7f47082a50385f7bd:2778).
-19:S 17 Jun 2025 17:42:57.022 * Successful partial resynchronization with master.
-19:S 17 Jun 2025 17:42:57.023 * MASTER <-> REPLICA sync: Master accepted a Partial Resynchronization.
-19:S 17 Jun 2025 17:43:40.717 * Connection with master lost.
-19:S 17 Jun 2025 17:43:40.721 * Caching the disconnected master state.
-19:S 17 Jun 2025 17:43:40.728 * Reconnecting to MASTER 172.20.0.11:6379
-19:S 17 Jun 2025 17:43:40.730 * MASTER <-> REPLICA sync started
-19:S 17 Jun 2025 17:43:40.733 # Error condition on socket for SYNC: Connection refused
-20:C 17 Jun 2025 17:45:35.297 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-20:C 17 Jun 2025 17:45:35.299 * Redis version=7.4.1, bits=64, commit=00000000, modified=0, pid=20, just started
-20:C 17 Jun 2025 17:45:35.300 * Configuration loaded
-20:S 17 Jun 2025 17:45:35.302 * monotonic clock: POSIX clock_gettime
-20:S 17 Jun 2025 17:45:35.305 * Running mode=standalone, port=6379.
-20:S 17 Jun 2025 17:45:35.307 * Server initialized
-20:S 17 Jun 2025 17:45:35.315 * Creating AOF base file appendonly-n3.aof.1.base.rdb on server start
-20:S 17 Jun 2025 17:45:35.325 * Creating AOF incr file appendonly-n3.aof.1.incr.aof on server start
-20:S 17 Jun 2025 17:45:35.326 * Ready to accept connections tcp
-20:S 17 Jun 2025 17:45:35.328 * Connecting to MASTER n1:6379
-20:S 17 Jun 2025 17:45:35.334 * MASTER <-> REPLICA sync started
-20:S 17 Jun 2025 17:45:35.338 # Error condition on socket for SYNC: Connection refused
-20:S 17 Jun 2025 17:45:36.341 * Connecting to MASTER n1:6379
-20:S 17 Jun 2025 17:45:36.345 * MASTER <-> REPLICA sync started
-20:S 17 Jun 2025 17:45:36.347 * Non blocking connect for SYNC fired the event.
-20:S 17 Jun 2025 17:45:36.348 * Master replied to PING, replication can continue...
-20:S 17 Jun 2025 17:45:36.350 * Partial resynchronization not possible (no cached master)
-20:S 17 Jun 2025 17:45:36.358 * Full resync from master: a2238e5d034d422cf74678dd5856f40b09250cc7:0
-20:S 17 Jun 2025 17:45:36.446 * MASTER <-> REPLICA sync: receiving 171 bytes from master to disk
-20:S 17 Jun 2025 17:45:36.452 * MASTER <-> REPLICA sync: Flushing old data
-20:S 17 Jun 2025 17:45:36.455 * MASTER <-> REPLICA sync: Loading DB in memory
-20:S 17 Jun 2025 17:45:36.473 * Loading RDB produced by version 7.4.1
-20:S 17 Jun 2025 17:45:36.475 * RDB age 0 seconds
-20:S 17 Jun 2025 17:45:36.477 * RDB memory usage when created 1.05 Mb
-20:S 17 Jun 2025 17:45:36.480 * Done loading RDB, keys loaded: 0, keys expired: 0.
-20:S 17 Jun 2025 17:45:36.482 * MASTER <-> REPLICA sync: Finished with success
-20:S 17 Jun 2025 17:45:36.485 * Creating AOF incr file temp-appendonly-n3.aof.incr on background rewrite
-20:S 17 Jun 2025 17:45:36.488 * Background append only file rewriting started by pid 27
-27:C 17 Jun 2025 17:45:36.495 * Successfully created the temporary AOF base file temp-rewriteaof-bg-27.aof
-27:C 17 Jun 2025 17:45:36.499 * Fork CoW for AOF rewrite: current 0 MB, peak 0 MB, average 0 MB
-20:S 17 Jun 2025 17:45:36.551 * Background AOF rewrite terminated with success
-20:S 17 Jun 2025 17:45:36.553 * Successfully renamed the temporary AOF base file temp-rewriteaof-bg-27.aof into appendonly-n3.aof.2.base.rdb
-20:S 17 Jun 2025 17:45:36.556 * Successfully renamed the temporary AOF incr file temp-appendonly-n3.aof.incr into appendonly-n3.aof.2.incr.aof
-20:S 17 Jun 2025 17:45:36.567 * Removing the history file appendonly-n3.aof.1.incr.aof in the background
-20:S 17 Jun 2025 17:45:36.570 * Removing the history file appendonly-n3.aof.1.base.rdb in the background
-20:S 17 Jun 2025 17:45:36.591 * Background AOF rewrite finished successfully
-20:M 17 Jun 2025 17:45:50.161 * Connection with master lost.
-20:M 17 Jun 2025 17:45:50.163 * Caching the disconnected master state.
-20:S 17 Jun 2025 17:45:50.164 * Connecting to MASTER 172.20.0.11:6379
-20:S 17 Jun 2025 17:45:50.165 * MASTER <-> REPLICA sync started
-20:S 17 Jun 2025 17:45:50.167 * REPLICAOF 172.20.0.11:6379 enabled (user request from 'id=5 addr=172.20.0.14:58504 laddr=172.20.0.13:6379 fd=13 name=sentinel-f55db437-cmd age=10 idle=0 flags=x db=0 sub=0 psub=0 ssub=0 multi=4 watch=0 qbuf=199 qbuf-free=20275 argv-mem=4 multi-mem=179 rbs=1024 rbp=1024 obl=45 oll=0 omem=0 tot-mem=22703 events=r cmd=exec user=default redir=-1 resp=2 lib-name= lib-ver=')
-20:S 17 Jun 2025 17:45:50.178 # Could not rename tmp config file (Device or resource busy)
-20:S 17 Jun 2025 17:45:50.179 # CONFIG REWRITE failed: Device or resource busy
-20:S 17 Jun 2025 17:45:50.181 * Non blocking connect for SYNC fired the event.
-20:S 17 Jun 2025 17:45:50.182 * Master replied to PING, replication can continue...
-20:S 17 Jun 2025 17:45:50.184 * Trying a partial resynchronization (request a2238e5d034d422cf74678dd5856f40b09250cc7:2778).
-20:S 17 Jun 2025 17:45:50.186 * Successful partial resynchronization with master.
-20:S 17 Jun 2025 17:45:50.187 * MASTER <-> REPLICA sync: Master accepted a Partial Resynchronization.
-20:S 17 Jun 2025 17:48:35.214 * DB saved on disk
-20:S 17 Jun 2025 17:51:26.540 * DB saved on disk
-20:S 17 Jun 2025 17:56:27.020 * 10 changes in 300 seconds. Saving...
-20:S 17 Jun 2025 17:56:27.023 * Background saving started by pid 9829
-9829:C 17 Jun 2025 17:56:27.027 * DB saved on disk
-9829:C 17 Jun 2025 17:56:27.028 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
-20:S 17 Jun 2025 17:56:27.125 * Background saving terminated with success
-20:S 17 Jun 2025 17:57:21.356 * DB saved on disk
-20:S 17 Jun 2025 18:02:22.058 * 10 changes in 300 seconds. Saving...
-20:S 17 Jun 2025 18:02:22.059 * Background saving started by pid 10145
-10145:C 17 Jun 2025 18:02:22.065 * DB saved on disk
-10145:C 17 Jun 2025 18:02:22.067 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
-20:S 17 Jun 2025 18:02:22.164 * Background saving terminated with success
-20:S 17 Jun 2025 18:03:36.280 * DB saved on disk
-20:M 17 Jun 2025 18:05:47.846 * Connection with master lost.
-20:M 17 Jun 2025 18:05:47.847 * Caching the disconnected master state.
-20:S 17 Jun 2025 18:05:47.848 * Connecting to MASTER 172.20.0.15:6379
-20:S 17 Jun 2025 18:05:47.849 * MASTER <-> REPLICA sync started
-20:S 17 Jun 2025 18:05:47.849 * REPLICAOF 172.20.0.15:6379 enabled (user request from 'id=51 addr=172.20.0.13:47870 laddr=172.20.0.13:6379 fd=16 name=sentinel-0f7df9e1-cmd age=10 idle=0 flags=x db=0 sub=0 psub=0 ssub=0 multi=4 watch=0 qbuf=199 qbuf-free=20275 argv-mem=4 multi-mem=179 rbs=1024 rbp=1024 obl=45 oll=0 omem=0 tot-mem=22703 events=r cmd=exec user=default redir=-1 resp=2 lib-name= lib-ver=')
-20:S 17 Jun 2025 18:05:47.855 # Could not rename tmp config file (Device or resource busy)
-20:S 17 Jun 2025 18:05:47.856 # CONFIG REWRITE failed: Device or resource busy
-20:S 17 Jun 2025 18:05:47.859 * Non blocking connect for SYNC fired the event.
-20:S 17 Jun 2025 18:05:47.861 * Master replied to PING, replication can continue...
-20:S 17 Jun 2025 18:05:47.862 * Trying a partial resynchronization (request a2238e5d034d422cf74678dd5856f40b09250cc7:752547).
-20:S 17 Jun 2025 18:05:47.866 * Full resync from master: 61948dce4692d02816eaaee42780fe84d553745c:753988
-20:S 17 Jun 2025 18:05:47.893 * MASTER <-> REPLICA sync: receiving 192 bytes from master to disk
-20:S 17 Jun 2025 18:05:47.895 * Discarding previously cached master state.
-20:S 17 Jun 2025 18:05:47.896 * MASTER <-> REPLICA sync: Flushing old data
-20:S 17 Jun 2025 18:05:47.898 * MASTER <-> REPLICA sync: Loading DB in memory
-20:S 17 Jun 2025 18:05:47.910 * Loading RDB produced by version 7.4.1
-20:S 17 Jun 2025 18:05:47.911 * RDB age 0 seconds
-20:S 17 Jun 2025 18:05:47.912 * RDB memory usage when created 2.35 Mb
-20:S 17 Jun 2025 18:05:47.912 * Done loading RDB, keys loaded: 1, keys expired: 0.
-20:S 17 Jun 2025 18:05:47.913 * MASTER <-> REPLICA sync: Finished with success
-20:S 17 Jun 2025 18:05:47.914 * Creating AOF incr file temp-appendonly-n3.aof.incr on background rewrite
-20:S 17 Jun 2025 18:05:47.915 * Background append only file rewriting started by pid 10515
-10515:C 17 Jun 2025 18:05:47.919 * Successfully created the temporary AOF base file temp-rewriteaof-bg-10515.aof
-10515:C 17 Jun 2025 18:05:47.922 * Fork CoW for AOF rewrite: current 0 MB, peak 0 MB, average 0 MB
-20:S 17 Jun 2025 18:05:48.019 * Background AOF rewrite terminated with success
-20:S 17 Jun 2025 18:05:48.021 * Successfully renamed the temporary AOF base file temp-rewriteaof-bg-10515.aof into appendonly-n3.aof.3.base.rdb
-20:S 17 Jun 2025 18:05:48.024 * Successfully renamed the temporary AOF incr file temp-appendonly-n3.aof.incr into appendonly-n3.aof.3.incr.aof
-20:S 17 Jun 2025 18:05:48.031 * Removing the history file appendonly-n3.aof.2.incr.aof in the background
-20:S 17 Jun 2025 18:05:48.032 * Removing the history file appendonly-n3.aof.2.base.rdb in the background
-20:S 17 Jun 2025 18:05:48.041 * Background AOF rewrite finished successfully
-20:M 17 Jun 2025 18:06:17.581 * Connection with master lost.
-20:M 17 Jun 2025 18:06:17.582 * Caching the disconnected master state.
-20:S 17 Jun 2025 18:06:17.583 * Connecting to MASTER 172.20.0.12:6379
-20:S 17 Jun 2025 18:06:17.584 * MASTER <-> REPLICA sync started
-20:S 17 Jun 2025 18:06:17.585 * REPLICAOF 172.20.0.12:6379 enabled (user request from 'id=65 addr=172.20.0.15:55022 laddr=172.20.0.13:6379 fd=13 name=sentinel-165a9faf-cmd age=10 idle=0 flags=x db=0 sub=0 psub=0 ssub=0 multi=4 watch=0 qbuf=199 qbuf-free=20275 argv-mem=4 multi-mem=179 rbs=1024 rbp=1024 obl=45 oll=0 omem=0 tot-mem=22703 events=r cmd=exec user=default redir=-1 resp=2 lib-name= lib-ver=')
-20:S 17 Jun 2025 18:06:17.590 # Could not rename tmp config file (Device or resource busy)
-20:S 17 Jun 2025 18:06:17.591 # CONFIG REWRITE failed: Device or resource busy
-20:S 17 Jun 2025 18:06:17.593 * Non blocking connect for SYNC fired the event.
-20:S 17 Jun 2025 18:06:17.594 * Master replied to PING, replication can continue...
-20:S 17 Jun 2025 18:06:17.596 * Trying a partial resynchronization (request 61948dce4692d02816eaaee42780fe84d553745c:768712).
-20:S 17 Jun 2025 18:06:17.600 * Full resync from master: d64ffe8f1f423156d52e1a85521cc9fba9f444d0:768852
-20:S 17 Jun 2025 18:06:17.689 * MASTER <-> REPLICA sync: receiving 192 bytes from master to disk
-20:S 17 Jun 2025 18:06:17.692 * Discarding previously cached master state.
-20:S 17 Jun 2025 18:06:17.694 * MASTER <-> REPLICA sync: Flushing old data
-20:S 17 Jun 2025 18:06:17.696 * MASTER <-> REPLICA sync: Loading DB in memory
-20:S 17 Jun 2025 18:06:17.704 * Loading RDB produced by version 7.4.1
-20:S 17 Jun 2025 18:06:17.705 * RDB age 0 seconds
-20:S 17 Jun 2025 18:06:17.705 * RDB memory usage when created 2.39 Mb
-20:S 17 Jun 2025 18:06:17.706 * Done loading RDB, keys loaded: 1, keys expired: 0.
-20:S 17 Jun 2025 18:06:17.707 * MASTER <-> REPLICA sync: Finished with success
-20:S 17 Jun 2025 18:06:17.709 * Creating AOF incr file temp-appendonly-n3.aof.incr on background rewrite
-20:S 17 Jun 2025 18:06:17.711 * Background append only file rewriting started by pid 10522
-10522:C 17 Jun 2025 18:06:17.715 * Successfully created the temporary AOF base file temp-rewriteaof-bg-10522.aof
-10522:C 17 Jun 2025 18:06:17.716 * Fork CoW for AOF rewrite: current 0 MB, peak 0 MB, average 0 MB
-20:S 17 Jun 2025 18:06:17.729 * Background AOF rewrite terminated with success
-20:S 17 Jun 2025 18:06:17.730 * Successfully renamed the temporary AOF base file temp-rewriteaof-bg-10522.aof into appendonly-n3.aof.4.base.rdb
-20:S 17 Jun 2025 18:06:17.731 * Successfully renamed the temporary AOF incr file temp-appendonly-n3.aof.incr into appendonly-n3.aof.4.incr.aof
-20:S 17 Jun 2025 18:06:17.738 * Removing the history file appendonly-n3.aof.3.incr.aof in the background
-20:S 17 Jun 2025 18:06:17.739 * Removing the history file appendonly-n3.aof.3.base.rdb in the background
-20:S 17 Jun 2025 18:06:17.746 * Background AOF rewrite finished successfully
-20:S 17 Jun 2025 18:08:37.066 * 10 changes in 300 seconds. Saving...
-20:S 17 Jun 2025 18:08:37.069 * Background saving started by pid 10527
-10527:C 17 Jun 2025 18:08:37.076 * DB saved on disk
-10527:C 17 Jun 2025 18:08:37.077 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
-20:S 17 Jun 2025 18:08:37.174 * Background saving terminated with success
+19:C 17 Jun 2025 17:49:25.848 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+19:C 17 Jun 2025 17:49:25.853 * Redis version=7.4.1, bits=64, commit=00000000, modified=0, pid=19, just started
+19:C 17 Jun 2025 17:49:25.854 * Configuration loaded
+19:S 17 Jun 2025 17:49:25.855 * monotonic clock: POSIX clock_gettime
+19:S 17 Jun 2025 17:49:25.858 * Running mode=standalone, port=6379.
+19:S 17 Jun 2025 17:49:25.860 * Server initialized
+19:S 17 Jun 2025 17:49:25.864 * Creating AOF base file appendonly-n3.aof.1.base.rdb on server start
+19:S 17 Jun 2025 17:49:25.868 * Creating AOF incr file appendonly-n3.aof.1.incr.aof on server start
+19:S 17 Jun 2025 17:49:25.869 * Ready to accept connections tcp
+19:S 17 Jun 2025 17:49:25.870 * Connecting to MASTER n1:6379
+19:S 17 Jun 2025 17:49:25.873 * MASTER <-> REPLICA sync started
+19:S 17 Jun 2025 17:49:25.874 # Error condition on socket for SYNC: Connection refused
+19:S 17 Jun 2025 17:49:26.893 * Connecting to MASTER n1:6379
+19:S 17 Jun 2025 17:49:26.899 * MASTER <-> REPLICA sync started
+19:S 17 Jun 2025 17:49:26.901 * Non blocking connect for SYNC fired the event.
+19:S 17 Jun 2025 17:49:26.904 * Master replied to PING, replication can continue...
+19:S 17 Jun 2025 17:49:26.907 * Partial resynchronization not possible (no cached master)
+19:S 17 Jun 2025 17:49:26.917 * Full resync from master: 52d06cdac3a33539caa89f8e5313d7a9b2483d99:0
+19:S 17 Jun 2025 17:49:26.928 * MASTER <-> REPLICA sync: receiving 171 bytes from master to disk
+19:S 17 Jun 2025 17:49:26.929 * MASTER <-> REPLICA sync: Flushing old data
+19:S 17 Jun 2025 17:49:26.931 * MASTER <-> REPLICA sync: Loading DB in memory
+19:S 17 Jun 2025 17:49:26.936 * Loading RDB produced by version 7.4.1
+19:S 17 Jun 2025 17:49:26.936 * RDB age 0 seconds
+19:S 17 Jun 2025 17:49:26.937 * RDB memory usage when created 1.07 Mb
+19:S 17 Jun 2025 17:49:26.938 * Done loading RDB, keys loaded: 0, keys expired: 0.
+19:S 17 Jun 2025 17:49:26.939 * MASTER <-> REPLICA sync: Finished with success
+19:S 17 Jun 2025 17:49:26.940 * Creating AOF incr file temp-appendonly-n3.aof.incr on background rewrite
+19:S 17 Jun 2025 17:49:26.941 * Background append only file rewriting started by pid 26
+26:C 17 Jun 2025 17:49:26.943 * Successfully created the temporary AOF base file temp-rewriteaof-bg-26.aof
+26:C 17 Jun 2025 17:49:26.944 * Fork CoW for AOF rewrite: current 0 MB, peak 0 MB, average 0 MB
+19:S 17 Jun 2025 17:49:27.006 * Background AOF rewrite terminated with success
+19:S 17 Jun 2025 17:49:27.010 * Successfully renamed the temporary AOF base file temp-rewriteaof-bg-26.aof into appendonly-n3.aof.2.base.rdb
+19:S 17 Jun 2025 17:49:27.014 * Successfully renamed the temporary AOF incr file temp-appendonly-n3.aof.incr into appendonly-n3.aof.2.incr.aof
+19:S 17 Jun 2025 17:49:27.024 * Removing the history file appendonly-n3.aof.1.incr.aof in the background
+19:S 17 Jun 2025 17:49:27.027 * Removing the history file appendonly-n3.aof.1.base.rdb in the background
+19:S 17 Jun 2025 17:49:27.036 * Background AOF rewrite finished successfully
+19:M 17 Jun 2025 17:49:41.003 * Connection with master lost.
+19:M 17 Jun 2025 17:49:41.006 * Caching the disconnected master state.
+19:S 17 Jun 2025 17:49:41.009 * Connecting to MASTER 172.20.0.11:6379
+19:S 17 Jun 2025 17:49:41.011 * MASTER <-> REPLICA sync started
+19:S 17 Jun 2025 17:49:41.015 * REPLICAOF 172.20.0.11:6379 enabled (user request from 'id=6 addr=172.20.0.13:40670 laddr=172.20.0.13:6379 fd=13 name=sentinel-c86857a9-cmd age=11 idle=0 flags=x db=0 sub=0 psub=0 ssub=0 multi=4 watch=0 qbuf=199 qbuf-free=20275 argv-mem=4 multi-mem=179 rbs=1024 rbp=1024 obl=45 oll=0 omem=0 tot-mem=22703 events=r cmd=exec user=default redir=-1 resp=2 lib-name= lib-ver=')
+19:S 17 Jun 2025 17:49:41.024 # Could not rename tmp config file (Device or resource busy)
+19:S 17 Jun 2025 17:49:41.026 # CONFIG REWRITE failed: Device or resource busy
+19:S 17 Jun 2025 17:49:41.030 * Non blocking connect for SYNC fired the event.
+19:S 17 Jun 2025 17:49:41.032 * Master replied to PING, replication can continue...
+19:S 17 Jun 2025 17:49:41.034 * Trying a partial resynchronization (request 52d06cdac3a33539caa89f8e5313d7a9b2483d99:2778).
+19:S 17 Jun 2025 17:49:41.038 * Successful partial resynchronization with master.
+19:S 17 Jun 2025 17:49:41.039 * MASTER <-> REPLICA sync: Master accepted a Partial Resynchronization.
+19:S 17 Jun 2025 17:55:37.145 * DB saved on disk
+19:M 17 Jun 2025 17:57:19.440 * Connection with master lost.
+19:M 17 Jun 2025 17:57:19.441 * Caching the disconnected master state.
+19:M 17 Jun 2025 17:57:19.442 * Discarding previously cached master state.
+19:M 17 Jun 2025 17:57:19.442 * Setting secondary replication ID to 52d06cdac3a33539caa89f8e5313d7a9b2483d99, valid up to offset: 168142. New replication ID is dead8d92def690891f6227959a04ef810755e244
+19:M 17 Jun 2025 17:57:19.443 * MASTER MODE enabled (user request from 'id=30 addr=172.20.0.12:51166 laddr=172.20.0.13:6379 fd=15 name=sentinel-633ec46c-cmd age=54 idle=0 flags=x db=0 sub=0 psub=0 ssub=0 multi=4 watch=0 qbuf=188 qbuf-free=20286 argv-mem=4 multi-mem=169 rbs=4096 rbp=2048 obl=45 oll=0 omem=0 tot-mem=25765 events=r cmd=exec user=default redir=-1 resp=2 lib-name= lib-ver=')
+19:M 17 Jun 2025 17:57:19.448 # Could not rename tmp config file (Device or resource busy)
+19:M 17 Jun 2025 17:57:19.450 # CONFIG REWRITE failed: Device or resource busy
+19:M 17 Jun 2025 17:57:19.668 * Replica 172.20.0.15:6379 asks for synchronization
+19:M 17 Jun 2025 17:57:19.670 * Partial resynchronization request from 172.20.0.15:6379 accepted. Sending 297 bytes of backlog starting from offset 168142.
+19:M 17 Jun 2025 17:57:29.737 * Replica 172.20.0.12:6379 asks for synchronization
+19:M 17 Jun 2025 17:57:29.739 * Partial resynchronization request from 172.20.0.12:6379 accepted. Sending 5840 bytes of backlog starting from offset 168142.
+19:M 17 Jun 2025 17:57:32.901 * Replica 172.20.0.11:6379 asks for synchronization
+19:M 17 Jun 2025 17:57:32.902 * Partial resynchronization not accepted: Requested offset for second ID was 190538, but I can reply up to 168142
+19:M 17 Jun 2025 17:57:32.903 * Starting BGSAVE for SYNC with target: disk
+19:M 17 Jun 2025 17:57:32.905 * Background saving started by pid 9553
+19:M 17 Jun 2025 17:57:32.909 * Replica 172.20.0.14:6379 asks for synchronization
+9553:C 17 Jun 2025 17:57:32.910 * DB saved on disk
+19:M 17 Jun 2025 17:57:32.910 * Partial resynchronization not accepted: Requested offset for second ID was 190538, but I can reply up to 168142
+19:M 17 Jun 2025 17:57:32.913 * Waiting for end of BGSAVE for SYNC
+9553:C 17 Jun 2025 17:57:32.913 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+19:M 17 Jun 2025 17:57:32.939 * Background saving terminated with success
+19:M 17 Jun 2025 17:57:32.941 * Synchronization with replica 172.20.0.11:6379 succeeded
+19:M 17 Jun 2025 17:57:32.943 * Synchronization with replica 172.20.0.14:6379 succeeded
+19:M 17 Jun 2025 18:02:33.098 * 10 changes in 300 seconds. Saving...
+19:M 17 Jun 2025 18:02:33.103 * Background saving started by pid 9564
+9564:C 17 Jun 2025 18:02:33.115 * DB saved on disk
+9564:C 17 Jun 2025 18:02:33.119 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+19:M 17 Jun 2025 18:02:33.209 * Background saving terminated with success
