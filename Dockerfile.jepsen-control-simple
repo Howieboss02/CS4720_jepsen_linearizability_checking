@@ -1,0 +1,67 @@
+FROM debian:bullseye
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    git \
+    openssh-client \
+    netcat-openbsd \
+    iputils-ping \
+    dnsutils \
+    iproute2 \
+    iptables \
+    net-tools \
+    tcpdump \
+    sudo \
+    vim \
+    htop \
+    procps \
+    gnupg \
+    unzip \
+    build-essential \
+    ca-certificates \
+    gnuplot \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Java 21 from Eclipse Temurin
+RUN apt-get update && \
+    wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null \
+    && echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list \
+    && apt-get update \
+    && apt-get install -y temurin-21-jdk \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Leiningen
+RUN wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein \
+    && chmod +x lein \
+    && mv lein /usr/local/bin/
+
+# Set environment variables for Java 21
+ENV JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+ENV LEIN_ROOT=1
+ENV JEPSEN_ROOT=/jepsen
+
+# Create working directory
+WORKDIR /jepsen
+
+# Copy project files first (for Docker layer caching)
+COPY project.clj /jepsen/
+
+# Download dependencies (this will be cached if project.clj doesn't change)
+RUN lein deps
+
+# Copy source code
+COPY src/ /jepsen/src/
+COPY resources/ /jepsen/resources/
+COPY docker/ /jepsen/docker/
+
+# Create logs directory
+RUN mkdir -p /jepsen/logs
+
+# Expose SSH port (not needed for control node but good to have)
+EXPOSE 22
+
+COPY control-entrypoint.sh /jepsen/control-entrypoint.sh
+RUN chmod +x /jepsen/control-entrypoint.sh

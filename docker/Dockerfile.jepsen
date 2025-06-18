@@ -1,0 +1,33 @@
+FROM openjdk:21-jdk-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    git \
+    openssh-client \
+    netcat-openbsd \
+    iputils-ping \
+    dnsutils \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Install Leiningen
+RUN wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein \
+    && chmod +x lein \
+    && mv lein /usr/local/bin/ \
+    && lein version
+
+# Create working directory
+WORKDIR /jepsen-redis
+
+# Copy project files
+COPY project.clj /jepsen-redis/
+COPY src/ /jepsen-redis/src/
+COPY test/ /jepsen-redis/test/
+
+# Download dependencies
+RUN lein deps
+
+# Default command
+CMD ["lein", "run", "test", "--nodes", "redis-primary,redis-replica1,redis-replica2"]

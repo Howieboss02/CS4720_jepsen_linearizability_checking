@@ -1,0 +1,131 @@
+version: '3.8'
+
+services:
+  jepsen-control:
+    build:
+      context: .
+      dockerfile: Dockerfile.jepsen-control-simple
+    hostname: jepsen-control
+    container_name: jepsen-control
+    privileged: true
+    restart: "no"
+    volumes:
+      - .:/jepsen
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs:/jepsen/logs
+      - ssh-keys:/shared-ssh
+    networks:
+      jepsen-network:
+        ipv4_address: 172.20.0.10
+    depends_on:
+      - n1
+      - n2
+      - n3
+      - n4
+      - n5
+    command: /bin/bash /jepsen/control-entrypoint.sh
+
+  n1:
+    build:
+      context: .
+      dockerfile: Dockerfile.jepsen-node
+    hostname: n1
+    container_name: n1
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - ./docker/redis-n1.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n1.conf:/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
+      - ssh-keys:/shared-ssh
+      - ./node-entrypoint.sh:/node-entrypoint.sh
+    networks:
+      jepsen-network:
+        ipv4_address: 172.20.0.11
+    command: /bin/bash /node-entrypoint.sh
+
+  n2:
+    build:
+      context: .
+      dockerfile: Dockerfile.jepsen-node
+    hostname: n2
+    container_name: n2
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - ./docker/redis-n2.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n2.conf:/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
+      - ssh-keys:/shared-ssh
+      - ./node-entrypoint.sh:/node-entrypoint.sh
+    networks:
+      jepsen-network:
+        ipv4_address: 172.20.0.12
+    command: /bin/bash /node-entrypoint.sh
+
+  n3:
+    build:
+      context: .
+      dockerfile: Dockerfile.jepsen-node
+    hostname: n3
+    container_name: n3
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - ./docker/redis-n3.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n3.conf:/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
+      - ssh-keys:/shared-ssh
+      - ./node-entrypoint.sh:/node-entrypoint.sh
+    networks:
+      jepsen-network:
+        ipv4_address: 172.20.0.13
+    command: /bin/bash /node-entrypoint.sh
+
+  n4:
+    build:
+      context: .
+      dockerfile: Dockerfile.jepsen-node
+    hostname: n4
+    container_name: n4
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - ./docker/redis-n4.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n4.conf:/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
+      - ssh-keys:/shared-ssh
+      - ./node-entrypoint.sh:/node-entrypoint.sh
+    networks:
+      jepsen-network:
+        ipv4_address: 172.20.0.14
+    command: /bin/bash /node-entrypoint.sh
+
+  n5:
+    build:
+      context: .
+      dockerfile: Dockerfile.jepsen-node
+    hostname: n5
+    container_name: n5
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - ./docker/redis-n5.conf:/etc/redis/redis.conf
+      - ./docker/sentinel-n5.conf:/etc/redis/sentinel.conf
+      - ./logs:/var/log/redis
+      - ssh-keys:/shared-ssh
+      - ./node-entrypoint.sh:/node-entrypoint.sh
+    networks:
+      jepsen-network:
+        ipv4_address: 172.20.0.15
+    command: /bin/bash /node-entrypoint.sh
+
+networks:
+  jepsen-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  ssh-keys:
