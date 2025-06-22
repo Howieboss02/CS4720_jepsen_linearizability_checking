@@ -450,6 +450,16 @@
                                                                         (= :write-set (:f %))))
                                                           (map :value)
                                                           (into #{}))
+                                              ;; Count distinct primaries used for writes throughout the test
+                                              primary-nodes (->> history
+                                                                 (filter #(and (= :ok (:type %))
+                                                                               (= :write-set (:f %))
+                                                                               (:node %)))
+                                                                 (map :node)
+                                                                 set)
+                                              num-distinct-primaries (count primary-nodes)
+                                              ;; Find the test start time
+
                                               read-alls (->> history
                                                              (filter #(and (= :ok (:type %))
                                                                            (= :read-set-all (:f %))))
@@ -474,20 +484,23 @@
                                                                                              (map val)
                                                                                              (map set)
                                                                                              distinct)]
-                                                                        (> (count node-states) 1)))]
+                                                                        (> (count node-states) 1)))
+                                              ;; Check if multiple primaries indicates true split-brain
+                                              true-split-brain? (> num-distinct-primaries 1)]
                                           {:valid? false
                                            :total-writes total-writes
                                            :survivors survivors
                                            :lost-writes (sort lost-writes)
                                            :loss-rate loss-rate
                                            :final-node-states final-states
-                                           :split-brain-detected split-brain-detected?
+                                           :distinct-primaries num-distinct-primaries
+                                           :primary-nodes (sort primary-nodes)
                                            :message (str "📊 Split-brain test results:\n"
                                                          "   Total writes: " total-writes "\n"
                                                          "   Survivors: " survivors "\n"
                                                          "   Lost: " (count lost-writes) 
-                                                         " (" (int (* (or loss-rate 0) 100)) "%)\n"  ; FIXED: Use int instead of Math/round
-                                                         "   Split-brain detected: " split-brain-detected? "\n"
+                                                         " (" (int (* (or loss-rate 0) 100)) "%)\n"
+                                                         "   Distinct primaries used: " num-distinct-primaries " " (sort primary-nodes) "\n"
                                                          "   Final node states: " final-states)})))})})
 
 (defn isolated-primary-test []
