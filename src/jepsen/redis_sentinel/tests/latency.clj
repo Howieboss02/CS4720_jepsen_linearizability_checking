@@ -84,106 +84,108 @@
               "-o" "UserKnownHostsFile=/dev/null"
               "-o" "GlobalKnownHostsFile=/dev/null"
               "-o" "LogLevel=ERROR"]
-   :generator (let [counter (atom 0)
-                    reads (gen/repeat {:type :invoke :f :read})
-                    writes (->> (gen/repeat {:type :invoke :f :write})
-                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
-                    opts {:rate 50}
-                    client-ops (gen/mix [reads writes])]
-                (->> client-ops
-                     (gen/stagger (/ (:rate opts)))
-                     (gen/nemesis
-                      ;; Latency injection pattern: 15s normal → 25s high latency → 15s normal
-                      (cycle [(gen/sleep 15)
-                              {:type :info, :f :start, :latency 300, :jitter 100}  ; 300ms ± 100ms
-                              (gen/sleep 25)
-                              {:type :info, :f :stop}
-                              (gen/sleep 15)
-                              {:type :info, :f :start, :latency 500, :jitter 150}  ; 500ms ± 150ms  
-                              (gen/sleep 20)
-                              {:type :info, :f :stop}]))
-                     (gen/time-limit 180)))
-   :checker (checker/compose
-             {:stats (checker/stats)
-              :perf (checker/concurrency-limit
-                     2
-                     (checker/perf {:nemeses? true
-                                    :bandwidth? true
-                                    :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
-                                    :subdirectory "perf-latency-injection"}))
-              :latency-detailed (checker/concurrency-limit
-                                 1
-                                 (checker/latency-graph {:nemeses? true
-                                                         :subdirectory "latency-injection"
-                                                         :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
-              :rate-detailed (checker/rate-graph {:nemeses? true
-                                                  :subdirectory "rate-latency-injection"
-                                                  :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
-              :timeline (timeline/html)
-              :linear-wgl (checker/concurrency-limit
-                           1
-                           (checker/linearizable {:model (model/register)
-                                                  :algorithm :wgl}))
-              :linear-competition (checker/linearizable {:model (model/register)
-                                                         :algorithm :linear})
-              :clock-analysis (checker/clock-plot)
-              :exceptions (checker/unhandled-exceptions)
-              :timeout-analysis (reify checker/Checker
-                                  (check [this test history opts]
-                                    (let [writes (->> history
-                                                      (filter #(and (= :ok (:type %))
-                                                                    (= :write (:f %))))
-                                                      (map (juxt :time :node :value)))
-                                          reads (->> history
-                                                     (filter #(and (= :ok (:type %))
-                                                                   (= :read (:f %))))
-                                                     (map (juxt :time :node :value)))
-                                          failed-ops (->> history
-                                                          (filter #(= :fail (:type %)))
-                                                          count)
-                                          timeout-ops (->> history
-                                                           (filter #(and (= :fail (:type %))
-                                                                         (or (re-find #"timeout" (str (:error %)))
-                                                                             (re-find #"Timeout" (str (:error %))))))
-                                                           count)
-                                          nemesis-events (->> history
-                                                              (filter #(= :nemesis (:process %)))
-                                                              (filter #(= :start (:f %)))
-                                                              (map :value))
-                                          latency-periods (count nemesis-events)
-                                          total-ops (+ (count writes) (count reads) failed-ops)
-                                          success-rate (if (> total-ops 0)
-                                                         (/ (+ (count writes) (count reads)) total-ops)
-                                                         0)
-                                          timeout-rate (if (> total-ops 0)
-                                                         (/ timeout-ops total-ops)
-                                                         0)
-                                          ;; Analyze operation latencies during high latency periods
-                                          all-ops (->> history
-                                                       (filter #(#{:ok :fail} (:type %)))
-                                                       (filter #(#{:read :write} (:f %)))
-                                                       (map (juxt :time :latency)))
-                                          avg-latency (if (seq all-ops)
-                                                        (/ (reduce + (map second all-ops)) (count all-ops))
-                                                        0)]
-                                      {:valid? (< timeout-rate 0.3)  ; Valid if timeout rate < 30%
-                                       :total-operations total-ops
-                                       :successful-operations (+ (count writes) (count reads))
-                                       :failed-operations failed-ops
-                                       :timeout-operations timeout-ops
-                                       :success-rate success-rate
-                                       :timeout-rate timeout-rate
-                                       :latency-periods latency-periods
-                                       :average-latency-ms avg-latency
-                                       :latency-configurations nemesis-events
-                                       :message (str "⏱️ Latency Injection Test Results:\n"
-                                                     "   Total operations: " total-ops "\n"
-                                                     "   Success rate: " (int (* (or success-rate 0) 100)) "%\n"
-                                                     "   Timeout rate: " (int (* (or timeout-rate 0) 100)) "%\n"
-                                                     "   Timeout operations: " timeout-ops "\n"
-                                                     "   Latency periods: " latency-periods "\n"
-                                                     "   Average latency: " (int (or avg-latency 0)) "ms\n"
-                                                     "   Timeout threshold test: " (if (< timeout-rate 0.3) "PASSED" "FAILED"))})))})})
+   :generator
+   (let [counter (atom 0)
+         reads (gen/repeat {:type :invoke :f :read})
+         writes (->> (gen/repeat {:type :invoke :f :write})
+                     (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+         opts {:rate 50}
+         client-ops (gen/mix [reads writes])]
+     (->> client-ops
+          (gen/stagger (/ (:rate opts)))
+          (gen/nemesis
+           (cycle [(gen/sleep 15)
+                   {:type :info, :f :start, :latency 300, :jitter 100}
+                   (gen/sleep 25)
+                   {:type :info, :f :stop}
+                   (gen/sleep 15)
+                   {:type :info, :f :start, :latency 500, :jitter 150}
+                   (gen/sleep 20)
+                   {:type :info, :f :stop}]))
+          (gen/time-limit 180)))
+   :checker
+   (checker/compose
+    {:stats (checker/stats)
+     :perf (checker/concurrency-limit
+            2
+            (checker/perf {:nemeses? true
+                           :bandwidth? true
+                           :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
+                           :subdirectory "perf-latency-injection"}))
+     :latency-detailed (checker/concurrency-limit
+                        1
+                        (checker/latency-graph {:nemeses? true
+                                                :subdirectory "latency-injection"
+                                                :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
+     :rate-detailed (checker/rate-graph {:nemeses? true
+                                         :subdirectory "rate-latency-injection"
+                                         :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
+     :timeline (timeline/html)
+     :linear-wgl (checker/concurrency-limit
+                  1
+                  (checker/linearizable {:model (model/register)
+                                         :algorithm :wgl}))
+     :linear-competition (checker/linearizable {:model (model/register)
+                                                :algorithm :linear})
+     :clock-analysis (checker/clock-plot)
+     :exceptions (checker/unhandled-exceptions)
+     :timeout-analysis
+     (reify checker/Checker
+       (check [this test history opts]
+         (let [writes (->> history
+                           (filter #(and (= :ok (:type %)) (= :write (:f %))))
+                           (map (juxt :time :node :value)))
+               reads (->> history
+                          (filter #(and (= :ok (:type %)) (= :read (:f %))))
+                          (map (juxt :time :node :value)))
+               failed-ops (->> history
+                               (filter #(= :fail (:type %)))
+                               count)
+               timeout-ops (->> history
+                                (filter #(and (= :fail (:type %))
+                                              (or (re-find #"timeout" (str (:error %)))
+                                                  (re-find #"Timeout" (str (:error %))))))
+                                count)
+               nemesis-events (->> history
+                                   (filter #(= :nemesis (:process %)))
+                                   (filter #(= :start (:f %)))
+                                   (map :value))
+               latency-periods (count nemesis-events)
+               total-ops (+ (count writes) (count reads) failed-ops)
+               success-rate (if (> total-ops 0)
+                              (/ (+ (count writes) (count reads)) total-ops)
+                              0)
+               timeout-rate (if (> total-ops 0)
+                              (/ timeout-ops total-ops)
+                              0)
+               all-ops (->> history
+                            (filter #(#{:ok :fail} (:type %)))
+                            (filter #(#{:read :write} (:f %)))
+                            (map :latency)
+                            (filter some?)
+                            (filter number?))
+               avg-latency (if (seq all-ops)
+                             (/ (reduce + all-ops) (count all-ops))
+                             0)]
+           {:valid? (< timeout-rate 0.3)
+            :total-operations total-ops
+            :successful-operations (+ (count writes) (count reads))
+            :failed-operations failed-ops
+            :timeout-operations timeout-ops
+            :success-rate success-rate
+            :timeout-rate timeout-rate
+            :latency-periods latency-periods
+            :average-latency-ms avg-latency
+            :latency-configurations nemesis-events
+            :message (str "⏱️ Latency Injection Test Results:\n"
+                          "   Total operations: " total-ops "\n"
+                          "   Success rate: " (int (* (or success-rate 0) 100)) "%\n"
+                          "   Timeout rate: " (int (* (or timeout-rate 0) 100)) "%\n"
+                          "   Timeout operations: " timeout-ops "\n"
+                          "   Latency periods: " latency-periods "\n"
+                          "   Average latency: " (int (or avg-latency 0)) "ms\n"
+                          "   Timeout threshold test: " (if (< timeout-rate 0.3) "PASSED" "FAILED"))})))})})
+
 
 (defn extreme-latency-injection-test []
   "Extreme latency injection test - designed to break Redis Sentinel timeouts"
