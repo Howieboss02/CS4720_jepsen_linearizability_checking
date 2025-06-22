@@ -47,8 +47,41 @@ Wait for the input to look like this:
 
 inside jepsen-control you can run tests like:
 
-lein run -m jepsen.redis-sentinel.test-ssh simple
-lein run -m jepsen.redis-sentinel.test-ssh intensive  
-lein run -m jepsen.redis-sentinel.test-ssh concurrent
-lein run -m jepsen.redis-sentinel.test-ssh split-brain
-lein run -m jepsen.redis-sentinel.test-ssh set-split-brain
+# REDIS SENTINEL JEPSEN TESTS
+
+**Usage:** `lein run -m jepsen.redis-sentinel.main [TEST_NAME]`
+
+## Available Tests
+
+### Basic Tests
+- `simple` - Basic register test (30s, 3 threads)
+- `intensive` - High-concurrency test (3min, 15 threads)
+- `concurrent` - Concurrent test with detailed analysis (3min)
+
+### Partition Tests
+- `split-brain` - Network partition test (3min)
+- `set-split-brain` - SET split-brain with data divergence (3min)
+
+### Failover Tests
+- `isolated-primary` - Primary isolation test (3min)
+
+### Network Tests
+- `flapping-partitions` - Rapid partition/heal cycles (3min)
+- `bridge-partitions` - Chain-like connectivity (3min)
+
+### Latency Tests
+- `latency-injection` - Network latency injection (3min)
+- `extreme-latency` - EXTREME latency injection (3min)
+
+## Examples
+```bash
+lein run -m jepsen.redis-sentinel.main simple
+lein run -m jepsen.redis-sentinel.main split-brain
+lein run -m jepsen.redis-sentinel.main extreme-latency
+```
+
+## Prerequisites
+- Docker containers running: n1, n2, n3, n4, n5
+- Redis + Sentinel configured on each node
+- SSH access with key: /root/.ssh/id_rsa
+- Network: 172.20.0.11-15 (n1-n5)
