@@ -1,0 +1,169 @@
+2025-06-22 17:14:47,155{GMT}	INFO	[jepsen test runner] jepsen.core: Test version ed66f49cdda798428052173e775188c16682541d (plus uncommitted changes)
+2025-06-22 17:14:47,367{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 15
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x28ffa527"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@28ffa527"]
+ :name "redis-graceful-termination-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x372e972d" "2025-06-22T17:14:26.703Z"]
+ :username "root"
+ :net
+ #object[jepsen.net$reify__12635
+         "0x463746eb"
+         "jepsen.net$reify__12635@463746eb"]
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196
+         "0x54d9b23a"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196@54d9b23a"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x15ae31b"
+         "java.util.concurrent.CyclicBarrier@15ae31b"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x428e9be2"
+         "jepsen.checker$compose$reify__10552@428e9be2"]
+ :nemesis
+ #unprintable "jepsen.redis_sentinel.test_ssh$graceful_termination_nemesis$reify__549@3e729d46"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x5fb05c07"
+         (jepsen.generator.TimeLimit
+          {:limit 180000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x6a9f8c2f"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@6a9f8c2f"],
+                           :gen ({:type :sleep, :value 20}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 15}
+                                 {:type :info, :f :stop}
+                                 {:type :sleep, :value 10}
+                                 {:type :sleep, :value 20}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 15}
+                                 ...)})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x3a678e40"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@3a678e40"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 40000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Mix
+                                        {:i 0,
+                                         :gens [(jepsen.generator.Repeat
+                                                 {:remaining -1,
+                                                  :gen {:type :invoke, :f :read}})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.test_ssh$graceful_termination_test$fn__655
+                                                             "0x222dc36c"
+                                                             "jepsen.redis_sentinel.test_ssh$graceful_termination_test$fn__655@222dc36c"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :write}})})]})})})]})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x3445ddf2"
+         "jepsen.os.debian.Debian@3445ddf2"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-22 17:14:50,289{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-22 17:14:50,289{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-22 17:14:50,290{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-22 17:14:50,290{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-22 17:14:50,290{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-22 17:14:52,508{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-22 17:14:52,511{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-22 17:14:52,511{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-22 17:14:52,511{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-22 17:14:52,511{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-22 17:14:52,511{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-22 17:14:52,524{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-22 17:14:52,526{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Setting up Redis on n2
+2025-06-22 17:14:52,526{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Setting up Redis on n4
+2025-06-22 17:14:52,526{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Setting up Redis on n1
+2025-06-22 17:14:52,526{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Setting up Redis on n3
+2025-06-22 17:14:52,527{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Setting up Redis on n5
+2025-06-22 17:14:52,566{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n2
+2025-06-22 17:14:52,566{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n1
+2025-06-22 17:14:52,566{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n3
+2025-06-22 17:14:52,567{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n4
+2025-06-22 17:14:52,567{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.test-ssh: Cleaning up Redis on n5
+2025-06-22 17:14:52,593{GMT}	WARN	[jepsen test runner] jepsen.core: Test crashed!
+clojure.lang.ExceptionInfo: Command exited with non-zero status 1 on node n4:
+cd /; redis-cli flushall
+
+STDIN:
+null
+
+STDOUT:
+
+
+STDERR:
+Could not connect to Redis at 127.0.0.1:6379: Connection refused
+
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at jepsen.control.core$throw_on_nonzero_exit.invokeStatic(core.clj:164)
+	at jepsen.control.core$throw_on_nonzero_exit.invoke(core.clj:159)
+	at jepsen.control$exec_STAR_.invokeStatic(control.clj:145)
+	at jepsen.control$exec_STAR_.doInvoke(control.clj:142)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$apply.invoke(core.clj:662)
+	at jepsen.control$exec.invokeStatic(control.clj:161)
+	at jepsen.control$exec.doInvoke(control.clj:155)
+	at clojure.lang.RestFn.invoke(RestFn.java:421)
+	at jepsen.redis_sentinel.test_ssh$redis_db$reify__191.setup_BANG_(test_ssh.clj:23)
+	at jepsen.db$fn__11077$G__11071__11081.invoke(db.clj:12)
+	at jepsen.db$fn__11077$G__11070__11086.invoke(db.clj:12)
+	at clojure.core$partial$fn__5908.invoke(core.clj:2642)
+	at jepsen.control$on_nodes$fn__9012.invoke(control.clj:314)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1990)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1990)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:671)
+	at clojure.core$bound_fn_STAR_$fn__5818.doInvoke(core.clj:2020)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:163)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1990)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1990)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:671)
+	at clojure.core$bound_fn_STAR_$fn__5818.doInvoke(core.clj:2020)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:1583)

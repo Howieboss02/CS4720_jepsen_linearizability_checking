@@ -1,0 +1,201 @@
+2025-06-22 17:41:01,657{GMT}	INFO	[jepsen test runner] jepsen.core: Test version ed66f49cdda798428052173e775188c16682541d (plus uncommitted changes)
+2025-06-22 17:41:01,892{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 15
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.test_ssh$redis_db$reify__191
+         "0x670aac24"
+         "jepsen.redis_sentinel.test_ssh$redis_db$reify__191@670aac24"]
+ :name "redis-extreme-latency-injection-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x23909b3" "2025-06-22T17:40:41.282Z"]
+ :username "root"
+ :net
+ #object[jepsen.net$reify__12635
+         "0x1977b0df"
+         "jepsen.net$reify__12635@1977b0df"]
+ :client
+ #object[jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196
+         "0x4a490518"
+         "jepsen.redis_sentinel.test_ssh$redis_sentinel_client$reify__196@4a490518"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x7890fbf9"
+         "java.util.concurrent.CyclicBarrier@7890fbf9"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x32ae11c9"
+         "jepsen.checker$compose$reify__10552@32ae11c9"]
+ :nemesis
+ #unprintable "jepsen.redis_sentinel.test_ssh$latency_nemesis$reify__459@167bae0b"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x6792f2c6"
+         (jepsen.generator.TimeLimit
+          {:limit 180000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x7054c068"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@7054c068"],
+                           :gen ({:type :sleep, :value 10}
+                                 {:type :info,
+                                  :f :start,
+                                  :latency 2000,
+                                  :jitter 500}
+                                 {:type :sleep, :value 15}
+                                 {:type :info, :f :stop}
+                                 {:type :sleep, :value 10}
+                                 {:type :info,
+                                  :f :start,
+                                  :latency 6000,
+                                  :jitter 1000}
+                                 {:type :sleep, :value 20}
+                                 {:type :info, :f :stop}
+                                 ...)})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x6dd1f239"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@6dd1f239"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 40000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Mix
+                                        {:i 1,
+                                         :gens [(jepsen.generator.Repeat
+                                                 {:remaining -1,
+                                                  :gen {:type :invoke, :f :read}})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.test_ssh$extreme_latency_injection_test$fn__546
+                                                             "0x28d97205"
+                                                             "jepsen.redis_sentinel.test_ssh$extreme_latency_injection_test$fn__546@28d97205"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :write}})})]})})})]})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x7e58b0f6"
+         "jepsen.os.debian.Debian@7e58b0f6"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-22 17:41:07,621{GMT}	ERROR	[sshj-Reader-n2/172.20.0.12:22-1750614067243] net.schmizz.sshj.transport.KeyExchanger: Disconnecting because none of the configured Host key verifiers ([OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts'}, OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts2'}]) could verify 'ssh-ed25519' host key with fingerprint 98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6 for n2:22
+2025-06-22 17:41:07,621{GMT}	ERROR	[sshj-Reader-n1/172.20.0.11:22-1750614067243] net.schmizz.sshj.transport.KeyExchanger: Disconnecting because none of the configured Host key verifiers ([OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts'}, OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts2'}]) could verify 'ssh-ed25519' host key with fingerprint 98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6 for n1:22
+2025-06-22 17:41:07,621{GMT}	ERROR	[sshj-Reader-n4/172.20.0.14:22-1750614067243] net.schmizz.sshj.transport.KeyExchanger: Disconnecting because none of the configured Host key verifiers ([OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts'}, OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts2'}]) could verify 'ssh-ed25519' host key with fingerprint 98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6 for n4:22
+2025-06-22 17:41:07,621{GMT}	ERROR	[sshj-Reader-n3/172.20.0.13:22-1750614067243] net.schmizz.sshj.transport.KeyExchanger: Disconnecting because none of the configured Host key verifiers ([OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts'}, OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts2'}]) could verify 'ssh-ed25519' host key with fingerprint 98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6 for n3:22
+2025-06-22 17:41:07,621{GMT}	ERROR	[sshj-Reader-n5/172.20.0.15:22-1750614067243] net.schmizz.sshj.transport.KeyExchanger: Disconnecting because none of the configured Host key verifiers ([OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts'}, OpenSSHKnownHosts{khFile='/root/.ssh/known_hosts2'}]) could verify 'ssh-ed25519' host key with fingerprint 98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6 for n5:22
+2025-06-22 17:41:07,649{GMT}	ERROR	[sshj-Reader-n5/172.20.0.15:22-1750614067243] net.schmizz.sshj.transport.TransportImpl: Dying because - Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n5` on port 22
+net.schmizz.sshj.transport.TransportException: Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n5` on port 22
+	at net.schmizz.sshj.transport.KeyExchanger.verifyHost(KeyExchanger.java:247)
+	at net.schmizz.sshj.transport.KeyExchanger.handle(KeyExchanger.java:433)
+	at net.schmizz.sshj.transport.TransportImpl.handle(TransportImpl.java:496)
+	at net.schmizz.sshj.transport.Decoder.decode(Decoder.java:113)
+	at net.schmizz.sshj.transport.Decoder.received(Decoder.java:200)
+	at net.schmizz.sshj.transport.Reader.run(Reader.java:60)
+2025-06-22 17:41:07,649{GMT}	ERROR	[sshj-Reader-n1/172.20.0.11:22-1750614067243] net.schmizz.sshj.transport.TransportImpl: Dying because - Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n1` on port 22
+net.schmizz.sshj.transport.TransportException: Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n1` on port 22
+	at net.schmizz.sshj.transport.KeyExchanger.verifyHost(KeyExchanger.java:247)
+	at net.schmizz.sshj.transport.KeyExchanger.handle(KeyExchanger.java:433)
+	at net.schmizz.sshj.transport.TransportImpl.handle(TransportImpl.java:496)
+	at net.schmizz.sshj.transport.Decoder.decode(Decoder.java:113)
+	at net.schmizz.sshj.transport.Decoder.received(Decoder.java:200)
+	at net.schmizz.sshj.transport.Reader.run(Reader.java:60)
+2025-06-22 17:41:07,649{GMT}	ERROR	[sshj-Reader-n2/172.20.0.12:22-1750614067243] net.schmizz.sshj.transport.TransportImpl: Dying because - Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n2` on port 22
+net.schmizz.sshj.transport.TransportException: Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n2` on port 22
+	at net.schmizz.sshj.transport.KeyExchanger.verifyHost(KeyExchanger.java:247)
+	at net.schmizz.sshj.transport.KeyExchanger.handle(KeyExchanger.java:433)
+	at net.schmizz.sshj.transport.TransportImpl.handle(TransportImpl.java:496)
+	at net.schmizz.sshj.transport.Decoder.decode(Decoder.java:113)
+	at net.schmizz.sshj.transport.Decoder.received(Decoder.java:200)
+	at net.schmizz.sshj.transport.Reader.run(Reader.java:60)
+2025-06-22 17:41:07,649{GMT}	ERROR	[sshj-Reader-n4/172.20.0.14:22-1750614067243] net.schmizz.sshj.transport.TransportImpl: Dying because - Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n4` on port 22
+net.schmizz.sshj.transport.TransportException: Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n4` on port 22
+	at net.schmizz.sshj.transport.KeyExchanger.verifyHost(KeyExchanger.java:247)
+	at net.schmizz.sshj.transport.KeyExchanger.handle(KeyExchanger.java:433)
+	at net.schmizz.sshj.transport.TransportImpl.handle(TransportImpl.java:496)
+	at net.schmizz.sshj.transport.Decoder.decode(Decoder.java:113)
+	at net.schmizz.sshj.transport.Decoder.received(Decoder.java:200)
+	at net.schmizz.sshj.transport.Reader.run(Reader.java:60)
+2025-06-22 17:41:07,649{GMT}	ERROR	[sshj-Reader-n3/172.20.0.13:22-1750614067243] net.schmizz.sshj.transport.TransportImpl: Dying because - Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n3` on port 22
+net.schmizz.sshj.transport.TransportException: Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n3` on port 22
+	at net.schmizz.sshj.transport.KeyExchanger.verifyHost(KeyExchanger.java:247)
+	at net.schmizz.sshj.transport.KeyExchanger.handle(KeyExchanger.java:433)
+	at net.schmizz.sshj.transport.TransportImpl.handle(TransportImpl.java:496)
+	at net.schmizz.sshj.transport.Decoder.decode(Decoder.java:113)
+	at net.schmizz.sshj.transport.Decoder.received(Decoder.java:200)
+	at net.schmizz.sshj.transport.Reader.run(Reader.java:60)
+2025-06-22 17:41:07,655{GMT}	ERROR	[real-pmap 1] net.schmizz.concurrent.Promise: <<kex done>> woke to: net.schmizz.sshj.transport.TransportException: [HOST_KEY_NOT_VERIFIABLE] Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n2` on port 22
+2025-06-22 17:41:07,655{GMT}	ERROR	[real-pmap 2] net.schmizz.concurrent.Promise: <<kex done>> woke to: net.schmizz.sshj.transport.TransportException: [HOST_KEY_NOT_VERIFIABLE] Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n3` on port 22
+2025-06-22 17:41:07,655{GMT}	ERROR	[real-pmap 0] net.schmizz.concurrent.Promise: <<kex done>> woke to: net.schmizz.sshj.transport.TransportException: [HOST_KEY_NOT_VERIFIABLE] Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n1` on port 22
+2025-06-22 17:41:07,655{GMT}	ERROR	[real-pmap 3] net.schmizz.concurrent.Promise: <<kex done>> woke to: net.schmizz.sshj.transport.TransportException: [HOST_KEY_NOT_VERIFIABLE] Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n4` on port 22
+2025-06-22 17:41:07,655{GMT}	ERROR	[real-pmap 4] net.schmizz.concurrent.Promise: <<kex done>> woke to: net.schmizz.sshj.transport.TransportException: [HOST_KEY_NOT_VERIFIABLE] Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n5` on port 22
+2025-06-22 17:41:07,686{GMT}	WARN	[jepsen test runner] jepsen.core: Test crashed!
+clojure.lang.ExceptionInfo: throw+: {:private-key-path nil, :password "root", :username "root", :type :jepsen.control/session-error, :port 22, :strict-host-key-checking :yes, :host "n1", :dummy nil, :message "Error opening SSH session. Verify username, password, and node hostnames are correct."}
+	at slingshot.support$stack_trace.invoke(support.clj:201)
+	at jepsen.control.sshj.SSHJRemote.connect(sshj.clj:139)
+	at jepsen.control.core$fn__5453$G__5422__5456.invoke(core.clj:7)
+	at jepsen.control.core$fn__5453$G__5421__5460.invoke(core.clj:7)
+	at clojure.core$update.invokeStatic(core.clj:6233)
+	at clojure.core$update.invoke(core.clj:6223)
+	at jepsen.control.scp.Remote.connect(scp.clj:87)
+	at jepsen.control.retry.Remote$open__5598.invoke(retry.clj:41)
+	at jepsen.reconnect$open_BANG_$fn__5561.invoke(reconnect.clj:61)
+	at jepsen.reconnect$open_BANG_.invokeStatic(reconnect.clj:59)
+	at jepsen.reconnect$open_BANG_.invoke(reconnect.clj:56)
+	at jepsen.control.retry.Remote.connect(retry.clj:40)
+	at jepsen.control$session.invokeStatic(control.clj:233)
+	at jepsen.control$session.invoke(control.clj:230)
+	at clojure.lang.AFn.applyToHelper(AFn.java:154)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1990)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1990)
+	at clojure.lang.RestFn.applyTo(RestFn.java:142)
+	at clojure.core$apply.invokeStatic(core.clj:671)
+	at clojure.core$bound_fn_STAR_$fn__5818.doInvoke(core.clj:2020)
+	at clojure.lang.RestFn.applyTo(RestFn.java:137)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$apply.invoke(core.clj:662)
+	at jepsen.util$fcatch$wrapper__4645.doInvoke(util.clj:48)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+	at dom_top.core$real_pmap_helper$build_thread__213$fn__214.invoke(core.clj:163)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invokeStatic(core.clj:667)
+	at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1990)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1990)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.lang.AFn.applyToHelper(AFn.java:156)
+	at clojure.lang.RestFn.applyTo(RestFn.java:132)
+	at clojure.core$apply.invokeStatic(core.clj:671)
+	at clojure.core$bound_fn_STAR_$fn__5818.doInvoke(core.clj:2020)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: net.schmizz.sshj.transport.TransportException: Could not verify `ssh-ed25519` host key with fingerprint `98:14:37:eb:7c:8a:44:5c:8c:29:88:fd:50:81:ee:c6` for `n1` on port 22
+	at net.schmizz.sshj.transport.KeyExchanger.verifyHost(KeyExchanger.java:247)
+	at net.schmizz.sshj.transport.KeyExchanger.handle(KeyExchanger.java:433)
+	at net.schmizz.sshj.transport.TransportImpl.handle(TransportImpl.java:496)
+	at net.schmizz.sshj.transport.Decoder.decode(Decoder.java:113)
+	at net.schmizz.sshj.transport.Decoder.received(Decoder.java:200)
+	at net.schmizz.sshj.transport.Reader.run(Reader.java:60)

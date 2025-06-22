@@ -486,7 +486,7 @@
                                                          "   Total writes: " total-writes "\n"
                                                          "   Survivors: " survivors "\n"
                                                          "   Lost: " (count lost-writes) 
-                                                         " (" (Math/round (* loss-rate 100)) "%)\n"
+                                                         " (" (int (* (or loss-rate 0) 100)) "%)\n"  ; FIXED: Use int instead of Math/round
                                                          "   Split-brain detected: " split-brain-detected? "\n"
                                                          "   Final node states: " final-states)})))})})
 
@@ -684,11 +684,11 @@
                                            :flapping-intensity (/ partition-starts 3.0) ; partitions per minute
                                            :message (str "🌊 Flapping Partitions Test Results:\n"
                                                          "   Total operations: " total-ops "\n"
-                                                         "   Success rate: " (Math/round (* success-rate 100)) "%\n"
+                                                         "   Success rate: " (int (* (or success-rate 0) 100)) "%\n"  ; FIXED: Use int instead of Math/round
                                                          "   Partition starts: " partition-starts "\n"
                                                          "   Partition stops: " partition-stops "\n"
                                                          "   Primary switches: " primary-switches "\n"
-                                                         "   Flapping intensity: " (Math/round (/ partition-starts 3.0)) " partitions/min\n"
+                                                         "   Flapping intensity: " (int (/ partition-starts 3.0)) " partitions/min\n"  ; FIXED: Use int instead of Math/round
                                                          "   Network stability: " (if (> success-rate 0.7) "Good" "Poor"))})))})})
 
 (defn bridge-partitions-test []
@@ -797,12 +797,12 @@
                                       :bridge-effectiveness (/ failed-ops (max total-ops 1))
                                       :message (str "🌉 Bridge Partitions Test Results:\n"
                                                     "   Total operations: " total-ops "\n"
-                                                    "   Success rate: " (Math/round (* success-rate 100)) "%\n"
+                                                    "   Success rate: " (int (* (or success-rate 0) 100)) "%\n"  ; FIXED: Use int instead of Math/round
                                                     "   Bridge events: " bridge-starts "\n"
                                                     "   Primary switches: " primary-switches "\n"
                                                     "   Node usage: " node-usage "\n"
                                                     "   Connectivity: " connectivity-health "\n"
-                                                    "   Bridge effectiveness: " (Math/round (* (/ failed-ops (max total-ops 1)) 100)) "% disruption")})))})})
+                                                    "   Bridge effectiveness: " (int (* (/ failed-ops (max total-ops 1)) 100)) "% disruption")})))})})
 
 (defn latency-nemesis
   "Custom nemesis that injects network latency using Linux tc (traffic control)"
@@ -963,12 +963,140 @@
                                        :latency-configurations nemesis-events
                                        :message (str "⏱️ Latency Injection Test Results:\n"
                                                      "   Total operations: " total-ops "\n"
-                                                     "   Success rate: " (Math/round (* success-rate 100)) "%\n"
-                                                     "   Timeout rate: " (Math/round (* timeout-rate 100)) "%\n"
+                                                     "   Success rate: " (int (* (or success-rate 0) 100)) "%\n"  ; FIXED: Use int instead of Math/round
+                                                     "   Timeout rate: " (int (* (or timeout-rate 0) 100)) "%\n"  ; FIXED: Use int instead of Math/round
                                                      "   Timeout operations: " timeout-ops "\n"
                                                      "   Latency periods: " latency-periods "\n"
-                                                     "   Average latency: " (Math/round avg-latency) "ms\n"
+                                                     "   Average latency: " (int (or avg-latency 0)) "ms\n"  ; FIXED: Use int instead of Math/round
                                                      "   Timeout threshold test: " (if (< timeout-rate 0.3) "PASSED" "FAILED"))})))})})
+
+(defn extreme-latency-injection-test []
+  "Extreme latency injection test - designed to break Redis Sentinel timeouts"
+  {:name "redis-extreme-latency-injection-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-sentinel-client)
+   :nemesis (latency-nemesis)
+   :net net/iptables
+   :concurrency 15
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    opts {:rate 50}
+                    client-ops (gen/mix [reads writes])]
+                (->> client-ops
+                     (gen/stagger (/ (:rate opts)))
+                     (gen/nemesis
+                      ;; Progressive breakage pattern
+                      (cycle [
+                        ;; Phase 1: Break client timeouts
+                        (gen/sleep 10)
+                        {:type :info, :f :start, :latency 2000, :jitter 500}   ; 2s ± 0.5s
+                        (gen/sleep 15)
+                        {:type :info, :f :stop}
+                        
+                        ;; Phase 2: Break Sentinel detection
+                        (gen/sleep 10)
+                        {:type :info, :f :start, :latency 6000, :jitter 1000}  ; 6s ± 1s
+                        (gen/sleep 20)
+                        {:type :info, :f :stop}
+                        
+                        ;; Phase 3: Extreme latency - break everything
+                        (gen/sleep 10)
+                        {:type :info, :f :start, :latency 10000, :jitter 2000} ; 10s ± 2s
+                        (gen/sleep 25)
+                        {:type :info, :f :stop}]))
+                     (gen/time-limit 180)))
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :perf (checker/concurrency-limit
+                     2
+                     (checker/perf {:nemeses? true
+                                    :bandwidth? true
+                                    :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
+                                    :subdirectory "perf-extreme-latency"}))
+              :latency-detailed (checker/concurrency-limit
+                                 1
+                                 (checker/latency-graph {:nemeses? true
+                                                         :subdirectory "extreme-latency"
+                                                         :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
+              :timeline (timeline/html)
+              :linear-wgl (checker/concurrency-limit
+                           1
+                           (checker/linearizable {:model (model/register)
+                                                  :algorithm :wgl}))
+              :exceptions (checker/unhandled-exceptions)
+              :breakage-analysis (reify checker/Checker
+                                   (check [this test history opts]
+                                     (let [failed-ops (->> history
+                                                           (filter #(= :fail (:type %)))
+                                                           count)
+                                           timeout-ops (->> history
+                                                            (filter #(and (= :fail (:type %))
+                                                                          (or (re-find #"timeout" (str (:error %)))
+                                                                              (re-find #"Timeout" (str (:error %)))
+                                                                              (re-find #"Connection" (str (:error %))))))
+                                                            count)
+                                           total-ops (->> history
+                                                          (filter #(#{:ok :fail} (:type %)))
+                                                          count)
+                                           failure-rate (if (> total-ops 0)
+                                                          (/ failed-ops total-ops)
+                                                          0)
+                                           timeout-rate (if (> total-ops 0)
+                                                          (/ timeout-ops total-ops)
+                                                          0)
+                                           ;; Check for failover indicators
+                                           writes (->> history
+                                                       (filter #(and (= :ok (:type %))
+                                                                     (= :write (:f %))))
+                                                       (map :node))
+                                           unique-primaries (set writes)
+                                           failovers-detected (> (count unique-primaries) 1)
+                                           
+                                           ;; Categorize breakage severity
+                                           breakage-level (cond
+                                                            (> timeout-rate 0.8) "CATASTROPHIC"
+                                                            (> timeout-rate 0.5) "SEVERE"
+                                                            (> timeout-rate 0.2) "MODERATE"
+                                                            (> timeout-rate 0.05) "MILD"
+                                                            :else "MINIMAL")]
+                                       
+                                       {:valid? false  ; Expect breakage, so never "valid"
+                                        :total-operations total-ops
+                                        :failed-operations failed-ops
+                                        :timeout-operations timeout-ops
+                                        :failure-rate failure-rate
+                                        :timeout-rate timeout-rate
+                                        :failovers-detected failovers-detected
+                                        :unique-primaries unique-primaries
+                                        :breakage-level breakage-level
+                                        :systems-broken (cond-> []
+                                                          (> timeout-rate 0.1) (conj "Client timeouts")
+                                                          failovers-detected (conj "Sentinel failover triggered")
+                                                          (> failure-rate 0.5) (conj "System availability"))
+                                        :message (str "💥 EXTREME Latency Injection Results:\n"
+                                                      "   Breakage Level: " breakage-level "\n"
+                                                      "   Total operations: " total-ops "\n"
+                                                      "   Failed operations: " failed-ops " (" (int (* (or failure-rate 0) 100)) "%)\n"  ; FIXED: Use int instead of Math/round
+                                                      "   Timeout operations: " timeout-ops " (" (int (* (or timeout-rate 0) 100)) "%)\n"  ; FIXED: Use int instead of Math/round
+                                                      "   Failovers detected: " failovers-detected "\n"
+                                                      "   Primary nodes used: " unique-primaries "\n"
+                                                      "   Systems broken: " (or (seq (cond-> []
+                                                                                            (> timeout-rate 0.1) (conj "Client timeouts")
+                                                                                            failovers-detected (conj "Sentinel failover")
+                                                                                            (> failure-rate 0.5) (conj "System availability")))
+                                                                                 ["None"]))})))})})
 
 (defn run-simple-test []
   (info "🚀 Starting simple Redis test for 30 seconds with Sentinel client...")
@@ -1029,6 +1157,14 @@
   (info "🎯 Testing Sentinel and Redis client resilience to network delays")
   (jepsen/run! (latency-injection-test)))
 
+(defn run-extreme-latency-injection-test []
+  (info "🚀 Starting EXTREME latency injection Redis test for 3 minutes...")
+  (info "💥 This test is designed to BREAK Redis Sentinel timeouts")
+  (info "🐌 Pattern: 10s → 2s latency → 10s → 6s latency → 10s → 10s latency")
+  (info "⚠️  EXPECT: Client timeouts, Sentinel failovers, system breakage!")
+  (info "🎯 Testing maximum latency tolerance thresholds")
+  (jepsen/run! (extreme-latency-injection-test)))
+
 (defn -main [& args]
   (c/with-ssh {:username "root"
                :private-key-path "/root/.ssh/id_rsa"
@@ -1055,6 +1191,7 @@
         "flapping-partitions" (run-flapping-partitions-test)
         "bridge-partitions" (run-bridge-partitions-test)
         "latency-injection" (run-latency-injection-test)
+        "extreme-latency" (run-extreme-latency-injection-test)
         (do
           (info "🎯 Available tests (ALL use Sentinel clients):")
           (info "  simple - Basic register test with Sentinel")
@@ -1066,5 +1203,6 @@
           (info "  flapping-partitions - Rapid partition/heal cycles test with Sentinel")
           (info "  bridge-partitions - Chain-like connectivity patterns test with Sentinel")
           (info "  latency-injection - Network latency injection test with Sentinel")
+          (info "  extreme-latency - Extreme latency injection test with Sentinel")
           (info "🎯 Running simple test by default...")
           (run-simple-test))))))
