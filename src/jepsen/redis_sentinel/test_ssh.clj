@@ -490,6 +490,486 @@
                                                          "   Split-brain detected: " split-brain-detected? "\n"
                                                          "   Final node states: " final-states)})))})})
 
+(defn isolated-primary-test []
+  "Isolated primary test - isolates current primary to force immediate failover for 3 minutes"
+  {:name "redis-isolated-primary-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-sentinel-client)
+   :nemesis (nemesis/partitioner nemesis/majorities-ring-perfect)
+   :net net/iptables
+   :concurrency 15
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    opts {:rate 50}
+                    client-ops (gen/mix [reads writes])]
+                (->> client-ops
+                     (gen/stagger (/ (:rate opts)))
+                     (gen/nemesis
+                      (cycle [(gen/sleep 10)
+                              {:type :info, :f :start}
+                              (gen/sleep 30)
+                              {:type :info, :f :stop}
+                              (gen/sleep 10)]))
+                     (gen/time-limit 180)))
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :perf (checker/concurrency-limit
+                     2
+                     (checker/perf {:nemeses? true
+                                    :bandwidth? true
+                                    :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
+                                    :subdirectory "perf-isolated-primary"}))
+              :latency-detailed (checker/concurrency-limit
+                                 1
+                                 (checker/latency-graph {:nemeses? true
+                                                         :subdirectory "latency-isolated-primary"
+                                                         :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
+              :rate-detailed (checker/rate-graph {:nemeses? true
+                                                  :subdirectory "rate-isolated-primary"
+                                                  :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
+              :timeline (timeline/html)
+              :linear-wgl (checker/concurrency-limit
+                           1
+                           (checker/linearizable {:model (model/register)
+                                                  :algorithm :wgl}))
+              :linear-competition (checker/linearizable {:model (model/register)
+                                                         :algorithm :linear})
+              :clock-analysis (checker/clock-plot)
+              :exceptions (checker/unhandled-exceptions)
+              :failover-analysis (reify checker/Checker
+                                   (check [this test history opts]
+                                     (let [writes (->> history
+                                                       (filter #(and (= :ok (:type %))
+                                                                     (= :write (:f %))))
+                                                       (map (juxt :time :node :value)))
+                                           nemesis-events (->> history
+                                                               (filter #(= :nemesis (:process %)))
+                                                               (map (juxt :time :f)))
+                                           primary-changes (->> writes
+                                                                (partition-by second)
+                                                                (map (fn [group] 
+                                                                       {:time (ffirst group)
+                                                                        :primary (-> group first second)
+                                                                        :count (count group)})))
+                                           total-writes (count writes)
+                                           unique-primaries (set (map second writes))
+                                           failover-count (dec (count primary-changes))]
+                                       {:valid? (>= failover-count 1)
+                                        :total-writes total-writes
+                                        :unique-primaries unique-primaries
+                                        :failover-count failover-count
+                                        :primary-changes primary-changes
+                                        :nemesis-events nemesis-events
+                                        :message (str "🔄 Isolated Primary Test Results:\n"
+                                                      "   Total writes: " total-writes "\n"
+                                                      "   Unique primaries used: " (count unique-primaries) "\n"
+                                                      "   Detected failovers: " failover-count "\n"
+                                                      "   Primary nodes: " unique-primaries "\n"
+                                                      "   Failover successful: " (>= failover-count 1))})))})})
+
+(defn flapping-partitions-test []
+  "Flapping partitions test - rapid partition/heal cycles to test stability under network instability for 3 minutes"
+  {:name "redis-flapping-partitions-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-sentinel-client)
+   :nemesis (nemesis/partition-random-halves)
+   :net net/iptables
+   :concurrency 15
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    opts {:rate 50}
+                    client-ops (gen/mix [reads writes])]
+                (->> client-ops
+                     (gen/stagger (/ (:rate opts)))
+                     (gen/nemesis
+                      ;; Rapid flapping: 3s normal → 2s partition → 3s heal → 2s partition → repeat
+                      (cycle [(gen/sleep 3)
+                              {:type :info, :f :start}
+                              (gen/sleep 2)
+                              {:type :info, :f :stop}
+                              (gen/sleep 3)
+                              {:type :info, :f :start}
+                              (gen/sleep 2)
+                              {:type :info, :f :stop}]))
+                     (gen/time-limit 180)))
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :perf (checker/concurrency-limit
+                     2
+                     (checker/perf {:nemeses? true
+                                    :bandwidth? true
+                                    :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
+                                    :subdirectory "perf-flapping-partitions"}))
+              :latency-detailed (checker/concurrency-limit
+                                 1
+                                 (checker/latency-graph {:nemeses? true
+                                                         :subdirectory "latency-flapping-partitions"
+                                                         :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
+              :rate-detailed (checker/rate-graph {:nemeses? true
+                                                  :subdirectory "rate-flapping-partitions"
+                                                  :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
+              :timeline (timeline/html)
+              :linear-wgl (checker/concurrency-limit
+                           1
+                           (checker/linearizable {:model (model/register)
+                                                  :algorithm :wgl}))
+              :linear-competition (checker/linearizable {:model (model/register)
+                                                         :algorithm :linear})
+              :clock-analysis (checker/clock-plot)
+              :exceptions (checker/unhandled-exceptions)
+              :instability-analysis (reify checker/Checker
+                                      (check [this test history opts]
+                                        (let [writes (->> history
+                                                          (filter #(and (= :ok (:type %))
+                                                                        (= :write (:f %))))
+                                                          (map (juxt :time :node :value)))
+                                              reads (->> history
+                                                         (filter #(and (= :ok (:type %))
+                                                                       (= :read (:f %))))
+                                                         (map (juxt :time :node :value)))
+                                              nemesis-events (->> history
+                                                                  (filter #(= :nemesis (:process %)))
+                                                                  (map (juxt :time :f)))
+                                              partition-starts (count (filter #(= :start (second %)) nemesis-events))
+                                              partition-stops (count (filter #(= :stop (second %)) nemesis-events))
+                                              failed-ops (->> history
+                                                              (filter #(= :fail (:type %)))
+                                                              count)
+                                              timeout-ops (->> history
+                                                               (filter #(and (= :info (:type %))
+                                                                             (= :timeout (:f %))))
+                                                               count)
+                                              total-ops (+ (count writes) (count reads) failed-ops timeout-ops)
+                                              success-rate (if (> total-ops 0)
+                                                             (/ (+ (count writes) (count reads)) total-ops)
+                                                             0)
+                                              primary-switches (->> writes
+                                                                    (partition-by second)
+                                                                    count
+                                                                    dec)]
+                                          {:valid? (and (> partition-starts 10)  ; Expect many rapid partitions
+                                                        (> success-rate 0.5))    ; At least 50% success rate
+                                           :total-operations total-ops
+                                           :successful-operations (+ (count writes) (count reads))
+                                           :failed-operations failed-ops
+                                           :timeout-operations timeout-ops
+                                           :success-rate success-rate
+                                           :partition-starts partition-starts
+                                           :partition-stops partition-stops
+                                           :primary-switches primary-switches
+                                           :flapping-intensity (/ partition-starts 3.0) ; partitions per minute
+                                           :message (str "🌊 Flapping Partitions Test Results:\n"
+                                                         "   Total operations: " total-ops "\n"
+                                                         "   Success rate: " (Math/round (* success-rate 100)) "%\n"
+                                                         "   Partition starts: " partition-starts "\n"
+                                                         "   Partition stops: " partition-stops "\n"
+                                                         "   Primary switches: " primary-switches "\n"
+                                                         "   Flapping intensity: " (Math/round (/ partition-starts 3.0)) " partitions/min\n"
+                                                         "   Network stability: " (if (> success-rate 0.7) "Good" "Poor"))})))})})
+
+(defn bridge-partitions-test []
+  "Bridge partitions test - creates chain-like connectivity patterns for 3 minutes"
+  {:name "redis-bridge-partitions-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-sentinel-client)
+   :nemesis (nemesis/partitioner nemesis/bridge)
+   :net net/iptables
+   :concurrency 15
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    opts {:rate 50}
+                    client-ops (gen/mix [reads writes])]
+                (->> client-ops
+                     (gen/stagger (/ (:rate opts)))
+                     (gen/nemesis
+                      ;; Bridge partition pattern: 12s normal → 18s bridge → 12s heal
+                      (cycle [(gen/sleep 12)
+                              {:type :info, :f :start}
+                              (gen/sleep 18)
+                              {:type :info, :f :stop}]))
+                     (gen/time-limit 180)))
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :perf (checker/concurrency-limit
+                     2
+                     (checker/perf {:nemeses? true
+                                    :bandwidth? true
+                                    :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
+                                    :subdirectory "perf-bridge-partitions"}))
+              :latency-detailed (checker/concurrency-limit
+                                 1
+                                 (checker/latency-graph {:nemeses? true
+                                                         :subdirectory "latency-bridge-partitions"
+                                                         :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
+              :rate-detailed (checker/rate-graph {:nemeses? true
+                                                  :subdirectory "rate-bridge-partitions"
+                                                  :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
+              :timeline (timeline/html)
+              :linear-wgl (checker/concurrency-limit
+                           1
+                           (checker/linearizable {:model (model/register)
+                                                  :algorithm :wgl}))
+              :linear-competition (checker/linearizable {:model (model/register)
+                                                         :algorithm :linear})
+              :clock-analysis (checker/clock-plot)
+              :exceptions (checker/unhandled-exceptions)
+              :bridge-analysis (reify checker/Checker
+                                 (check [this test history opts]
+                                   (let [writes (->> history
+                                                     (filter #(and (= :ok (:type %))
+                                                                   (= :write (:f %))))
+                                                     (map (juxt :time :node :value)))
+                                         reads (->> history
+                                                    (filter #(and (= :ok (:type %))
+                                                                  (= :read (:f %))))
+                                                    (map (juxt :time :node :value)))
+                                         nemesis-events (->> history
+                                                             (filter #(= :nemesis (:process %)))
+                                                             (map (juxt :time :f)))
+                                         bridge-starts (count (filter #(= :start (second %)) nemesis-events))
+                                         bridge-stops (count (filter #(= :stop (second %)) nemesis-events))
+                                         failed-ops (->> history
+                                                         (filter #(= :fail (:type %)))
+                                                         count)
+                                         total-ops (+ (count writes) (count reads) failed-ops)
+                                         success-rate (if (> total-ops 0)
+                                                        (/ (+ (count writes) (count reads)) total-ops)
+                                                        0)
+                                         primary-switches (->> writes
+                                                               (partition-by second)
+                                                               count
+                                                               dec)
+                                         ;; Analyze connectivity patterns during bridge partitions
+                                         node-usage (->> writes
+                                                         (group-by second)
+                                                         (map (fn [[node ops]] [node (count ops)]))
+                                                         (into {}))
+                                         connectivity-health (if (> (count node-usage) 1)
+                                                               "Bridge connectivity maintained"
+                                                               "Limited connectivity detected")]
+                                     {:valid? (and (> bridge-starts 2)    ; Expect multiple bridge events
+                                                   (> success-rate 0.4))   ; At least 40% success (bridge is restrictive)
+                                      :total-operations total-ops
+                                      :successful-operations (+ (count writes) (count reads))
+                                      :failed-operations failed-ops
+                                      :success-rate success-rate
+                                      :bridge-starts bridge-starts
+                                      :bridge-stops bridge-stops
+                                      :primary-switches primary-switches
+                                      :node-usage node-usage
+                                      :connectivity-health connectivity-health
+                                      :bridge-effectiveness (/ failed-ops (max total-ops 1))
+                                      :message (str "🌉 Bridge Partitions Test Results:\n"
+                                                    "   Total operations: " total-ops "\n"
+                                                    "   Success rate: " (Math/round (* success-rate 100)) "%\n"
+                                                    "   Bridge events: " bridge-starts "\n"
+                                                    "   Primary switches: " primary-switches "\n"
+                                                    "   Node usage: " node-usage "\n"
+                                                    "   Connectivity: " connectivity-health "\n"
+                                                    "   Bridge effectiveness: " (Math/round (* (/ failed-ops (max total-ops 1)) 100)) "% disruption")})))})})
+
+(defn latency-nemesis
+  "Custom nemesis that injects network latency using Linux tc (traffic control)"
+  []
+  (reify nemesis/Nemesis
+    (setup! [this test] this)
+
+    (invoke! [this test op]
+      (case (:f op)
+        :start
+        (let [nodes (:nodes test)
+              latency-ms (or (:latency op) 200)  ; Default 200ms latency
+              jitter-ms (or (:jitter op) 50)]    ; Default 50ms jitter
+          (info "Injecting" latency-ms "ms latency with" jitter-ms "ms jitter on all nodes")
+          (c/on-nodes test nodes
+                      (fn [test node]
+                        (c/su
+                         ;; Clear any existing tc rules
+                         (c/exec :tc :qdisc :del :dev :eth0 :root :|| :true)
+                         ;; Add latency to outgoing packets
+                         (c/exec :tc :qdisc :add :dev :eth0 :root :handle "1:"
+                                 :netem :delay (str latency-ms "ms") (str jitter-ms "ms")))))
+          (assoc op :type :info :value {:latency latency-ms :jitter jitter-ms :affected nodes}))
+
+        :stop
+        (let [nodes (:nodes test)]
+          (info "Removing latency injection from all nodes")
+          (c/on-nodes test nodes
+                      (fn [test node]
+                        (c/su
+                         ;; Remove tc rules to restore normal latency
+                         (c/exec :tc :qdisc :del :dev :eth0 :root :|| :true))))
+          (assoc op :type :info :value :latency-removed))
+
+        ;; Default case for unknown operations
+        (assoc op :type :info :error (str "Unknown latency nemesis operation: " (:f op)))))
+
+    (teardown! [this test]
+      ;; Ensure cleanup on teardown
+      (let [nodes (:nodes test)]
+        (doseq [node nodes]
+          (try
+            (c/on node
+                  (c/su (c/exec :tc :qdisc :del :dev :eth0 :root :|| :true)))
+            (catch Exception e
+              (warn "Failed to cleanup tc rules on" node ":" (.getMessage e)))))))))
+
+
+(defn latency-injection-test []
+  "Latency injection test - adds network delays to test timeout thresholds for 3 minutes"
+  {:name "redis-latency-injection-test"
+   :os debian/os
+   :db (redis-db)
+   :client (redis-sentinel-client)
+   :nemesis (latency-nemesis)
+   :net net/iptables
+   :concurrency 15
+   :nodes ["n1" "n2" "n3" "n4" "n5"]
+   :remote c/ssh
+   :username "root"
+   :private-key-path "/root/.ssh/id_rsa"
+   :strict-host-key-checking false
+   :ssh-opts ["-o" "StrictHostKeyChecking=no"
+              "-o" "UserKnownHostsFile=/dev/null"
+              "-o" "GlobalKnownHostsFile=/dev/null"
+              "-o" "LogLevel=ERROR"]
+   :generator (let [counter (atom 0)
+                    reads (gen/repeat {:type :invoke :f :read})
+                    writes (->> (gen/repeat {:type :invoke :f :write})
+                                (gen/map (fn [op] (assoc op :value (swap! counter inc)))))
+                    opts {:rate 50}
+                    client-ops (gen/mix [reads writes])]
+                (->> client-ops
+                     (gen/stagger (/ (:rate opts)))
+                     (gen/nemesis
+                      ;; Latency injection pattern: 15s normal → 25s high latency → 15s normal
+                      (cycle [(gen/sleep 15)
+                              {:type :info, :f :start, :latency 300, :jitter 100}  ; 300ms ± 100ms
+                              (gen/sleep 25)
+                              {:type :info, :f :stop}
+                              (gen/sleep 15)
+                              {:type :info, :f :start, :latency 500, :jitter 150}  ; 500ms ± 150ms  
+                              (gen/sleep 20)
+                              {:type :info, :f :stop}]))
+                     (gen/time-limit 180)))
+   :checker (checker/compose
+             {:stats (checker/stats)
+              :perf (checker/concurrency-limit
+                     2
+                     (checker/perf {:nemeses? true
+                                    :bandwidth? true
+                                    :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
+                                    :subdirectory "perf-latency-injection"}))
+              :latency-detailed (checker/concurrency-limit
+                                 1
+                                 (checker/latency-graph {:nemeses? true
+                                                         :subdirectory "latency-injection"
+                                                         :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
+              :rate-detailed (checker/rate-graph {:nemeses? true
+                                                  :subdirectory "rate-latency-injection"
+                                                  :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
+              :timeline (timeline/html)
+              :linear-wgl (checker/concurrency-limit
+                           1
+                           (checker/linearizable {:model (model/register)
+                                                  :algorithm :wgl}))
+              :linear-competition (checker/linearizable {:model (model/register)
+                                                         :algorithm :linear})
+              :clock-analysis (checker/clock-plot)
+              :exceptions (checker/unhandled-exceptions)
+              :timeout-analysis (reify checker/Checker
+                                  (check [this test history opts]
+                                    (let [writes (->> history
+                                                      (filter #(and (= :ok (:type %))
+                                                                    (= :write (:f %))))
+                                                      (map (juxt :time :node :value)))
+                                          reads (->> history
+                                                     (filter #(and (= :ok (:type %))
+                                                                   (= :read (:f %))))
+                                                     (map (juxt :time :node :value)))
+                                          failed-ops (->> history
+                                                          (filter #(= :fail (:type %)))
+                                                          count)
+                                          timeout-ops (->> history
+                                                           (filter #(and (= :fail (:type %))
+                                                                         (or (re-find #"timeout" (str (:error %)))
+                                                                             (re-find #"Timeout" (str (:error %))))))
+                                                           count)
+                                          nemesis-events (->> history
+                                                              (filter #(= :nemesis (:process %)))
+                                                              (filter #(= :start (:f %)))
+                                                              (map :value))
+                                          latency-periods (count nemesis-events)
+                                          total-ops (+ (count writes) (count reads) failed-ops)
+                                          success-rate (if (> total-ops 0)
+                                                         (/ (+ (count writes) (count reads)) total-ops)
+                                                         0)
+                                          timeout-rate (if (> total-ops 0)
+                                                         (/ timeout-ops total-ops)
+                                                         0)
+                                          ;; Analyze operation latencies during high latency periods
+                                          all-ops (->> history
+                                                       (filter #(#{:ok :fail} (:type %)))
+                                                       (filter #(#{:read :write} (:f %)))
+                                                       (map (juxt :time :latency)))
+                                          avg-latency (if (seq all-ops)
+                                                        (/ (reduce + (map second all-ops)) (count all-ops))
+                                                        0)]
+                                      {:valid? (< timeout-rate 0.3)  ; Valid if timeout rate < 30%
+                                       :total-operations total-ops
+                                       :successful-operations (+ (count writes) (count reads))
+                                       :failed-operations failed-ops
+                                       :timeout-operations timeout-ops
+                                       :success-rate success-rate
+                                       :timeout-rate timeout-rate
+                                       :latency-periods latency-periods
+                                       :average-latency-ms avg-latency
+                                       :latency-configurations nemesis-events
+                                       :message (str "⏱️ Latency Injection Test Results:\n"
+                                                     "   Total operations: " total-ops "\n"
+                                                     "   Success rate: " (Math/round (* success-rate 100)) "%\n"
+                                                     "   Timeout rate: " (Math/round (* timeout-rate 100)) "%\n"
+                                                     "   Timeout operations: " timeout-ops "\n"
+                                                     "   Latency periods: " latency-periods "\n"
+                                                     "   Average latency: " (Math/round avg-latency) "ms\n"
+                                                     "   Timeout threshold test: " (if (< timeout-rate 0.3) "PASSED" "FAILED"))})))})})
+
 (defn run-simple-test []
   (info "🚀 Starting simple Redis test for 30 seconds with Sentinel client...")
   (info "📊 Expected ~900 operations (3 threads × 10 ops/sec × 30 sec)")
@@ -518,6 +998,37 @@
   (info "⚠️  Expect significant data loss and split-brain detection!")
   (jepsen/run! (redis-set-split-brain-test)))
 
+(defn run-isolated-primary-test []
+  (info "🚀 Starting isolated primary Redis test for 3 minutes with Sentinel client...")
+  (info "🎯 This test isolates the current primary to force immediate failover")
+  (info "🔄 Pattern: 10s normal → 15s isolation → 10s heal → repeat")
+  (info "📊 Expected failover detection and primary switching")
+  (jepsen/run! (isolated-primary-test)))
+
+(defn run-flapping-partitions-test []
+  (info "🚀 Starting flapping partitions Redis test for 3 minutes with Sentinel client...")
+  (info "🌊 This test uses rapid partition/heal cycles to test network instability")
+  (info "⚡ Pattern: 3s normal → 2s partition → 3s heal → 2s partition → repeat")
+  (info "📊 Expected high partition frequency and stability testing")
+  (info "🎯 Measuring system resilience under constant network disruption")
+  (jepsen/run! (flapping-partitions-test)))
+
+(defn run-bridge-partitions-test []
+  (info "🚀 Starting bridge partitions Redis test for 3 minutes with Sentinel client...")
+  (info "🌉 This test creates chain-like connectivity patterns (bridge partitions)")
+  (info "🔗 Pattern: 12s normal → 18s bridge → 12s heal → repeat")
+  (info "📊 Expected limited connectivity and consensus challenges")
+  (info "🎯 Testing Sentinel behavior with partial network connectivity")
+  (jepsen/run! (bridge-partitions-test)))
+
+(defn run-latency-injection-test []
+  (info "🚀 Starting latency injection Redis test for 3 minutes with Sentinel client...")
+  (info "⏱️ This test injects network latency to test timeout thresholds")
+  (info "🐌 Pattern: 15s normal → 25s (300ms±100ms) → 15s normal → 20s (500ms±150ms) → repeat")
+  (info "📊 Expected timeout behavior and latency impact on operations")
+  (info "🎯 Testing Sentinel and Redis client resilience to network delays")
+  (jepsen/run! (latency-injection-test)))
+
 (defn -main [& args]
   (c/with-ssh {:username "root"
                :private-key-path "/root/.ssh/id_rsa"
@@ -540,6 +1051,10 @@
         "concurrent" (run-intensive-concurrent-test)
         "split-brain" (run-split-brain-test)
         "set-split-brain" (run-redis-set-split-brain-test)
+        "isolated-primary" (run-isolated-primary-test)
+        "flapping-partitions" (run-flapping-partitions-test)
+        "bridge-partitions" (run-bridge-partitions-test)
+        "latency-injection" (run-latency-injection-test)
         (do
           (info "🎯 Available tests (ALL use Sentinel clients):")
           (info "  simple - Basic register test with Sentinel")
@@ -547,5 +1062,9 @@
           (info "  concurrent - Concurrent register test with Sentinel")
           (info "  split-brain - Register split-brain test with Sentinel")
           (info "  set-split-brain - SET split-brain test with Sentinel")
+          (info "  isolated-primary - Isolated primary failover test with Sentinel")
+          (info "  flapping-partitions - Rapid partition/heal cycles test with Sentinel")
+          (info "  bridge-partitions - Chain-like connectivity patterns test with Sentinel")
+          (info "  latency-injection - Network latency injection test with Sentinel")
           (info "🎯 Running simple test by default...")
           (run-simple-test))))))
