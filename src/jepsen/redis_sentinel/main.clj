@@ -58,7 +58,7 @@
     "set-split-brain" (partition-tests/run-set-split-brain-test)
     
     ;; Failover Tests
-    "isolated-primary" (failover-tests/run-isolated-primary-test)
+    "majorities-ring" (failover-tests/run-majorities-ring-test)
     
     ;; Network Instability Tests
     "flapping-partitions" (network-tests/run-flapping-partitions-test)

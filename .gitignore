@@ -1,4 +1,4 @@
 .clj-kondo
 .DS_Store
-.store
+store
 logs/*

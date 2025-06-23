@@ -20,9 +20,9 @@
     (teardown! [_ test node]
       (info "Cleaning up Redis on" node))))
 
-(defn isolated-primary-test []
-  "Isolated primary test - isolates current primary to force immediate failover for 3 minutes"
-  {:name "redis-isolated-primary-test"
+(defn majorities-ring-test []
+  "Majorities ring test - uses ring partitions to force failover scenarios for 3 minutes"
+  {:name "redis-majorities-ring-test"
    :os debian/os
    :db (redis-db)
    :client (redis-client/redis-sentinel-client)
@@ -60,14 +60,14 @@
                      (checker/perf {:nemeses? true
                                     :bandwidth? true
                                     :quantiles [0.25 0.5 0.75 0.9 0.95 0.99 0.999]
-                                    :subdirectory "perf-isolated-primary"}))
+                                    :subdirectory "perf-majorities-ring"}))
               :latency-detailed (checker/concurrency-limit
                                  1
                                  (checker/latency-graph {:nemeses? true
-                                                         :subdirectory "latency-isolated-primary"
+                                                         :subdirectory "latency-majorities-ring"
                                                          :quantiles [0.1 0.25 0.5 0.75 0.9 0.95 0.99 0.999]}))
               :rate-detailed (checker/rate-graph {:nemeses? true
-                                                  :subdirectory "rate-isolated-primary"
+                                                  :subdirectory "rate-majorities-ring"
                                                   :quantiles [0.25 0.5 0.75 0.9 0.95 0.99]})
               :timeline (timeline/html)
               :linear-wgl (checker/concurrency-limit
@@ -102,7 +102,7 @@
                                         :failover-count failover-count
                                         :primary-changes primary-changes
                                         :nemesis-events nemesis-events
-                                        :message (str "🔄 Isolated Primary Test Results:\n"
+                                        :message (str "🔄 Majorities Ring Test Results:\n"
                                                       "   Total writes: " total-writes "\n"
                                                       "   Unique primaries used: " (count unique-primaries) "\n"
                                                       "   Detected failovers: " failover-count "\n"
@@ -110,9 +110,9 @@
                                                       "   Failover successful: " (>= failover-count 1))})))})})
 
 ;; Public run functions
-(defn run-isolated-primary-test []
-  (info "🚀 Starting isolated primary Redis test for 3 minutes with Sentinel client...")
-  (info "🎯 This test isolates the current primary to force immediate failover")
-  (info "🔄 Pattern: 10s normal → 15s isolation → 10s heal → repeat")
+(defn run-majorities-ring-test []
+  (info "🚀 Starting majorities ring Redis test for 3 minutes with Sentinel client...")
+  (info "🎯 This test uses ring partitions to force failover scenarios")
+  (info "🔄 Pattern: 10s normal → 30s partition → 10s heal → repeat")
   (info "📊 Expected failover detection and primary switching")
-  (jepsen/run! (isolated-primary-test)))
+  (jepsen/run! (majorities-ring-test)))
