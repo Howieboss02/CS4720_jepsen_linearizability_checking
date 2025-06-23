@@ -63,7 +63,7 @@ inside jepsen-control you can run tests like:
 - `set-split-brain` - SET split-brain with data divergence (3min)
 
 ### Failover Tests
-- `isolated-primary` - Primary isolation test (3min)
+- `majorities-ring` - Ring partition failover test (3min)
 
 ### Network Tests
 - `flapping-partitions` - Rapid partition/heal cycles (3min)
@@ -77,6 +77,7 @@ inside jepsen-control you can run tests like:
 ```bash
 lein run -m jepsen.redis-sentinel.main simple
 lein run -m jepsen.redis-sentinel.main split-brain
+lein run -m jepsen.redis-sentinel.main majorities-ring
 lein run -m jepsen.redis-sentinel.main extreme-latency
 ```
 

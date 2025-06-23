@@ -1,0 +1,300 @@
+{:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :valid? false,
+ :linear-wgl {:valid? false,
+              :op {:process 13,
+                   :type :ok,
+                   :f :read,
+                   :value 692,
+                   :index 983,
+                   :time 10804600557,
+                   :node "n4"},
+              :previous-ok {:process 12,
+                            :type :ok,
+                            :f :write,
+                            :value 699,
+                            :index 981,
+                            :time 10792454818,
+                            :node "n3"},
+              :final-paths ([{:op {:process 12,
+                                   :type :ok,
+                                   :f :write,
+                                   :value 699,
+                                   :index 981,
+                                   :time 10792454818,
+                                   :node "n3"},
+                              :model #knossos.model.Register{:value 699}}
+                             {:op {:process 13,
+                                   :type :ok,
+                                   :f :read,
+                                   :value 692,
+                                   :index 983,
+                                   :time 10804600557,
+                                   :node "n4"},
+                              :model #knossos.model.Inconsistent{:msg "699≠692"}}]),
+              :analyzer :wgl,
+              :configs ()},
+ :clock-analysis {:valid? true},
+ :latency-detailed {:valid? true},
+ :linear-competition {:valid? false,
+                      :configs ({:model #knossos.model.Register{:value 699},
+                                 :last-op {:process 12,
+                                           :type :ok,
+                                           :f :write,
+                                           :value 699,
+                                           :index 981,
+                                           :time 10792454818,
+                                           :node "n3"},
+                                 :pending [{:process 13,
+                                            :type :invoke,
+                                            :f :read,
+                                            :value 692,
+                                            :index 982,
+                                            :time 10797503342}]}),
+                      :final-paths ([{:op {:process 12,
+                                           :type :ok,
+                                           :f :write,
+                                           :value 699,
+                                           :index 981,
+                                           :time 10792454818,
+                                           :node "n3"},
+                                      :model #knossos.model.Register{:value 699}}
+                                     {:op {:process 13,
+                                           :type :ok,
+                                           :f :read,
+                                           :value 692,
+                                           :index 983,
+                                           :time 10804600557,
+                                           :node "n4"},
+                                      :model #knossos.model.Inconsistent{:msg "699≠692"}}]),
+                      :previous-ok {:process 12,
+                                    :type :ok,
+                                    :f :write,
+                                    :value 699,
+                                    :index 981,
+                                    :time 10792454818,
+                                    :node "n3"},
+                      :last-op {:process 12,
+                                :type :ok,
+                                :f :write,
+                                :value 699,
+                                :index 981,
+                                :time 10792454818,
+                                :node "n3"},
+                      :op {:process 13,
+                           :type :ok,
+                           :f :read,
+                           :value 692,
+                           :index 983,
+                           :time 10804600557,
+                           :node "n4"},
+                      :analyzer :linear},
+ :rate-detailed {:valid? true},
+ :exceptions {:valid? true},
+ :timeline {:valid? true},
+ :failover-analysis {:valid? true,
+                     :total-writes 4419,
+                     :unique-primaries #{"n2" "n5" "n1" "n4" "n3"},
+                     :failover-count 56,
+                     :primary-changes ({:time 1082112992,
+                                        :primary "n3",
+                                        :count 404}
+                                       {:time 17436124887,
+                                        :primary "n5",
+                                        :count 1}
+                                       {:time 17451837074,
+                                        :primary "n3",
+                                        :count 3}
+                                       {:time 17553909389,
+                                        :primary "n5",
+                                        :count 275}
+                                       {:time 28833710257,
+                                        :primary "n4",
+                                        :count 158}
+                                       {:time 35260078266,
+                                        :primary "n3",
+                                        :count 1}
+                                       {:time 35292250862,
+                                        :primary "n4",
+                                        :count 1}
+                                       {:time 35304381414,
+                                        :primary "n3",
+                                        :count 3}
+                                       {:time 35363960450,
+                                        :primary "n4",
+                                        :count 1}
+                                       {:time 35394804171,
+                                        :primary "n3",
+                                        :count 13}
+                                       {:time 35778347728,
+                                        :primary "n4",
+                                        :count 1}
+                                       {:time 35844409600,
+                                        :primary "n3",
+                                        :count 1}
+                                       {:time 35876593291,
+                                        :primary "n4",
+                                        :count 1}
+                                       {:time 35915571339,
+                                        :primary "n3",
+                                        :count 4}
+                                       {:time 36134204029,
+                                        :primary "n4",
+                                        :count 2}
+                                       {:time 36149777048,
+                                        :primary "n3",
+                                        :count 161}
+                                       {:time 42528079953,
+                                        :primary "n5",
+                                        :count 592}
+                                       {:time 67569493632,
+                                        :primary "n4",
+                                        :count 7}
+                                       {:time 68074438340,
+                                        :primary "n5",
+                                        :count 1}
+                                       {:time 68126147356,
+                                        :primary "n4",
+                                        :count 1}
+                                       {:time 68126695980,
+                                        :primary "n5",
+                                        :count 1}
+                                       {:time 68223678922,
+                                        :primary "n4",
+                                        :count 160}
+                                       {:time 74440235761,
+                                        :primary "n3",
+                                        :count 5}
+                                       {:time 74671161100,
+                                        :primary "n4",
+                                        :count 2}
+                                       {:time 74771951313,
+                                        :primary "n3",
+                                        :count 2}
+                                       {:time 74819452240,
+                                        :primary "n4",
+                                        :count 2}
+                                       {:time 74902778371,
+                                        :primary "n3",
+                                        :count 153}
+                                       {:time 81168970607,
+                                        :primary "n5",
+                                        :count 158}
+                                       {:time 87583363802,
+                                        :primary "n2",
+                                        :count 8}
+                                       {:time 87900693688,
+                                        :primary "n5",
+                                        :count 1}
+                                       {:time 87906337719,
+                                        :primary "n2",
+                                        :count 3}
+                                       {:time 87985308144,
+                                        :primary "n5",
+                                        :count 1}
+                                       {:time 88055824174,
+                                        :primary "n2",
+                                        :count 729}
+                                       {:time 117877339615,
+                                        :primary "n4",
+                                        :count 170}
+                                       {:time 124413614049,
+                                        :primary "n1",
+                                        :count 12}
+                                       {:time 124950067957,
+                                        :primary "n4",
+                                        :count 1}
+                                       {:time 125043136556,
+                                        :primary "n1",
+                                        :count 155}
+                                       {:time 131458091349,
+                                        :primary "n2",
+                                        :count 186}
+                                       {:time 138805108758,
+                                        :primary "n4",
+                                        :count 5}
+                                       {:time 139167267894,
+                                        :primary "n2",
+                                        :count 1}
+                                       {:time 139202543355,
+                                        :primary "n4",
+                                        :count 2}
+                                       {:time 139249730579,
+                                        :primary "n2",
+                                        :count 1}
+                                       {:time 139259054097,
+                                        :primary "n4",
+                                        :count 4}
+                                       {:time 139333223721,
+                                        :primary "n2",
+                                        :count 1}
+                                       {:time 139368314172,
+                                        :primary "n4",
+                                        :count 3}
+                                       {:time 139548226280,
+                                        :primary "n2",
+                                        :count 2}
+                                       {:time 139600186982,
+                                        :primary "n4",
+                                        :count 2}
+                                       {:time 139621040787,
+                                        :primary "n2",
+                                        :count 2}
+                                       {:time 139686775984,
+                                        :primary "n4",
+                                        :count 9}
+                                       {:time 140104434412,
+                                        :primary "n2",
+                                        :count 2}
+                                       {:time 140164740096,
+                                        :primary "n4",
+                                        :count 3}
+                                       {:time 140381824037,
+                                        :primary "n2",
+                                        :count 1}
+                                       {:time 140462136577,
+                                        :primary "n4",
+                                        :count 1}
+                                       {:time 140502313998,
+                                        :primary "n2",
+                                        :count 2}
+                                       {:time 140577212925,
+                                        :primary "n4",
+                                        :count 701}
+                                       {:time 167958571760,
+                                        :primary "n1",
+                                        :count 275}
+                                       {:time 179373237375,
+                                        :primary "n2",
+                                        :count 22}),
+                     :nemesis-events ([10473371173 :start]
+                                      [10694305567 :start]
+                                      [40709199163 :stop]
+                                      [40850191873 :stop]
+                                      [60851244100 :start]
+                                      [60873783316 :start]
+                                      [90875788538 :stop]
+                                      [91051429925 :stop]
+                                      [111053704777 :start]
+                                      [111095901552 :start]
+                                      [141097548184 :stop]
+                                      [141252199018 :stop]
+                                      [161255782671 :start]
+                                      [161333207223 :start]),
+                     :message "🔄 Majorities Ring Test Results:\n   Total writes: 4419\n   Unique primaries used: 5\n   Detected failovers: 56\n   Primary nodes: #{\"n2\" \"n5\" \"n1\" \"n4\" \"n3\"}\n   Failover successful: true"},
+ :stats {:valid? true,
+         :count 8898,
+         :ok-count 8894,
+         :fail-count 4,
+         :info-count 0,
+         :by-f {:read {:valid? true,
+                       :count 4479,
+                       :ok-count 4475,
+                       :fail-count 4,
+                       :info-count 0},
+                :write {:valid? true,
+                        :count 4419,
+                        :ok-count 4419,
+                        :fail-count 0,
+                        :info-count 0}}}}
