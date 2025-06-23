@@ -1,0 +1,1224 @@
+2025-06-23 19:42:00,572{GMT}	INFO	[jepsen test runner] jepsen.core: Test version 78b2ab7065db3eef10eca305f1afd11fa4c143fc (plus uncommitted changes)
+2025-06-23 19:42:00,616{GMT}	INFO	[jepsen test runner] jepsen.core: Running test:
+{:remote
+ #jepsen.control.retry.Remote{:remote #jepsen.control.scp.Remote{:cmd-remote #jepsen.control.sshj.SSHJRemote{:concurrency-limit 6,
+                                                                                                             :conn-spec nil,
+                                                                                                             :client nil,
+                                                                                                             :semaphore nil},
+                                                                 :conn-spec nil},
+                              :conn nil}
+ :concurrency 3
+ :private-key-path "/root/.ssh/id_rsa"
+ :db
+ #object[jepsen.redis_sentinel.tests.bank$redis_db$reify__931
+         "0x735b1ad2"
+         "jepsen.redis_sentinel.tests.bank$redis_db$reify__931@735b1ad2"]
+ :name "bank-simple-test"
+ :start-time
+ #object[org.joda.time.DateTime "0x34893693" "2025-06-23T19:42:00.476Z"]
+ :username "root"
+ :client
+ #object[jepsen.redis_sentinel.client$bank_client$reify__493
+         "0x6408a8ac"
+         "jepsen.redis_sentinel.client$bank_client$reify__493@6408a8ac"]
+ :barrier
+ #object[java.util.concurrent.CyclicBarrier
+         "0x2f70d78c"
+         "java.util.concurrent.CyclicBarrier@2f70d78c"]
+ :strict-host-key-checking false
+ :checker
+ #object[jepsen.checker$compose$reify__10552
+         "0x456c53a"
+         "jepsen.checker$compose$reify__10552@456c53a"]
+ :nemesis #unprintable "jepsen.nemesis$reify__12738@7916568d"
+ :nodes ["n1" "n2" "n3" "n4" "n5"]
+ :generator
+ #object[jepsen.util.Forgettable
+         "0x5f1dadf4"
+         (jepsen.generator.TimeLimit
+          {:limit 30000000000,
+           :cutoff nil,
+           :gen (jepsen.generator.Any
+                 {:gens [(jepsen.generator.OnThreads
+                          {:f #{:nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x75693526"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@75693526"],
+                           :gen ({:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :start}
+                                 {:type :sleep, :value 5}
+                                 {:type :info, :f :stop}
+                                 ...)})
+                         (jepsen.generator.OnThreads
+                          {:f #jepsen.generator.context.AllBut{:element :nemesis},
+                           :context-filter #object[jepsen.generator.context$make_thread_filter$lazy_filter__11515
+                                                   "0x603a34e5"
+                                                   "jepsen.generator.context$make_thread_filter$lazy_filter__11515@603a34e5"],
+                           :gen (jepsen.generator.Stagger
+                                 {:dt 200000000,
+                                  :next-time nil,
+                                  :gen (jepsen.generator.Mix
+                                        {:i 2,
+                                         :gens [(jepsen.generator.Repeat
+                                                 {:remaining -1,
+                                                  :gen {:type :invoke,
+                                                        :f :read-balance}})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.tests.bank$bank_simple_test$fn__936
+                                                             "0x160d68b8"
+                                                             "jepsen.redis_sentinel.tests.bank$bank_simple_test$fn__936@160d68b8"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :credit}})})
+                                                (jepsen.generator.Map
+                                                 {:f #object[jepsen.redis_sentinel.tests.bank$bank_simple_test$fn__938
+                                                             "0x2af1bf5a"
+                                                             "jepsen.redis_sentinel.tests.bank$bank_simple_test$fn__938@2af1bf5a"],
+                                                  :gen (jepsen.generator.Repeat
+                                                        {:remaining -1,
+                                                         :gen {:type :invoke,
+                                                               :f :debit}})})]})})})]})})]
+ :os
+ #object[jepsen.os.debian.Debian
+         "0x1d77d9c6"
+         "jepsen.os.debian.Debian@1d77d9c6"]
+ :ssh-opts
+ ["-o"
+  "StrictHostKeyChecking=no"
+  "-o"
+  "UserKnownHostsFile=/dev/null"
+  "-o"
+  "GlobalKnownHostsFile=/dev/null"
+  "-o"
+  "LogLevel=ERROR"]}
+
+2025-06-23 19:42:02,032{GMT}	INFO	[jepsen node n3] jepsen.os.debian: n3 setting up debian
+2025-06-23 19:42:02,032{GMT}	INFO	[jepsen node n4] jepsen.os.debian: n4 setting up debian
+2025-06-23 19:42:02,032{GMT}	INFO	[jepsen node n2] jepsen.os.debian: n2 setting up debian
+2025-06-23 19:42:02,032{GMT}	INFO	[jepsen node n5] jepsen.os.debian: n5 setting up debian
+2025-06-23 19:42:02,032{GMT}	INFO	[jepsen node n1] jepsen.os.debian: n1 setting up debian
+2025-06-23 19:42:03,074{GMT}	INFO	[jepsen node n2] jepsen.os.debian: Installing #{libzip4}
+2025-06-23 19:42:03,086{GMT}	INFO	[jepsen node n1] jepsen.os.debian: Installing #{libzip4}
+2025-06-23 19:42:03,087{GMT}	INFO	[jepsen node n4] jepsen.os.debian: Installing #{libzip4}
+2025-06-23 19:42:03,088{GMT}	INFO	[jepsen node n3] jepsen.os.debian: Installing #{libzip4}
+2025-06-23 19:42:03,099{GMT}	INFO	[jepsen node n5] jepsen.os.debian: Installing #{libzip4}
+2025-06-23 19:42:03,612{GMT}	INFO	[jepsen test runner] jepsen.db: Tearing down DB
+2025-06-23 19:42:03,613{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n1
+2025-06-23 19:42:03,613{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n5
+2025-06-23 19:42:03,613{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n2
+2025-06-23 19:42:03,613{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n3
+2025-06-23 19:42:03,613{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n4
+2025-06-23 19:42:03,615{GMT}	INFO	[jepsen test runner] jepsen.db: Setting up DB
+2025-06-23 19:42:03,616{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.tests.bank: Setting up Redis on n1
+2025-06-23 19:42:03,616{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.tests.bank: Setting up Redis on n3
+2025-06-23 19:42:03,616{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.tests.bank: Setting up Redis on n5
+2025-06-23 19:42:03,616{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.tests.bank: Setting up Redis on n2
+2025-06-23 19:42:03,616{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.tests.bank: Setting up Redis on n4
+2025-06-23 19:42:03,661{GMT}	INFO	[jepsen test runner] jepsen.core: Relative time begins now
+2025-06-23 19:42:03,664{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.client: Setting up bank client
+2025-06-23 19:42:03,664{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.client: Setting up bank client
+2025-06-23 19:42:03,664{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.client: Setting up bank client
+2025-06-23 19:42:03,664{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.client: Setting up bank client
+2025-06-23 19:42:03,664{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.client: Setting up bank client
+2025-06-23 19:42:03,752{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.client: Initialized account:1 with balance 100 on primary n1
+2025-06-23 19:42:03,752{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.client: Initialized account:1 with balance 100 on primary n1
+2025-06-23 19:42:03,752{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.client: Initialized account:1 with balance 100 on primary n1
+2025-06-23 19:42:03,752{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.client: Initialized account:1 with balance 100 on primary n1
+2025-06-23 19:42:03,752{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.client: Initialized account:1 with balance 100 on primary n1
+2025-06-23 19:42:03,773{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	6
+2025-06-23 19:42:03,777{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:03,783{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 94
+2025-06-23 19:42:03,784{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	94
+2025-06-23 19:42:03,881{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	15
+2025-06-23 19:42:03,882{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:03,884{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 15 to account:1 on primary n1 new balance: 109
+2025-06-23 19:42:03,884{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	109
+2025-06-23 19:42:04,002{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	17
+2025-06-23 19:42:04,003{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:04,021{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 17 to account:1 on primary n1 new balance: 126
+2025-06-23 19:42:04,021{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	126
+2025-06-23 19:42:04,086{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:04,088{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 126
+2025-06-23 19:42:04,089{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	126
+2025-06-23 19:42:04,142{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:04,145{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 126
+2025-06-23 19:42:04,146{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	126
+2025-06-23 19:42:04,253{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	5
+2025-06-23 19:42:04,258{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:04,262{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 121
+2025-06-23 19:42:04,262{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	121
+2025-06-23 19:42:04,450{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	19
+2025-06-23 19:42:04,452{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:04,454{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 19 to account:1 on primary n1 new balance: 140
+2025-06-23 19:42:04,455{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	140
+2025-06-23 19:42:04,621{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	11
+2025-06-23 19:42:04,624{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:04,626{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 11 to account:1 on primary n1 new balance: 151
+2025-06-23 19:42:04,627{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	151
+2025-06-23 19:42:04,817{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	18
+2025-06-23 19:42:04,819{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:04,823{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 169
+2025-06-23 19:42:04,824{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	169
+2025-06-23 19:42:04,959{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	18
+2025-06-23 19:42:04,959{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:04,962{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:04,962{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 169
+2025-06-23 19:42:04,963{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	169
+2025-06-23 19:42:04,965{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 187
+2025-06-23 19:42:04,968{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	187
+2025-06-23 19:42:05,052{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:05,056{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 187
+2025-06-23 19:42:05,057{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	187
+2025-06-23 19:42:05,093{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:05,096{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 187
+2025-06-23 19:42:05,097{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	187
+2025-06-23 19:42:05,248{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	16
+2025-06-23 19:42:05,253{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	10
+2025-06-23 19:42:05,256{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:05,256{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:05,257{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 16 to account:1 on primary n1 new balance: 161
+2025-06-23 19:42:05,257{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 10 to account:1 on primary n1 new balance: 177
+2025-06-23 19:42:05,258{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	161
+2025-06-23 19:42:05,258{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	177
+2025-06-23 19:42:05,437{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	16
+2025-06-23 19:42:05,440{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:05,442{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 16 to account:1 on primary n1 new balance: 177
+2025-06-23 19:42:05,443{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	177
+2025-06-23 19:42:05,457{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	12
+2025-06-23 19:42:05,459{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:05,460{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 12 to account:1 on primary n1 new balance: 189
+2025-06-23 19:42:05,461{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	189
+2025-06-23 19:42:05,591{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	13
+2025-06-23 19:42:05,593{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:05,597{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 13 to account:1 on primary n1 new balance: 176
+2025-06-23 19:42:05,598{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	176
+2025-06-23 19:42:05,729{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	10
+2025-06-23 19:42:05,734{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:05,736{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 10 to account:1 on primary n1 new balance: 166
+2025-06-23 19:42:05,737{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	166
+2025-06-23 19:42:05,741{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:05,742{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 166
+2025-06-23 19:42:05,743{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	166
+2025-06-23 19:42:05,880{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:05,882{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 166
+2025-06-23 19:42:05,882{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	166
+2025-06-23 19:42:05,972{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:05,975{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 166
+2025-06-23 19:42:05,977{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	166
+2025-06-23 19:42:06,020{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	15
+2025-06-23 19:42:06,021{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	6
+2025-06-23 19:42:06,022{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:06,025{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:06,025{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 15 to account:1 on primary n1 new balance: 181
+2025-06-23 19:42:06,026{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	181
+2025-06-23 19:42:06,027{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 175
+2025-06-23 19:42:06,028{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	175
+2025-06-23 19:42:06,174{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:06,179{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 175
+2025-06-23 19:42:06,180{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	175
+2025-06-23 19:42:06,352{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:06,354{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 175
+2025-06-23 19:42:06,355{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	175
+2025-06-23 19:42:06,473{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	19
+2025-06-23 19:42:06,475{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:06,477{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 156
+2025-06-23 19:42:06,478{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	156
+2025-06-23 19:42:06,553{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	23
+2025-06-23 19:42:06,554{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:06,557{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 23 to account:1 on primary n1 new balance: 179
+2025-06-23 19:42:06,557{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	179
+2025-06-23 19:42:06,721{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	23
+2025-06-23 19:42:06,723{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:06,726{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 23 to account:1 on primary n1 new balance: 202
+2025-06-23 19:42:06,726{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	202
+2025-06-23 19:42:06,864{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	19
+2025-06-23 19:42:06,866{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:06,868{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 19 to account:1 on primary n1 new balance: 221
+2025-06-23 19:42:06,869{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	221
+2025-06-23 19:42:07,056{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	19
+2025-06-23 19:42:07,057{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:07,059{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 19 to account:1 on primary n1 new balance: 240
+2025-06-23 19:42:07,060{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	240
+2025-06-23 19:42:07,223{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:07,226{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 240
+2025-06-23 19:42:07,226{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	240
+2025-06-23 19:42:07,309{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	12
+2025-06-23 19:42:07,312{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:07,315{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	13
+2025-06-23 19:42:07,315{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 12 to account:1 on primary n1 new balance: 252
+2025-06-23 19:42:07,316{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	252
+2025-06-23 19:42:07,317{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:07,319{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 13 to account:1 on primary n1 new balance: 239
+2025-06-23 19:42:07,319{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	239
+2025-06-23 19:42:07,514{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:07,516{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 239
+2025-06-23 19:42:07,517{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	239
+2025-06-23 19:42:07,588{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	25
+2025-06-23 19:42:07,590{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:07,591{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 264
+2025-06-23 19:42:07,591{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	264
+2025-06-23 19:42:07,675{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:07,677{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 264
+2025-06-23 19:42:07,678{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	264
+2025-06-23 19:42:07,740{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:07,745{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 264
+2025-06-23 19:42:07,745{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	264
+2025-06-23 19:42:07,932{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	17
+2025-06-23 19:42:07,935{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:07,938{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 17 to account:1 on primary n1 new balance: 281
+2025-06-23 19:42:07,939{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	281
+2025-06-23 19:42:08,118{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	19
+2025-06-23 19:42:08,119{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,121{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 262
+2025-06-23 19:42:08,122{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	262
+2025-06-23 19:42:08,234{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	14
+2025-06-23 19:42:08,237{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,239{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 14 to account:1 on primary n1 new balance: 276
+2025-06-23 19:42:08,240{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	276
+2025-06-23 19:42:08,435{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	22
+2025-06-23 19:42:08,437{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,438{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 22 to account:1 on primary n1 new balance: 298
+2025-06-23 19:42:08,438{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	298
+2025-06-23 19:42:08,439{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	16
+2025-06-23 19:42:08,439{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,440{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 16 to account:1 on primary n1 new balance: 282
+2025-06-23 19:42:08,440{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	282
+2025-06-23 19:42:08,528{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	16
+2025-06-23 19:42:08,529{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,531{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 16 to account:1 on primary n1 new balance: 266
+2025-06-23 19:42:08,532{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	266
+2025-06-23 19:42:08,700{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	11
+2025-06-23 19:42:08,700{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	9
+2025-06-23 19:42:08,702{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,704{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,705{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 9 to account:1 on primary n1 new balance: 257
+2025-06-23 19:42:08,707{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	257
+2025-06-23 19:42:08,709{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 11 to account:1 on primary n1 new balance: 268
+2025-06-23 19:42:08,709{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	268
+2025-06-23 19:42:08,727{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:08,728{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 268
+2025-06-23 19:42:08,728{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	268
+2025-06-23 19:42:08,732{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:08,733{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 268
+2025-06-23 19:42:08,734{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	268
+2025-06-23 19:42:08,780{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-23 19:42:08,782{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-23 19:42:08,819{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	22
+2025-06-23 19:42:08,821{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,825{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 22 to account:1 on primary n1 new balance: 290
+2025-06-23 19:42:08,826{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	290
+2025-06-23 19:42:08,961{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	22
+2025-06-23 19:42:08,962{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:08,964{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 22 to account:1 on primary n1 new balance: 312
+2025-06-23 19:42:08,964{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	312
+2025-06-23 19:42:09,011{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	18
+2025-06-23 19:42:09,013{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:09,015{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 18 to account:1 on primary n1 new balance: 294
+2025-06-23 19:42:09,015{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	294
+2025-06-23 19:42:09,193{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	14
+2025-06-23 19:42:09,195{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:09,198{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 14 to account:1 on primary n1 new balance: 280
+2025-06-23 19:42:09,199{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	280
+2025-06-23 19:42:09,288{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	18
+2025-06-23 19:42:09,292{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:09,295{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 298
+2025-06-23 19:42:09,296{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	298
+2025-06-23 19:42:09,372{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:09,374{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 298
+2025-06-23 19:42:09,375{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	298
+2025-06-23 19:42:09,482{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:09,484{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 298
+2025-06-23 19:42:09,485{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	298
+2025-06-23 19:42:09,583{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:09,585{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 298
+2025-06-23 19:42:09,587{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	298
+2025-06-23 19:42:09,704{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	27
+2025-06-23 19:42:09,705{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:09,707{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 27 to account:1 on primary n1 new balance: 325
+2025-06-23 19:42:09,707{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	325
+2025-06-23 19:42:09,773{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	21
+2025-06-23 19:42:09,775{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:09,776{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 21 to account:1 on primary n1 new balance: 346
+2025-06-23 19:42:09,776{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	346
+2025-06-23 19:42:09,942{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	7
+2025-06-23 19:42:09,944{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:09,948{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 7 to account:1 on primary n1 new balance: 339
+2025-06-23 19:42:09,949{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	339
+2025-06-23 19:42:10,125{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	23
+2025-06-23 19:42:10,128{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:10,132{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 23 to account:1 on primary n1 new balance: 362
+2025-06-23 19:42:10,134{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	362
+2025-06-23 19:42:10,253{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:10,254{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 362
+2025-06-23 19:42:10,255{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	362
+2025-06-23 19:42:10,379{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:10,381{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 362
+2025-06-23 19:42:10,382{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	362
+2025-06-23 19:42:10,526{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:10,528{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 362
+2025-06-23 19:42:10,529{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	362
+2025-06-23 19:42:10,537{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	21
+2025-06-23 19:42:10,539{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:10,541{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 21 to account:1 on primary n1 new balance: 383
+2025-06-23 19:42:10,541{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	383
+2025-06-23 19:42:10,681{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	6
+2025-06-23 19:42:10,684{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:10,687{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 377
+2025-06-23 19:42:10,688{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	377
+2025-06-23 19:42:10,803{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:10,805{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 377
+2025-06-23 19:42:10,806{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	377
+2025-06-23 19:42:10,923{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:10,925{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 377
+2025-06-23 19:42:10,926{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	377
+2025-06-23 19:42:11,065{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	28
+2025-06-23 19:42:11,068{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:11,071{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 28 to account:1 on primary n1 new balance: 405
+2025-06-23 19:42:11,072{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	405
+2025-06-23 19:42:11,192{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	28
+2025-06-23 19:42:11,194{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:11,196{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 28 to account:1 on primary n1 new balance: 433
+2025-06-23 19:42:11,197{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	433
+2025-06-23 19:42:11,374{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	19
+2025-06-23 19:42:11,375{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:11,376{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 414
+2025-06-23 19:42:11,376{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	414
+2025-06-23 19:42:11,566{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	19
+2025-06-23 19:42:11,567{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:11,568{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 19 to account:1 on primary n1 new balance: 433
+2025-06-23 19:42:11,568{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	433
+2025-06-23 19:42:11,664{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	6
+2025-06-23 19:42:11,665{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:11,667{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 427
+2025-06-23 19:42:11,667{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	427
+2025-06-23 19:42:11,862{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	5
+2025-06-23 19:42:11,864{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:11,867{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 422
+2025-06-23 19:42:11,867{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	422
+2025-06-23 19:42:11,918{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	10
+2025-06-23 19:42:11,920{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:11,924{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 10 to account:1 on primary n1 new balance: 432
+2025-06-23 19:42:11,924{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	432
+2025-06-23 19:42:12,113{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:12,115{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 432
+2025-06-23 19:42:12,116{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	432
+2025-06-23 19:42:12,179{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:12,181{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 432
+2025-06-23 19:42:12,182{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	432
+2025-06-23 19:42:12,291{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	25
+2025-06-23 19:42:12,293{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:12,296{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 457
+2025-06-23 19:42:12,297{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	457
+2025-06-23 19:42:12,386{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	18
+2025-06-23 19:42:12,388{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:12,391{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 475
+2025-06-23 19:42:12,391{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	475
+2025-06-23 19:42:12,575{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:12,578{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 475
+2025-06-23 19:42:12,579{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	475
+2025-06-23 19:42:12,767{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:12,769{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 475
+2025-06-23 19:42:12,770{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	475
+2025-06-23 19:42:12,927{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:12,929{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 475
+2025-06-23 19:42:12,929{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	475
+2025-06-23 19:42:13,079{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	27
+2025-06-23 19:42:13,081{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:13,084{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 27 to account:1 on primary n1 new balance: 502
+2025-06-23 19:42:13,085{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	502
+2025-06-23 19:42:13,234{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:13,236{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 502
+2025-06-23 19:42:13,237{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	502
+2025-06-23 19:42:13,248{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:13,249{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 502
+2025-06-23 19:42:13,250{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	502
+2025-06-23 19:42:13,323{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	10
+2025-06-23 19:42:13,325{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:13,327{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 10 to account:1 on primary n1 new balance: 512
+2025-06-23 19:42:13,328{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	512
+2025-06-23 19:42:13,392{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:13,394{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 512
+2025-06-23 19:42:13,396{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	512
+2025-06-23 19:42:13,538{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	17
+2025-06-23 19:42:13,540{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:13,543{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 17 to account:1 on primary n1 new balance: 529
+2025-06-23 19:42:13,544{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	529
+2025-06-23 19:42:13,585{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:13,587{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 529
+2025-06-23 19:42:13,588{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	529
+2025-06-23 19:42:13,747{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	11
+2025-06-23 19:42:13,750{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:13,753{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 11 to account:1 on primary n1 new balance: 518
+2025-06-23 19:42:13,754{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	518
+2025-06-23 19:42:13,787{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-23 19:42:13,787{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-23 19:42:13,911{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:13,914{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 518
+2025-06-23 19:42:13,914{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	518
+2025-06-23 19:42:13,934{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	7
+2025-06-23 19:42:13,936{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:13,938{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 7 to account:1 on primary n1 new balance: 511
+2025-06-23 19:42:13,938{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	511
+2025-06-23 19:42:14,070{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:14,072{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 511
+2025-06-23 19:42:14,073{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	511
+2025-06-23 19:42:14,179{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	10
+2025-06-23 19:42:14,181{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:14,183{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 10 to account:1 on primary n1 new balance: 501
+2025-06-23 19:42:14,184{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	501
+2025-06-23 19:42:14,268{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	13
+2025-06-23 19:42:14,270{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:14,273{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 13 to account:1 on primary n1 new balance: 514
+2025-06-23 19:42:14,273{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	514
+2025-06-23 19:42:14,363{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	14
+2025-06-23 19:42:14,366{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:14,368{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 14 to account:1 on primary n1 new balance: 528
+2025-06-23 19:42:14,369{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	528
+2025-06-23 19:42:14,549{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	13
+2025-06-23 19:42:14,552{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:14,553{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 13 to account:1 on primary n1 new balance: 515
+2025-06-23 19:42:14,554{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	515
+2025-06-23 19:42:14,725{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:14,727{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 515
+2025-06-23 19:42:14,728{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	515
+2025-06-23 19:42:14,885{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	10
+2025-06-23 19:42:14,888{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:14,890{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 10 to account:1 on primary n1 new balance: 505
+2025-06-23 19:42:14,891{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	505
+2025-06-23 19:42:14,919{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:14,920{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 505
+2025-06-23 19:42:14,921{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	505
+2025-06-23 19:42:14,980{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	14
+2025-06-23 19:42:14,982{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:14,984{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 14 to account:1 on primary n1 new balance: 519
+2025-06-23 19:42:14,985{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	519
+2025-06-23 19:42:15,014{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	28
+2025-06-23 19:42:15,015{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:15,019{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 28 to account:1 on primary n1 new balance: 547
+2025-06-23 19:42:15,020{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	547
+2025-06-23 19:42:15,182{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	10
+2025-06-23 19:42:15,183{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:15,183{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 10 to account:1 on primary n1 new balance: 557
+2025-06-23 19:42:15,184{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	557
+2025-06-23 19:42:15,324{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:15,326{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 557
+2025-06-23 19:42:15,328{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	557
+2025-06-23 19:42:15,408{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:15,408{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 557
+2025-06-23 19:42:15,409{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	557
+2025-06-23 19:42:15,529{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	24
+2025-06-23 19:42:15,530{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:15,531{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 24 to account:1 on primary n1 new balance: 581
+2025-06-23 19:42:15,531{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	581
+2025-06-23 19:42:15,583{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	26
+2025-06-23 19:42:15,583{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:15,584{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 26 to account:1 on primary n1 new balance: 607
+2025-06-23 19:42:15,584{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	607
+2025-06-23 19:42:15,765{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:15,767{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 607
+2025-06-23 19:42:15,768{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	607
+2025-06-23 19:42:15,928{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:15,930{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 607
+2025-06-23 19:42:15,930{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	607
+2025-06-23 19:42:16,066{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	19
+2025-06-23 19:42:16,069{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:16,071{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 588
+2025-06-23 19:42:16,072{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	588
+2025-06-23 19:42:16,257{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	6
+2025-06-23 19:42:16,259{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:16,261{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 582
+2025-06-23 19:42:16,262{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	582
+2025-06-23 19:42:16,279{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	13
+2025-06-23 19:42:16,280{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:16,281{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 13 to account:1 on primary n1 new balance: 595
+2025-06-23 19:42:16,282{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	595
+2025-06-23 19:42:16,420{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:16,423{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 595
+2025-06-23 19:42:16,424{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	595
+2025-06-23 19:42:16,579{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:16,582{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 595
+2025-06-23 19:42:16,583{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	595
+2025-06-23 19:42:16,587{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	14
+2025-06-23 19:42:16,589{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:16,591{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 14 to account:1 on primary n1 new balance: 581
+2025-06-23 19:42:16,592{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	581
+2025-06-23 19:42:16,767{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:16,768{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 581
+2025-06-23 19:42:16,769{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	581
+2025-06-23 19:42:16,929{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:16,932{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 581
+2025-06-23 19:42:16,932{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	581
+2025-06-23 19:42:17,116{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	25
+2025-06-23 19:42:17,119{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:17,121{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 606
+2025-06-23 19:42:17,122{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	606
+2025-06-23 19:42:17,249{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	5
+2025-06-23 19:42:17,252{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:17,254{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 601
+2025-06-23 19:42:17,254{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	601
+2025-06-23 19:42:17,447{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:17,448{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 601
+2025-06-23 19:42:17,449{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	601
+2025-06-23 19:42:17,557{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:17,559{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 601
+2025-06-23 19:42:17,559{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	601
+2025-06-23 19:42:17,704{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	10
+2025-06-23 19:42:17,706{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:17,709{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 10 to account:1 on primary n1 new balance: 591
+2025-06-23 19:42:17,710{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	591
+2025-06-23 19:42:17,769{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	12
+2025-06-23 19:42:17,772{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:17,776{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 12 to account:1 on primary n1 new balance: 603
+2025-06-23 19:42:17,776{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	603
+2025-06-23 19:42:17,871{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	16
+2025-06-23 19:42:17,874{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:17,877{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 16 to account:1 on primary n1 new balance: 619
+2025-06-23 19:42:17,877{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	619
+2025-06-23 19:42:17,959{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	28
+2025-06-23 19:42:17,963{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:17,966{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 28 to account:1 on primary n1 new balance: 647
+2025-06-23 19:42:17,967{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	647
+2025-06-23 19:42:18,078{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:18,081{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 647
+2025-06-23 19:42:18,082{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	27
+2025-06-23 19:42:18,082{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	647
+2025-06-23 19:42:18,084{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:18,086{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 27 to account:1 on primary n1 new balance: 674
+2025-06-23 19:42:18,087{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	674
+2025-06-23 19:42:18,108{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	15
+2025-06-23 19:42:18,109{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:18,110{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 15 to account:1 on primary n1 new balance: 689
+2025-06-23 19:42:18,111{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	689
+2025-06-23 19:42:18,176{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	5
+2025-06-23 19:42:18,177{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:18,179{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 684
+2025-06-23 19:42:18,179{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	684
+2025-06-23 19:42:18,291{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:18,293{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 684
+2025-06-23 19:42:18,294{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	684
+2025-06-23 19:42:18,323{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:18,324{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 684
+2025-06-23 19:42:18,325{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	684
+2025-06-23 19:42:18,422{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	7
+2025-06-23 19:42:18,424{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:18,427{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 7 to account:1 on primary n1 new balance: 677
+2025-06-23 19:42:18,428{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	677
+2025-06-23 19:42:18,450{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	13
+2025-06-23 19:42:18,453{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:18,454{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 13 to account:1 on primary n1 new balance: 664
+2025-06-23 19:42:18,455{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	664
+2025-06-23 19:42:18,648{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:18,650{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 664
+2025-06-23 19:42:18,651{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	664
+2025-06-23 19:42:18,797{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:18,797{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-23 19:42:18,798{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-23 19:42:18,799{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 664
+2025-06-23 19:42:18,800{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	664
+2025-06-23 19:42:18,887{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	8
+2025-06-23 19:42:18,889{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:18,892{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 8 to account:1 on primary n1 new balance: 656
+2025-06-23 19:42:18,892{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	656
+2025-06-23 19:42:18,921{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	25
+2025-06-23 19:42:18,923{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:18,925{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 681
+2025-06-23 19:42:18,926{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	681
+2025-06-23 19:42:18,996{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	5
+2025-06-23 19:42:18,998{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,000{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 676
+2025-06-23 19:42:19,001{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	676
+2025-06-23 19:42:19,132{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	9
+2025-06-23 19:42:19,135{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,137{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 9 to account:1 on primary n1 new balance: 667
+2025-06-23 19:42:19,138{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	667
+2025-06-23 19:42:19,260{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	19
+2025-06-23 19:42:19,262{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,264{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 648
+2025-06-23 19:42:19,265{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	648
+2025-06-23 19:42:19,308{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	22
+2025-06-23 19:42:19,310{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,312{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 22 to account:1 on primary n1 new balance: 670
+2025-06-23 19:42:19,313{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	670
+2025-06-23 19:42:19,354{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	12
+2025-06-23 19:42:19,357{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,359{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 12 to account:1 on primary n1 new balance: 682
+2025-06-23 19:42:19,360{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	682
+2025-06-23 19:42:19,530{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	14
+2025-06-23 19:42:19,532{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,534{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 14 to account:1 on primary n1 new balance: 696
+2025-06-23 19:42:19,535{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	696
+2025-06-23 19:42:19,606{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:19,608{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 696
+2025-06-23 19:42:19,608{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	696
+2025-06-23 19:42:19,637{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	21
+2025-06-23 19:42:19,638{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,640{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 21 to account:1 on primary n1 new balance: 717
+2025-06-23 19:42:19,641{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	717
+2025-06-23 19:42:19,759{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:19,761{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 717
+2025-06-23 19:42:19,762{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	717
+2025-06-23 19:42:19,962{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	17
+2025-06-23 19:42:19,964{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,966{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 17 to account:1 on primary n1 new balance: 700
+2025-06-23 19:42:19,967{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	700
+2025-06-23 19:42:19,992{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	29
+2025-06-23 19:42:19,994{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:19,998{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 29 to account:1 on primary n1 new balance: 729
+2025-06-23 19:42:19,999{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	729
+2025-06-23 19:42:20,172{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:20,174{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 729
+2025-06-23 19:42:20,175{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	729
+2025-06-23 19:42:20,340{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	16
+2025-06-23 19:42:20,343{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:20,345{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 16 to account:1 on primary n1 new balance: 713
+2025-06-23 19:42:20,346{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	713
+2025-06-23 19:42:20,474{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:20,476{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 713
+2025-06-23 19:42:20,477{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	713
+2025-06-23 19:42:20,589{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	5
+2025-06-23 19:42:20,592{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:20,593{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 708
+2025-06-23 19:42:20,593{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	708
+2025-06-23 19:42:20,636{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:20,637{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 708
+2025-06-23 19:42:20,638{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	708
+2025-06-23 19:42:20,830{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:20,833{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 708
+2025-06-23 19:42:20,834{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	708
+2025-06-23 19:42:21,015{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	16
+2025-06-23 19:42:21,017{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:21,019{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 16 to account:1 on primary n1 new balance: 724
+2025-06-23 19:42:21,020{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	724
+2025-06-23 19:42:21,140{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	25
+2025-06-23 19:42:21,143{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:21,146{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 749
+2025-06-23 19:42:21,146{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	749
+2025-06-23 19:42:21,333{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	24
+2025-06-23 19:42:21,335{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:21,336{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 24 to account:1 on primary n1 new balance: 773
+2025-06-23 19:42:21,337{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	773
+2025-06-23 19:42:21,516{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	28
+2025-06-23 19:42:21,517{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:21,518{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 28 to account:1 on primary n1 new balance: 801
+2025-06-23 19:42:21,518{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	801
+2025-06-23 19:42:21,538{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:21,538{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 801
+2025-06-23 19:42:21,538{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	801
+2025-06-23 19:42:21,625{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	19
+2025-06-23 19:42:21,627{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:21,629{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 782
+2025-06-23 19:42:21,630{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	782
+2025-06-23 19:42:21,745{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:21,747{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 782
+2025-06-23 19:42:21,748{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	782
+2025-06-23 19:42:21,911{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	9
+2025-06-23 19:42:21,913{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:21,915{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 9 to account:1 on primary n1 new balance: 773
+2025-06-23 19:42:21,916{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	773
+2025-06-23 19:42:22,098{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	18
+2025-06-23 19:42:22,100{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:22,102{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 791
+2025-06-23 19:42:22,103{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	791
+2025-06-23 19:42:22,232{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:22,234{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 791
+2025-06-23 19:42:22,235{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	791
+2025-06-23 19:42:22,354{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	21
+2025-06-23 19:42:22,356{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:22,360{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 21 to account:1 on primary n1 new balance: 812
+2025-06-23 19:42:22,361{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	812
+2025-06-23 19:42:22,479{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:22,481{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 812
+2025-06-23 19:42:22,481{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	812
+2025-06-23 19:42:22,482{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	19
+2025-06-23 19:42:22,484{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:22,485{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 793
+2025-06-23 19:42:22,486{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	793
+2025-06-23 19:42:22,533{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	10
+2025-06-23 19:42:22,535{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:22,536{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 10 to account:1 on primary n1 new balance: 783
+2025-06-23 19:42:22,537{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	783
+2025-06-23 19:42:22,609{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	11
+2025-06-23 19:42:22,611{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:22,613{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 11 to account:1 on primary n1 new balance: 794
+2025-06-23 19:42:22,614{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	794
+2025-06-23 19:42:22,803{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	11
+2025-06-23 19:42:22,805{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:22,807{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 11 to account:1 on primary n1 new balance: 805
+2025-06-23 19:42:22,808{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	805
+2025-06-23 19:42:22,928{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:22,929{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 805
+2025-06-23 19:42:22,930{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	805
+2025-06-23 19:42:22,985{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:22,986{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 805
+2025-06-23 19:42:22,987{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	805
+2025-06-23 19:42:23,120{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	8
+2025-06-23 19:42:23,123{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,125{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 8 to account:1 on primary n1 new balance: 797
+2025-06-23 19:42:23,125{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	797
+2025-06-23 19:42:23,198{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	22
+2025-06-23 19:42:23,201{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,203{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 22 to account:1 on primary n1 new balance: 819
+2025-06-23 19:42:23,203{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	819
+2025-06-23 19:42:23,390{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	18
+2025-06-23 19:42:23,392{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,395{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 18 to account:1 on primary n1 new balance: 801
+2025-06-23 19:42:23,395{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	801
+2025-06-23 19:42:23,515{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	7
+2025-06-23 19:42:23,516{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	28
+2025-06-23 19:42:23,517{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,519{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,521{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 7 to account:1 on primary n1 new balance: 794
+2025-06-23 19:42:23,521{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 28 to account:1 on primary n1 new balance: 822
+2025-06-23 19:42:23,521{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	794
+2025-06-23 19:42:23,522{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	822
+2025-06-23 19:42:23,551{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	17
+2025-06-23 19:42:23,553{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,554{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 17 to account:1 on primary n1 new balance: 805
+2025-06-23 19:42:23,555{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	805
+2025-06-23 19:42:23,571{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	25
+2025-06-23 19:42:23,572{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,573{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 830
+2025-06-23 19:42:23,574{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	830
+2025-06-23 19:42:23,574{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	21
+2025-06-23 19:42:23,575{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,576{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 21 to account:1 on primary n1 new balance: 851
+2025-06-23 19:42:23,577{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	851
+2025-06-23 19:42:23,629{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	16
+2025-06-23 19:42:23,631{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,633{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 16 to account:1 on primary n1 new balance: 835
+2025-06-23 19:42:23,634{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	835
+2025-06-23 19:42:23,782{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	7
+2025-06-23 19:42:23,785{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,787{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 7 to account:1 on primary n1 new balance: 828
+2025-06-23 19:42:23,787{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	828
+2025-06-23 19:42:23,801{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-23 19:42:23,802{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:stop	nil
+2025-06-23 19:42:23,880{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	24
+2025-06-23 19:42:23,882{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:23,885{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 24 to account:1 on primary n1 new balance: 852
+2025-06-23 19:42:23,886{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	852
+2025-06-23 19:42:23,942{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:23,944{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 852
+2025-06-23 19:42:23,945{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	852
+2025-06-23 19:42:24,065{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	6
+2025-06-23 19:42:24,068{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:24,071{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 846
+2025-06-23 19:42:24,071{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	846
+2025-06-23 19:42:24,144{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:24,146{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 846
+2025-06-23 19:42:24,147{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	846
+2025-06-23 19:42:24,206{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:24,207{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 846
+2025-06-23 19:42:24,208{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	846
+2025-06-23 19:42:24,370{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:24,372{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 846
+2025-06-23 19:42:24,372{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	846
+2025-06-23 19:42:24,516{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:24,518{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 846
+2025-06-23 19:42:24,519{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	846
+2025-06-23 19:42:24,565{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:24,567{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 846
+2025-06-23 19:42:24,567{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	846
+2025-06-23 19:42:24,749{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:24,751{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 846
+2025-06-23 19:42:24,751{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	846
+2025-06-23 19:42:24,812{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:24,814{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 846
+2025-06-23 19:42:24,815{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	846
+2025-06-23 19:42:24,923{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	12
+2025-06-23 19:42:24,925{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:24,927{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 12 to account:1 on primary n1 new balance: 834
+2025-06-23 19:42:24,928{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	834
+2025-06-23 19:42:24,937{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	20
+2025-06-23 19:42:24,938{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:24,940{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 20 to account:1 on primary n1 new balance: 854
+2025-06-23 19:42:24,940{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	854
+2025-06-23 19:42:24,952{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	10
+2025-06-23 19:42:24,953{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:24,954{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 10 to account:1 on primary n1 new balance: 864
+2025-06-23 19:42:24,954{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	864
+2025-06-23 19:42:25,109{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	17
+2025-06-23 19:42:25,111{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:25,113{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 17 to account:1 on primary n1 new balance: 847
+2025-06-23 19:42:25,113{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	847
+2025-06-23 19:42:25,272{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:25,274{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 847
+2025-06-23 19:42:25,275{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	847
+2025-06-23 19:42:25,285{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	14
+2025-06-23 19:42:25,286{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:25,288{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 14 to account:1 on primary n1 new balance: 833
+2025-06-23 19:42:25,289{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	833
+2025-06-23 19:42:25,407{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:25,409{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 833
+2025-06-23 19:42:25,410{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	833
+2025-06-23 19:42:25,432{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	12
+2025-06-23 19:42:25,433{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:25,436{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 12 to account:1 on primary n1 new balance: 845
+2025-06-23 19:42:25,436{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	845
+2025-06-23 19:42:25,517{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	18
+2025-06-23 19:42:25,519{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:25,520{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 18 to account:1 on primary n1 new balance: 827
+2025-06-23 19:42:25,520{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	827
+2025-06-23 19:42:25,689{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	15
+2025-06-23 19:42:25,691{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:25,693{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 15 to account:1 on primary n1 new balance: 842
+2025-06-23 19:42:25,694{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	842
+2025-06-23 19:42:25,752{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	26
+2025-06-23 19:42:25,753{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:25,754{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 26 to account:1 on primary n1 new balance: 868
+2025-06-23 19:42:25,755{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	868
+2025-06-23 19:42:25,899{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:25,901{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 868
+2025-06-23 19:42:25,902{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	868
+2025-06-23 19:42:25,949{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:25,951{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 868
+2025-06-23 19:42:25,951{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	868
+2025-06-23 19:42:25,977{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:25,979{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 868
+2025-06-23 19:42:25,979{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	868
+2025-06-23 19:42:26,099{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:26,100{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 868
+2025-06-23 19:42:26,101{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	868
+2025-06-23 19:42:26,289{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:26,291{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 868
+2025-06-23 19:42:26,292{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	868
+2025-06-23 19:42:26,392{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	19
+2025-06-23 19:42:26,395{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:26,398{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 849
+2025-06-23 19:42:26,399{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	849
+2025-06-23 19:42:26,518{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	18
+2025-06-23 19:42:26,521{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:26,524{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 867
+2025-06-23 19:42:26,524{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	867
+2025-06-23 19:42:26,549{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	21
+2025-06-23 19:42:26,550{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:26,552{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 21 to account:1 on primary n1 new balance: 888
+2025-06-23 19:42:26,552{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	888
+2025-06-23 19:42:26,620{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:26,622{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 888
+2025-06-23 19:42:26,623{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	888
+2025-06-23 19:42:26,652{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:26,654{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 888
+2025-06-23 19:42:26,654{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	888
+2025-06-23 19:42:26,723{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	25
+2025-06-23 19:42:26,726{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:26,728{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 913
+2025-06-23 19:42:26,729{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	913
+2025-06-23 19:42:26,780{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:26,781{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 913
+2025-06-23 19:42:26,782{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	913
+2025-06-23 19:42:26,884{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	12
+2025-06-23 19:42:26,887{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:26,890{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 12 to account:1 on primary n1 new balance: 925
+2025-06-23 19:42:26,890{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	925
+2025-06-23 19:42:27,014{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	25
+2025-06-23 19:42:27,016{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,018{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 950
+2025-06-23 19:42:27,019{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	950
+2025-06-23 19:42:27,032{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:27,033{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 950
+2025-06-23 19:42:27,034{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	950
+2025-06-23 19:42:27,169{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	17
+2025-06-23 19:42:27,172{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,175{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 17 to account:1 on primary n1 new balance: 933
+2025-06-23 19:42:27,175{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	933
+2025-06-23 19:42:27,329{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	18
+2025-06-23 19:42:27,333{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,335{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 951
+2025-06-23 19:42:27,335{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	951
+2025-06-23 19:42:27,458{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	28
+2025-06-23 19:42:27,461{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,463{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 28 to account:1 on primary n1 new balance: 979
+2025-06-23 19:42:27,463{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	979
+2025-06-23 19:42:27,481{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	20
+2025-06-23 19:42:27,483{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,485{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 20 to account:1 on primary n1 new balance: 999
+2025-06-23 19:42:27,485{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	999
+2025-06-23 19:42:27,669{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	11
+2025-06-23 19:42:27,672{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,674{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 11 to account:1 on primary n1 new balance: 988
+2025-06-23 19:42:27,675{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	988
+2025-06-23 19:42:27,685{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:27,687{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 988
+2025-06-23 19:42:27,687{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	988
+2025-06-23 19:42:27,779{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	5
+2025-06-23 19:42:27,781{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,783{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 983
+2025-06-23 19:42:27,784{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	983
+2025-06-23 19:42:27,827{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:27,828{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 983
+2025-06-23 19:42:27,829{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	983
+2025-06-23 19:42:27,859{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	18
+2025-06-23 19:42:27,861{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,863{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 18 to account:1 on primary n1 new balance: 965
+2025-06-23 19:42:27,863{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	965
+2025-06-23 19:42:27,952{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	26
+2025-06-23 19:42:27,953{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:27,955{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 26 to account:1 on primary n1 new balance: 991
+2025-06-23 19:42:27,956{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	991
+2025-06-23 19:42:28,085{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	17
+2025-06-23 19:42:28,087{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:28,088{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 17 to account:1 on primary n1 new balance: 974
+2025-06-23 19:42:28,089{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	974
+2025-06-23 19:42:28,167{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:28,168{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 974
+2025-06-23 19:42:28,169{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	974
+2025-06-23 19:42:28,277{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	13
+2025-06-23 19:42:28,279{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:28,281{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 13 to account:1 on primary n1 new balance: 987
+2025-06-23 19:42:28,281{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	987
+2025-06-23 19:42:28,476{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	27
+2025-06-23 19:42:28,478{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:28,480{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 27 to account:1 on primary n1 new balance: 1014
+2025-06-23 19:42:28,482{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1014
+2025-06-23 19:42:28,517{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	18
+2025-06-23 19:42:28,519{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:28,522{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 18 to account:1 on primary n1 new balance: 996
+2025-06-23 19:42:28,523{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	996
+2025-06-23 19:42:28,614{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:28,616{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 996
+2025-06-23 19:42:28,619{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	996
+2025-06-23 19:42:28,748{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	19
+2025-06-23 19:42:28,751{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:28,756{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 19 to account:1 on primary n1 new balance: 1015
+2025-06-23 19:42:28,757{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	1015
+2025-06-23 19:42:28,809{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-23 19:42:28,810{GMT}	INFO	[jepsen worker nemesis] jepsen.util: :nemesis	:info	:start	nil
+2025-06-23 19:42:28,936{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	13
+2025-06-23 19:42:28,938{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:28,940{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 13 to account:1 on primary n1 new balance: 1002
+2025-06-23 19:42:28,941{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	1002
+2025-06-23 19:42:29,074{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	11
+2025-06-23 19:42:29,077{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,079{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 11 to account:1 on primary n1 new balance: 991
+2025-06-23 19:42:29,079{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	991
+2025-06-23 19:42:29,101{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	29
+2025-06-23 19:42:29,103{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,105{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 29 to account:1 on primary n1 new balance: 1020
+2025-06-23 19:42:29,105{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1020
+2025-06-23 19:42:29,236{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:29,238{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 1020
+2025-06-23 19:42:29,239{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	1020
+2025-06-23 19:42:29,326{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:29,328{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 1020
+2025-06-23 19:42:29,329{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	1020
+2025-06-23 19:42:29,437{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	11
+2025-06-23 19:42:29,441{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,445{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 11 to account:1 on primary n1 new balance: 1031
+2025-06-23 19:42:29,446{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	1031
+2025-06-23 19:42:29,551{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	27
+2025-06-23 19:42:29,553{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,554{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 27 to account:1 on primary n1 new balance: 1058
+2025-06-23 19:42:29,554{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1058
+2025-06-23 19:42:29,571{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:29,573{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 1058
+2025-06-23 19:42:29,574{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	1058
+2025-06-23 19:42:29,720{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	15
+2025-06-23 19:42:29,724{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,726{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 15 to account:1 on primary n1 new balance: 1073
+2025-06-23 19:42:29,726{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	1073
+2025-06-23 19:42:29,751{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:29,753{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 1073
+2025-06-23 19:42:29,753{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	1073
+2025-06-23 19:42:29,793{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	29
+2025-06-23 19:42:29,802{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,804{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 29 to account:1 on primary n1 new balance: 1102
+2025-06-23 19:42:29,805{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1102
+2025-06-23 19:42:29,974{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	24
+2025-06-23 19:42:29,976{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,978{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 24 to account:1 on primary n1 new balance: 1126
+2025-06-23 19:42:29,978{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	11
+2025-06-23 19:42:29,979{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1126
+2025-06-23 19:42:29,980{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,983{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 11 to account:1 on primary n1 new balance: 1115
+2025-06-23 19:42:29,984{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	12
+2025-06-23 19:42:29,984{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	1115
+2025-06-23 19:42:29,985{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:29,986{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 12 to account:1 on primary n1 new balance: 1103
+2025-06-23 19:42:29,986{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	1103
+2025-06-23 19:42:30,003{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	16
+2025-06-23 19:42:30,004{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,005{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 16 to account:1 on primary n1 new balance: 1087
+2025-06-23 19:42:30,006{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	1087
+2025-06-23 19:42:30,050{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	12
+2025-06-23 19:42:30,051{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,053{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 12 to account:1 on primary n1 new balance: 1075
+2025-06-23 19:42:30,054{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	1075
+2025-06-23 19:42:30,055{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:30,056{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 1075
+2025-06-23 19:42:30,056{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	1075
+2025-06-23 19:42:30,241{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	6
+2025-06-23 19:42:30,243{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,245{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 1069
+2025-06-23 19:42:30,246{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	1069
+2025-06-23 19:42:30,443{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	19
+2025-06-23 19:42:30,446{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,448{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 1050
+2025-06-23 19:42:30,449{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	1050
+2025-06-23 19:42:30,516{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	25
+2025-06-23 19:42:30,518{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,520{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 25 to account:1 on primary n1 new balance: 1075
+2025-06-23 19:42:30,521{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1075
+2025-06-23 19:42:30,549{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	7
+2025-06-23 19:42:30,550{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,552{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 7 to account:1 on primary n1 new balance: 1068
+2025-06-23 19:42:30,552{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	1068
+2025-06-23 19:42:30,646{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	15
+2025-06-23 19:42:30,649{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,651{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 15 to account:1 on primary n1 new balance: 1053
+2025-06-23 19:42:30,652{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	1053
+2025-06-23 19:42:30,653{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:30,655{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 1053
+2025-06-23 19:42:30,656{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	1053
+2025-06-23 19:42:30,819{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:30,820{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 1053
+2025-06-23 19:42:30,820{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	1053
+2025-06-23 19:42:30,870{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	19
+2025-06-23 19:42:30,871{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:30,872{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 19 to account:1 on primary n1 new balance: 1034
+2025-06-23 19:42:30,872{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	1034
+2025-06-23 19:42:31,068{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	14
+2025-06-23 19:42:31,070{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,072{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	15
+2025-06-23 19:42:31,072{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 14 to account:1 on primary n1 new balance: 1020
+2025-06-23 19:42:31,073{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	1020
+2025-06-23 19:42:31,073{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n3 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,075{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 15 to account:1 on primary n1 new balance: 1035
+2025-06-23 19:42:31,076{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1035
+2025-06-23 19:42:31,147{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	15
+2025-06-23 19:42:31,149{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,151{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 15 to account:1 on primary n1 new balance: 1020
+2025-06-23 19:42:31,152{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	1020
+2025-06-23 19:42:31,170{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:31,171{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 1020
+2025-06-23 19:42:31,172{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	1020
+2025-06-23 19:42:31,344{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:31,345{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n4 value: 1020
+2025-06-23 19:42:31,345{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	1020
+2025-06-23 19:42:31,357{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	18
+2025-06-23 19:42:31,358{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,359{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 18 to account:1 on primary n1 new balance: 1038
+2025-06-23 19:42:31,360{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	1038
+2025-06-23 19:42:31,415{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	6
+2025-06-23 19:42:31,415{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,416{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 6 to account:1 on primary n1 new balance: 1032
+2025-06-23 19:42:31,416{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	1032
+2025-06-23 19:42:31,614{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	15
+2025-06-23 19:42:31,615{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,617{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 15 to account:1 on primary n1 new balance: 1017
+2025-06-23 19:42:31,618{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	1017
+2025-06-23 19:42:31,641{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	13
+2025-06-23 19:42:31,642{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,644{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 13 to account:1 on primary n1 new balance: 1004
+2025-06-23 19:42:31,644{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	1004
+2025-06-23 19:42:31,718{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:31,720{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 1004
+2025-06-23 19:42:31,720{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	1004
+2025-06-23 19:42:31,916{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	18
+2025-06-23 19:42:31,918{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:31,920{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 18 to account:1 on primary n1 new balance: 986
+2025-06-23 19:42:31,921{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	986
+2025-06-23 19:42:32,061{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	12
+2025-06-23 19:42:32,063{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,066{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 12 to account:1 on primary n1 new balance: 974
+2025-06-23 19:42:32,066{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	974
+2025-06-23 19:42:32,157{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:debit	16
+2025-06-23 19:42:32,159{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,162{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Debited 16 to account:1 on primary n1 new balance: 958
+2025-06-23 19:42:32,163{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:debit	958
+2025-06-23 19:42:32,169{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	12
+2025-06-23 19:42:32,170{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,171{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 12 to account:1 on primary n1 new balance: 946
+2025-06-23 19:42:32,171{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	946
+2025-06-23 19:42:32,240{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	10
+2025-06-23 19:42:32,242{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,244{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 10 to account:1 on primary n1 new balance: 956
+2025-06-23 19:42:32,244{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	956
+2025-06-23 19:42:32,302{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:debit	12
+2025-06-23 19:42:32,304{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,305{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Debited 12 to account:1 on primary n1 new balance: 944
+2025-06-23 19:42:32,306{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:debit	944
+2025-06-23 19:42:32,471{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:credit	11
+2025-06-23 19:42:32,475{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,477{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Credited 11 to account:1 on primary n1 new balance: 955
+2025-06-23 19:42:32,478{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:credit	955
+2025-06-23 19:42:32,510{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	13
+2025-06-23 19:42:32,511{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n5 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,513{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 13 to account:1 on primary n1 new balance: 942
+2025-06-23 19:42:32,513{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	942
+2025-06-23 19:42:32,632{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:32,635{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 942
+2025-06-23 19:42:32,636{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	942
+2025-06-23 19:42:32,640{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:32,641{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 942
+2025-06-23 19:42:32,641{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	942
+2025-06-23 19:42:32,800{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:32,801{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n5 value: 942
+2025-06-23 19:42:32,802{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	942
+2025-06-23 19:42:32,947{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	14
+2025-06-23 19:42:32,949{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n2 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:32,952{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 14 to account:1 on primary n1 new balance: 928
+2025-06-23 19:42:32,952{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	928
+2025-06-23 19:42:32,985{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:read-balance	nil
+2025-06-23 19:42:32,987{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 928
+2025-06-23 19:42:32,988{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:read-balance	928
+2025-06-23 19:42:33,189{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:read-balance	nil
+2025-06-23 19:42:33,191{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Reading balance from replica n3 value: 928
+2025-06-23 19:42:33,192{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:read-balance	928
+2025-06-23 19:42:33,198{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:33,200{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 928
+2025-06-23 19:42:33,200{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	928
+2025-06-23 19:42:33,373{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:debit	5
+2025-06-23 19:42:33,374{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:33,376{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Debited 5 to account:1 on primary n1 new balance: 923
+2025-06-23 19:42:33,376{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:debit	923
+2025-06-23 19:42:33,502{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:invoke	:credit	12
+2025-06-23 19:42:33,505{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Sentinel n1 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:33,507{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Credited 12 to account:1 on primary n1 new balance: 935
+2025-06-23 19:42:33,508{GMT}	INFO	[jepsen worker 0] jepsen.util: 0	:ok	:credit	935
+2025-06-23 19:42:33,627{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:invoke	:credit	16
+2025-06-23 19:42:33,629{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Sentinel n4 reports primary: n1 ( 172.20.0.11 )
+2025-06-23 19:42:33,631{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Credited 16 to account:1 on primary n1 new balance: 951
+2025-06-23 19:42:33,632{GMT}	INFO	[jepsen worker 1] jepsen.util: 1	:ok	:credit	951
+2025-06-23 19:42:33,675{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:invoke	:read-balance	nil
+2025-06-23 19:42:33,676{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Reading balance from replica n2 value: 951
+2025-06-23 19:42:33,677{GMT}	INFO	[jepsen worker 2] jepsen.util: 2	:ok	:read-balance	951
+2025-06-23 19:42:33,811{GMT}	INFO	[jepsen worker 0] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,811{GMT}	INFO	[jepsen worker 2] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,811{GMT}	INFO	[jepsen worker 1] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,830{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.client: Tearing down bank client
+2025-06-23 19:42:33,830{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.client: Tearing down bank client
+2025-06-23 19:42:33,830{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.client: Tearing down bank client
+2025-06-23 19:42:33,830{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.client: Tearing down bank client
+2025-06-23 19:42:33,831{GMT}	INFO	[real-pmap 0] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,830{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.client: Tearing down bank client
+2025-06-23 19:42:33,831{GMT}	INFO	[real-pmap 2] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,831{GMT}	INFO	[real-pmap 1] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,831{GMT}	INFO	[real-pmap 4] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,831{GMT}	INFO	[real-pmap 3] jepsen.redis-sentinel.client: Closing bank client
+2025-06-23 19:42:33,832{GMT}	INFO	[jepsen test runner] jepsen.core: Run complete, writing
+2025-06-23 19:42:33,907{GMT}	INFO	[jepsen node n2] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n2
+2025-06-23 19:42:33,907{GMT}	INFO	[jepsen node n3] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n3
+2025-06-23 19:42:33,907{GMT}	INFO	[jepsen node n1] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n1
+2025-06-23 19:42:33,907{GMT}	INFO	[jepsen node n4] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n4
+2025-06-23 19:42:33,908{GMT}	INFO	[jepsen node n5] jepsen.redis-sentinel.tests.bank: Cleaning up Redis on n5
+2025-06-23 19:42:33,909{GMT}	INFO	[jepsen test runner] jepsen.core: Analyzing...
+2025-06-23 19:42:34,141{GMT}	INFO	[jepsen test runner] jepsen.core: Analysis complete
+2025-06-23 19:42:34,146{GMT}	INFO	[jepsen results] jepsen.store: Wrote /jepsen/store/bank-simple-test/20250623T194200.476Z/results.edn
+2025-06-23 19:42:34,156{GMT}	INFO	[jepsen test runner] jepsen.core: {:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :latency-detailed {:valid? true},
+ :rate-detailed {:valid? true},
+ :timeline {:valid? true},
+ :clock-plot {:valid? true},
+ :unhandled-exceptions {:valid? true},
+ :valid? true}
+
+
+Everything looks good! ヽ(‘ー`)ノ
