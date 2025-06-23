@@ -289,3 +289,100 @@
 
       (close! [this test]
         (info "Closing Redis SET Sentinel client")))))
+
+(defn bank-client []
+  (let [conn (atom nil)
+        sentinel-nodes ["n1" "n2" "n3" "n4" "n5"]
+        current-primary (atom "n1")
+        replica-nodes (atom ["n2" "n3" "n4" "n5"])
+        account-key "account:1"
+        ip-to-hostname {"172.20.0.11" "n1"
+                        "172.20.0.12" "n2"
+                        "172.20.0.13" "n3"
+                        "172.20.0.14" "n4"
+                        "172.20.0.15" "n5"}]
+    (reify client/Client
+           (open! [this test node]
+                  (reset! conn {:pool {} :spec {:host node :port 6379}})
+                  this)
+           (setup! [this test]
+                   (info "Setting up bank client")
+                   ;; Initialize account with balance 100
+                   (let [primary @current-primary
+                         primary-conn {:pool {} :spec {:host primary :port 6379}}]
+                     (wcar primary-conn (car/set account-key "100"))
+                     (info "Initialized account:1 with balance 100 on primary" primary)))
+           (invoke! [this test operation]
+                    (try
+                      (case (:f operation)
+                            :read-balance
+                            (let [replica (rand-nth @replica-nodes)
+                                  replica-conn {:pool {} :spec {:host replica :port 6379}}
+                                  value (wcar replica-conn (car/get account-key))]
+                              (info "Reading balance from replica" replica "value:" value)
+                              (assoc operation :type :ok
+                                     :value (when value (Integer/parseInt value))
+                                     :node replica))
+
+                            (:credit :debit)
+                            (do
+                              (let [sentinel-node (rand-nth sentinel-nodes)]
+                                (try
+                                  (let [sentinel-conn {:pool {} :spec {:host sentinel-node :port 26379}}
+                                        primary-info (wcar sentinel-conn
+                                                           (car/redis-call ["SENTINEL" "get-master-addr-by-name" "mymaster"]))]
+                                    (when primary-info
+                                          (let [parsed-info (cond
+                                                             (and (sequential? primary-info)
+                                                                  (>= (count primary-info) 2))
+                                                             primary-info
+
+                                                             (and (sequential? primary-info)
+                                                                  (= (count primary-info) 1)
+                                                                  (sequential? (first primary-info)))
+                                                             (first primary-info)
+
+                                                             :else primary-info)]
+                                            (when (and (sequential? parsed-info)
+                                                       (>= (count parsed-info) 2))
+                                                  (let [primary-ip (str (first parsed-info))
+                                                        new-primary (get ip-to-hostname primary-ip primary-ip)]
+                                                    (reset! current-primary new-primary)
+                                                    (info "Sentinel" sentinel-node "reports primary:" new-primary "(" primary-ip ")"))))))
+                                  (catch Exception e
+                                    (warn "Failed to contact Sentinel" sentinel-node ":" (.getMessage e)))))
+
+                              (let [primary @current-primary
+                                    primary-conn {:pool {} :spec {:host primary :port 6379}}
+                                    amount (:value operation)
+                                    op-type (:f operation)
+                                    lua-script (if (= op-type :credit)
+                                                 ;; Credit: INCRBY
+                                                 (str "return redis.call('INCRBY', KEYS[1], ARGV[1])")
+                                                 ;; Debit: DECRBY but ensure balance >= 0
+                                                 (str "local balance = redis.call('GET', KEYS[1]) "
+                                                      "if tonumber(balance) >= tonumber(ARGV[1]) then "
+                                                      "  return redis.call('DECRBY', KEYS[1], ARGV[1]) "
+                                                      "else "
+                                                      "  return redis.error_reply('Insufficient funds') "
+                                                      "end"))]
+                                (try
+                                  (let [result (wcar primary-conn
+                                                     (car/eval* lua-script 1 account-key (str amount)))]
+                                    (info (if (= op-type :credit) "Credited" "Debited")
+                                          amount "to account:1 on primary" primary "new balance:" result)
+                                    (assoc operation :type :ok :node primary :value (if (string? result) (Integer/parseInt result) (int result))))
+                                  (catch Exception e
+                                    (error "Operation failed on primary" primary ":" (.getMessage e))
+                                    (assoc operation :type :fail :error (.getMessage e))))))
+
+                            (do
+                              (warn "Unknown operation type:" (:f operation))
+                              (assoc operation :type :fail :error (str "Unknown operation: " (:f operation)))))
+                      (catch Exception e
+                        (error "Operation failed:" (.getMessage e))
+                        (assoc operation :type :fail :error (.getMessage e)))))
+           (teardown! [this test]
+                      (info "Tearing down bank client"))
+           (close! [this test]
+                   (info "Closing bank client")))))
