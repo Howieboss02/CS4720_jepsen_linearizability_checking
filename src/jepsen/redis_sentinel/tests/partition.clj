@@ -154,7 +154,7 @@
                                            :final-node-states final-states
                                            :distinct-primaries num-distinct-primaries
                                            :primary-nodes (sort primary-nodes)
-                                           :message (str "📊 Split-brain test results:\n"
+                                           :message (str " Split-brain test results:\n"
                                                          "   Total writes: " total-writes "\n"
                                                          "   Survivors: " survivors "\n"
                                                          "   Lost: " (count lost-writes) 
@@ -164,15 +164,11 @@
 
 ;; Public run functions
 (defn run-split-brain-test []
-  (info "🚀 Starting split-brain Redis test for 3 minutes with Sentinel client...")
-  (info "🧠 Network partitions: 10s normal → 20s partition → 10s normal → repeat")
-  (info "📊 Expected ~135,000 operations with partition tolerance testing")
+  (info " Starting split-brain Redis test for 3 minutes with Sentinel client...")
+
   (jepsen/run! (split-brain-test)))
 
 (defn run-set-split-brain-test []
-  (info "🚀 Starting Redis SET split-brain test with Sentinel for 3 minutes...")
-  (info "🧠 This test uses REAL Redis Sentinel for primary discovery")
-  (info "📦 Writing incremental values to SET during network partitions")
-  (info "📊 Reading from ALL nodes to show split-brain divergence")
-  (info "⚠️  Expect significant data loss and split-brain detection!")
+  (info " Starting Redis SET split-brain test with Sentinel for 3 minutes...")
+
   (jepsen/run! (set-split-brain-test)))

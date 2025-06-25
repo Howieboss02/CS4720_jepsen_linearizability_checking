@@ -30,8 +30,8 @@
       (case (:f op)
         :start
         (let [nodes (:nodes test)
-              latency-ms (or (:latency op) 200)  ; Default 200ms latency
-              jitter-ms (or (:jitter op) 50)]    ; Default 50ms jitter
+              latency-ms (or (:latency op) 200)  
+              jitter-ms (or (:jitter op) 50)]   
           (info "Injecting" latency-ms "ms latency with" jitter-ms "ms jitter on all nodes")
           (c/on-nodes test nodes
                       (fn [test node]
@@ -275,11 +275,11 @@
                                     set)
                         failovers-detected (> (count writes) 1)
                         breakage-level (cond
-                                         (> timeout-rate 0.8) "CATASTROPHIC"
-                                         (> timeout-rate 0.5) "SEVERE"
-                                         (> timeout-rate 0.2) "MODERATE"
-                                         (> timeout-rate 0.05) "MILD"
-                                         :else "MINIMAL")]
+                                         (> timeout-rate 0.8) "H1"
+                                         (> timeout-rate 0.5) "H2"
+                                         (> timeout-rate 0.2) "H3"
+                                         (> timeout-rate 0.05) "H4"
+                                         :else "H5")]
                     {:valid? false
                      :total-operations total-ops
                      :failed-operations failed-ops
@@ -289,7 +289,7 @@
                      :failovers-detected failovers-detected
                      :unique-primaries writes
                      :breakage-level breakage-level
-                     :message (str "💥 EXTREME Latency Injection Results:\n"
+                     :message (str "EXTREME Latency Injection Results:\n"
                                    "   Breakage Level: " breakage-level "\n"
                                    "   Total operations: " total-ops "\n"
                                    "   Failed operations: " failed-ops " (" (int (* (or failure-rate 0) 100)) "%)\n"
@@ -298,19 +298,12 @@
                                    "   Primary nodes used: " (count writes))})))})})
 
 
-;; Public run functions
 (defn run-latency-injection-test []
-  (info "🚀 Starting latency injection Redis test for 3 minutes with Sentinel client...")
-  (info "⏱️ This test injects network latency to test timeout thresholds")
-  (info "🐌 Pattern: 15s normal → 25s (300ms±100ms) → 15s normal → 20s (500ms±150ms) → repeat")
-  (info "📊 Expected timeout behavior and latency impact on operations")
-  (info "🎯 Testing Sentinel and Redis client resilience to network delays")
+  (info " Starting latency injection Redis test for 3 minutes with Sentinel client...")
   (jepsen/run! (latency-injection-test)))
 
 (defn run-extreme-latency-injection-test []
-  (info "🚀 Starting EXTREME latency injection Redis test for 3 minutes...")
-  (info "💥 This test is designed to BREAK Redis Sentinel timeouts")
-  (info "🐌 Pattern: 10s → 2s latency → 10s → 6s latency → 10s → 10s latency")
-  (info "⚠️  EXPECT: Client timeouts, Sentinel failovers, system breakage!")
-  (info "🎯 Testing maximum latency tolerance thresholds")
+  (info " Starting EXTREME latency injection Redis test for 3 minutes...")
+
+
   (jepsen/run! (extreme-latency-injection-test)))

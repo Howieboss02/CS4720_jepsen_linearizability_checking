@@ -102,7 +102,7 @@
                                         :failover-count failover-count
                                         :primary-changes primary-changes
                                         :nemesis-events nemesis-events
-                                        :message (str "🔄 Majorities Ring Test Results:\n"
+                                        :message (str "Majorities Ring Test Results:\n"
                                                       "   Total writes: " total-writes "\n"
                                                       "   Unique primaries used: " (count unique-primaries) "\n"
                                                       "   Detected failovers: " failover-count "\n"
@@ -111,8 +111,5 @@
 
 ;; Public run functions
 (defn run-majorities-ring-test []
-  (info "🚀 Starting majorities ring Redis test for 3 minutes with Sentinel client...")
-  (info "🎯 This test uses ring partitions to force failover scenarios")
-  (info "🔄 Pattern: 10s normal → 30s partition → 10s heal → repeat")
-  (info "📊 Expected failover detection and primary switching")
+  (info "[1] Starting majorities ring Redis test for 3 minutes with Sentinel client...") 
   (jepsen/run! (majorities-ring-test)))

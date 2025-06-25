@@ -1403,3 +1403,8 @@
 20:S 23 Jun 2025 19:16:15.736 * Removing the history file appendonly-n4.aof.15.incr.aof in the background
 20:S 23 Jun 2025 19:16:15.737 * Removing the history file appendonly-n4.aof.15.base.rdb in the background
 20:S 23 Jun 2025 19:16:15.744 * Background AOF rewrite finished successfully
+20:S 23 Jun 2025 19:20:23.597 * Connection with master lost.
+20:S 23 Jun 2025 19:20:23.599 * Caching the disconnected master state.
+20:S 23 Jun 2025 19:20:23.601 * Reconnecting to MASTER 172.20.0.12:6379
+20:S 23 Jun 2025 19:20:23.603 * MASTER <-> REPLICA sync started
+20:S 23 Jun 2025 19:20:23.604 # Error condition on socket for SYNC: Connection refused

@@ -243,7 +243,7 @@
                             set-values (wcar conn (car/smembers set-name))
                             int-values (sort (map #(Integer/parseInt %) set-values))]
                         (swap! results assoc (keyword (str node "-isolated")) int-values)
-                        (warn "⚠️ Read from UNHEALTHY node" node ":" (count int-values) "values - POTENTIAL SPLIT-BRAIN!"))
+                        (warn " Read from UNHEALTHY node" node ":" (count int-values) "values - POTENTIAL SPLIT-BRAIN!"))
                       (catch Exception e
                         (info "Confirmed unhealthy node" node "is unreachable:" (.getMessage e))
                         (swap! results assoc (keyword (str node "-isolated")) :unreachable))))))

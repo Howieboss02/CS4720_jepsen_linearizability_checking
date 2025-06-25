@@ -46,7 +46,7 @@
             (- 5 @service-failures) "nodes with services running"))))
 
 (defn run-test [test-name]
-  (info "🚀 Starting test:" test-name)
+  (info " Starting test:" test-name)
   (case test-name
     ;; Basic Tests
     "simple" (simple-tests/run-simple-test)
@@ -70,7 +70,7 @@
     
     ;; Default case
     (do
-      (error "❌ Unknown test:" test-name)
+      (error " Unknown test:" test-name)
       (println "")
       (System/exit 1))))
 
@@ -78,11 +78,11 @@
   
   (if (empty? args)
     (do
-      (info "🎯 No test specified - running interactive mode...")
+      (info " No test specified - running interactive mode...")
       (println "")
       (println "Press Enter to run 'simple' test or Ctrl+C to exit...")
       (read-line)
-      (println "🚀 Running default 'simple' test...")
+      (println " Running default 'simple' test...")
       (c/with-ssh {:username "root"
                    :private-key-path "/root/.ssh/id_rsa"
                    :strict-host-key-checking false
@@ -104,5 +104,5 @@
         (verify-prerequisites)
         (run-test test-name))))
   
-  (info "🎉 Test execution completed!")
+  (info " Test execution completed!")
   (System/exit 0))

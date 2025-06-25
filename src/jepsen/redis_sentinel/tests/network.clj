@@ -112,8 +112,8 @@
                                                                     (partition-by second)
                                                                     count
                                                                     dec)]
-                                          {:valid? (and (> partition-starts 10)  ; Expect many rapid partitions
-                                                        (> success-rate 0.5))    ; At least 50% success rate
+                                          {:valid? (and (> partition-starts 10)  
+                                                        (> success-rate 0.5))    
                                            :total-operations total-ops
                                            :successful-operations (+ (count writes) (count reads))
                                            :failed-operations failed-ops
@@ -122,8 +122,8 @@
                                            :partition-starts partition-starts
                                            :partition-stops partition-stops
                                            :primary-switches primary-switches
-                                           :flapping-intensity (/ partition-starts 3.0) ; partitions per minute
-                                           :message (str "🌊 Flapping Partitions Test Results:\n"
+                                           :flapping-intensity (/ partition-starts 3.0)
+                                           :message (str " Flapping Partitions Test Results:\n"
                                                          "   Total operations: " total-ops "\n"
                                                          "   Success rate: " (int (* (or success-rate 0) 100)) "%\n"
                                                          "   Partition starts: " partition-starts "\n"
@@ -224,8 +224,8 @@
                                          connectivity-health (if (> (count node-usage) 1)
                                                                "Bridge connectivity maintained"
                                                                "Limited connectivity detected")]
-                                     {:valid? (and (> bridge-starts 2)    ; Expect multiple bridge events
-                                                   (> success-rate 0.4))   ; At least 40% success (bridge is restrictive)
+                                     {:valid? (and (> bridge-starts 2)    
+                                                   (> success-rate 0.4))  
                                       :total-operations total-ops
                                       :successful-operations (+ (count writes) (count reads))
                                       :failed-operations failed-ops
@@ -236,7 +236,7 @@
                                       :node-usage node-usage
                                       :connectivity-health connectivity-health
                                       :bridge-effectiveness (/ failed-ops (max total-ops 1))
-                                      :message (str "🌉 Bridge Partitions Test Results:\n"
+                                      :message (str " Bridge Partitions Test Results:\n"
                                                     "   Total operations: " total-ops "\n"
                                                     "   Success rate: " (int (* (or success-rate 0) 100)) "%\n"
                                                     "   Bridge events: " bridge-starts "\n"
@@ -247,17 +247,11 @@
 
 ;; Public run functions
 (defn run-flapping-partitions-test []
-  (info "🚀 Starting flapping partitions Redis test for 3 minutes with Sentinel client...")
-  (info "🌊 This test uses rapid partition/heal cycles to test network instability")
-  (info "⚡ Pattern: 3s normal → 2s partition → 3s heal → 2s partition → repeat")
-  (info "📊 Expected high partition frequency and stability testing")
-  (info "🎯 Measuring system resilience under constant network disruption")
+  (info " Starting flapping partitions Redis test for 3 minutes with Sentinel client...")
+
   (jepsen/run! (flapping-partitions-test)))
 
 (defn run-bridge-partitions-test []
-  (info "🚀 Starting bridge partitions Redis test for 3 minutes with Sentinel client...")
-  (info "🌉 This test creates chain-like connectivity patterns (bridge partitions)")
-  (info "🔗 Pattern: 12s normal → 18s bridge → 12s heal → repeat")
-  (info "📊 Expected limited connectivity and consensus challenges")
-  (info "🎯 Testing Sentinel behavior with partial network connectivity")
+  (info " Starting bridge partitions Redis test for 3 minutes with Sentinel client...")
+
   (jepsen/run! (bridge-partitions-test)))

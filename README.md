@@ -1,15 +1,25 @@
 # Setup
+
 ## Build containers
-`docker-compose -f docker-compose-jepsen.yml build`
+```bash
+docker-compose -f docker-compose-jepsen.yml build
+```
+
 ## Run containers 
-`docker-compose -f docker-compose-jepsen.yml up -d`
+```bash
+docker-compose -f docker-compose-jepsen.yml up -d
+```
+
 ## Shut down
-`docker-compose -f docker-compose-jepsen.yml down -v`
+```bash
+docker-compose -f docker-compose-jepsen.yml down -v
+```
 
-Open logs of jepsen-control
+## Monitor startup
 
-Wait for the input to look like this:
+Open logs of jepsen-control and wait for the input to look like this:
 
+```
 2025-06-17 19:05:12 === Jepsen control node starting ===
 2025-06-17 19:05:12 SSH keys generated and shared
 2025-06-17 19:05:12 Waiting for nodes to copy SSH keys...
@@ -43,9 +53,11 @@ Wait for the input to look like this:
 2025-06-17 19:05:43   docker logs n1
 2025-06-17 19:05:43 
 2025-06-17 19:05:43 Container will stay running. Use 'docker exec -it jepsen-control bash' to interact.
-2025-06-17 19:05:43
+```
 
-inside jepsen-control you can run tests like:
+## Running Tests
+
+Inside jepsen-control you can run tests like:
 
 # REDIS SENTINEL JEPSEN TESTS
 
@@ -55,7 +67,7 @@ inside jepsen-control you can run tests like:
 
 ### Basic Tests
 - `simple` - Basic register test (30s, 3 threads)
-- `intensive` - High-concurrency test (3min, 15 threads)
+- `intensive` - High-concurrency test (3min, 15 threads)  
 - `concurrent` - Concurrent test with detailed analysis (3min)
 
 ### Partition Tests
@@ -74,6 +86,7 @@ inside jepsen-control you can run tests like:
 - `extreme-latency` - EXTREME latency injection (3min)
 
 ## Examples
+
 ```bash
 lein run -m jepsen.redis-sentinel.main simple
 lein run -m jepsen.redis-sentinel.main split-brain

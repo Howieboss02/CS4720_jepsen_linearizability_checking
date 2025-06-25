@@ -174,15 +174,13 @@
 
 ;; Public run functions
 (defn run-simple-test []
-  (info "🚀 Starting simple Redis test for 30 seconds with Sentinel client...")
-  (info "📊 Expected ~900 operations (3 threads × 10 ops/sec × 30 sec)")
+  (info " Starting simple Redis test for 30 seconds with Sentinel client...")
   (jepsen/run! (simple-test)))
 
 (defn run-intensive-test []
-  (info "🚀 Starting intensive Redis test for 3 minutes with Sentinel client...")
-  (info "📊 Expected ~135,000 operations (15 threads × 50 ops/sec × 180 sec)")
+  (info " Starting intensive Redis test for 3 minutes with Sentinel client...")
   (jepsen/run! (intensive-test)))
 
 (defn run-concurrent-test []
-  (info "🚀 Starting intensive concurrent Redis test for 3 minutes with Sentinel client...")
+  (info " Starting intensive concurrent Redis test for 3 minutes with Sentinel client...")
   (jepsen/run! (concurrent-test)))
