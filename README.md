@@ -85,6 +85,9 @@ Inside jepsen-control you can run tests like:
 - `latency-injection` - Network latency injection (3min)
 - `extreme-latency` - EXTREME latency injection (3min)
 
+### Bank Tests
+- `bank-simple` - Bank Test (x min)
+
 ## Examples
 
 ```bash
@@ -92,6 +95,7 @@ lein run -m jepsen.redis-sentinel.main simple
 lein run -m jepsen.redis-sentinel.main split-brain
 lein run -m jepsen.redis-sentinel.main majorities-ring
 lein run -m jepsen.redis-sentinel.main extreme-latency
+lein run -m jepsen.redis-sentinel.main bank-simple
 ```
 
 ## Prerequisites

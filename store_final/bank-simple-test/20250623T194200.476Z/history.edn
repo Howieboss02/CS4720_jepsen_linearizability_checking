@@ -1,0 +1,586 @@
+{:index 0, :time 112346917, :type :invoke, :process 1, :f :debit, :value 6}
+{:index 1, :time 124319667, :type :ok, :process 1, :f :debit, :value 94, :node "n1"}
+{:index 2, :time 221220750, :type :invoke, :process 2, :f :credit, :value 15}
+{:index 3, :time 224621042, :type :ok, :process 2, :f :credit, :value 109, :node "n1"}
+{:index 4, :time 342206417, :type :invoke, :process 0, :f :credit, :value 17}
+{:index 5, :time 361634000, :type :ok, :process 0, :f :credit, :value 126, :node "n1"}
+{:index 6, :time 425844667, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 7, :time 429261750, :type :ok, :process 0, :f :read-balance, :value 126, :node "n5"}
+{:index 8, :time 482258583, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 9, :time 486213500, :type :ok, :process 1, :f :read-balance, :value 126, :node "n2"}
+{:index 10, :time 592830542, :type :invoke, :process 2, :f :debit, :value 5}
+{:index 11, :time 603074375, :type :ok, :process 2, :f :debit, :value 121, :node "n1"}
+{:index 12, :time 789263584, :type :invoke, :process 0, :f :credit, :value 19}
+{:index 13, :time 795556792, :type :ok, :process 0, :f :credit, :value 140, :node "n1"}
+{:index 14, :time 960104834, :type :invoke, :process 0, :f :credit, :value 11}
+{:index 15, :time 967546709, :type :ok, :process 0, :f :credit, :value 151, :node "n1"}
+{:index 16, :time 1155662417, :type :invoke, :process 1, :f :credit, :value 18}
+{:index 17, :time 1164599375, :type :ok, :process 1, :f :credit, :value 169, :node "n1"}
+{:index 18, :time 1297276792, :type :invoke, :process 2, :f :credit, :value 18}
+{:index 19, :time 1299086917, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 20, :time 1303952292, :type :ok, :process 0, :f :read-balance, :value 169, :node "n4"}
+{:index 21, :time 1308204126, :type :ok, :process 2, :f :credit, :value 187, :node "n1"}
+{:index 22, :time 1391295584, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 23, :time 1397291417, :type :ok, :process 0, :f :read-balance, :value 187, :node "n3"}
+{:index 24, :time 1433212167, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 25, :time 1437748917, :type :ok, :process 1, :f :read-balance, :value 187, :node "n5"}
+{:index 26, :time 1560694209, :type :invoke, :process 2, :f :debit, :value 16}
+{:index 27, :time 1574666542, :type :invoke, :process 0, :f :debit, :value 10}
+{:index 28, :time 1598199001, :type :ok, :process 2, :f :debit, :value 161, :node "n1"}
+{:index 29, :time 1598962792, :type :ok, :process 0, :f :debit, :value 177, :node "n1"}
+{:index 30, :time 1775843417, :type :invoke, :process 0, :f :credit, :value 16}
+{:index 31, :time 1783540167, :type :ok, :process 0, :f :credit, :value 177, :node "n1"}
+{:index 32, :time 1797063626, :type :invoke, :process 1, :f :credit, :value 12}
+{:index 33, :time 1801542334, :type :ok, :process 1, :f :credit, :value 189, :node "n1"}
+{:index 34, :time 1930148001, :type :invoke, :process 2, :f :debit, :value 13}
+{:index 35, :time 1938477168, :type :ok, :process 2, :f :debit, :value 176, :node "n1"}
+{:index 36, :time 2068219584, :type :invoke, :process 0, :f :debit, :value 10}
+{:index 37, :time 2077132501, :type :ok, :process 0, :f :debit, :value 166, :node "n1"}
+{:index 38, :time 2081813918, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 39, :time 2083215918, :type :ok, :process 0, :f :read-balance, :value 166, :node "n5"}
+{:index 40, :time 2217623084, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 41, :time 2222994418, :type :ok, :process 1, :f :read-balance, :value 166, :node "n5"}
+{:index 42, :time 2310838418, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 43, :time 2317658084, :type :ok, :process 2, :f :read-balance, :value 166, :node "n3"}
+{:index 44, :time 2358627043, :type :invoke, :process 0, :f :credit, :value 15}
+{:index 45, :time 2360994668, :type :invoke, :process 1, :f :debit, :value 6}
+{:index 46, :time 2366675376, :type :ok, :process 0, :f :credit, :value 181, :node "n1"}
+{:index 47, :time 2367951501, :type :ok, :process 1, :f :debit, :value 175, :node "n1"}
+{:index 48, :time 2512581334, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 49, :time 2520185293, :type :ok, :process 1, :f :read-balance, :value 175, :node "n4"}
+{:index 50, :time 2690662835, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 51, :time 2696056126, :type :ok, :process 2, :f :read-balance, :value 175, :node "n3"}
+{:index 52, :time 2812225418, :type :invoke, :process 0, :f :debit, :value 19}
+{:index 53, :time 2818627626, :type :ok, :process 0, :f :debit, :value 156, :node "n1"}
+{:index 54, :time 2892280085, :type :invoke, :process 0, :f :credit, :value 23}
+{:index 55, :time 2898122960, :type :ok, :process 0, :f :credit, :value 179, :node "n1"}
+{:index 56, :time 3056413168, :type :invoke, :process 1, :f :credit, :value 23}
+{:index 57, :time 3066441751, :type :ok, :process 1, :f :credit, :value 202, :node "n1"}
+{:index 58, :time 3202278085, :type :invoke, :process 2, :f :credit, :value 19}
+{:index 59, :time 3209475001, :type :ok, :process 2, :f :credit, :value 221, :node "n1"}
+{:index 60, :time 3395876043, :type :invoke, :process 0, :f :credit, :value 19}
+{:index 61, :time 3400923043, :type :ok, :process 0, :f :credit, :value 240, :node "n1"}
+{:index 62, :time 3561556377, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 63, :time 3567163418, :type :ok, :process 0, :f :read-balance, :value 240, :node "n2"}
+{:index 64, :time 3647791460, :type :invoke, :process 1, :f :credit, :value 12}
+{:index 65, :time 3654128377, :type :invoke, :process 2, :f :debit, :value 13}
+{:index 66, :time 3656462543, :type :ok, :process 1, :f :credit, :value 252, :node "n1"}
+{:index 67, :time 3659981252, :type :ok, :process 2, :f :debit, :value 239, :node "n1"}
+{:index 68, :time 3853110085, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 69, :time 3857528627, :type :ok, :process 0, :f :read-balance, :value 239, :node "n5"}
+{:index 70, :time 3928277543, :type :invoke, :process 0, :f :credit, :value 25}
+{:index 71, :time 3932101502, :type :ok, :process 0, :f :credit, :value 264, :node "n1"}
+{:index 72, :time 4014963918, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 73, :time 4018353585, :type :ok, :process 1, :f :read-balance, :value 264, :node "n4"}
+{:index 74, :time 4079742919, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 75, :time 4086021210, :type :ok, :process 2, :f :read-balance, :value 264, :node "n3"}
+{:index 76, :time 4271444502, :type :invoke, :process 0, :f :credit, :value 17}
+{:index 77, :time 4279081669, :type :ok, :process 0, :f :credit, :value 281, :node "n1"}
+{:index 78, :time 4457517460, :type :invoke, :process 0, :f :debit, :value 19}
+{:index 79, :time 4462522794, :type :ok, :process 0, :f :debit, :value 262, :node "n1"}
+{:index 80, :time 4572740377, :type :invoke, :process 1, :f :credit, :value 14}
+{:index 81, :time 4580743502, :type :ok, :process 1, :f :credit, :value 276, :node "n1"}
+{:index 82, :time 4774942502, :type :invoke, :process 2, :f :credit, :value 22}
+{:index 83, :time 4778951919, :type :ok, :process 2, :f :credit, :value 298, :node "n1"}
+{:index 84, :time 4779016419, :type :invoke, :process 0, :f :debit, :value 16}
+{:index 85, :time 4780977919, :type :ok, :process 0, :f :debit, :value 282, :node "n1"}
+{:index 86, :time 4866132919, :type :invoke, :process 0, :f :debit, :value 16}
+{:index 87, :time 4872190961, :type :ok, :process 0, :f :debit, :value 266, :node "n1"}
+{:index 88, :time 5039342627, :type :invoke, :process 1, :f :credit, :value 11}
+{:index 89, :time 5040095336, :type :invoke, :process 2, :f :debit, :value 9}
+{:index 90, :time 5047657377, :type :ok, :process 2, :f :debit, :value 257, :node "n1"}
+{:index 91, :time 5049858627, :type :ok, :process 1, :f :credit, :value 268, :node "n1"}
+{:index 92, :time 5067051544, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 93, :time 5068980544, :type :ok, :process 0, :f :read-balance, :value 268, :node "n4"}
+{:index 94, :time 5072654711, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 95, :time 5074628211, :type :ok, :process 0, :f :read-balance, :value 268, :node "n2"}
+{:index 96, :time 5119950586, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 97, :time 5122642586, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 98, :time 5158371836, :type :invoke, :process 0, :f :credit, :value 22}
+{:index 99, :time 5166146127, :type :ok, :process 0, :f :credit, :value 290, :node "n1"}
+{:index 100, :time 5299560211, :type :invoke, :process 0, :f :credit, :value 22}
+{:index 101, :time 5304614461, :type :ok, :process 0, :f :credit, :value 312, :node "n1"}
+{:index 102, :time 5351319586, :type :invoke, :process 1, :f :debit, :value 18}
+{:index 103, :time 5356053794, :type :ok, :process 1, :f :debit, :value 294, :node "n1"}
+{:index 104, :time 5532079003, :type :invoke, :process 2, :f :debit, :value 14}
+{:index 105, :time 5539997044, :type :ok, :process 2, :f :debit, :value 280, :node "n1"}
+{:index 106, :time 5627682086, :type :invoke, :process 0, :f :credit, :value 18}
+{:index 107, :time 5636120669, :type :ok, :process 0, :f :credit, :value 298, :node "n1"}
+{:index 108, :time 5711149503, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 109, :time 5715439128, :type :ok, :process 0, :f :read-balance, :value 298, :node "n5"}
+{:index 110, :time 5821701294, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 111, :time 5826270169, :type :ok, :process 1, :f :read-balance, :value 298, :node "n2"}
+{:index 112, :time 5922375586, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 113, :time 5927648503, :type :ok, :process 2, :f :read-balance, :value 298, :node "n4"}
+{:index 114, :time 6043990211, :type :invoke, :process 0, :f :credit, :value 27}
+{:index 115, :time 6047794878, :type :ok, :process 0, :f :credit, :value 325, :node "n1"}
+{:index 116, :time 6113012419, :type :invoke, :process 0, :f :credit, :value 21}
+{:index 117, :time 6117005503, :type :ok, :process 0, :f :credit, :value 346, :node "n1"}
+{:index 118, :time 6282026878, :type :invoke, :process 1, :f :debit, :value 7}
+{:index 119, :time 6289190420, :type :ok, :process 1, :f :debit, :value 339, :node "n1"}
+{:index 120, :time 6464166795, :type :invoke, :process 2, :f :credit, :value 23}
+{:index 121, :time 6473955336, :type :ok, :process 2, :f :credit, :value 362, :node "n1"}
+{:index 122, :time 6592880836, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 123, :time 6595367878, :type :ok, :process 0, :f :read-balance, :value 362, :node "n5"}
+{:index 124, :time 6719500045, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 125, :time 6722766211, :type :ok, :process 0, :f :read-balance, :value 362, :node "n2"}
+{:index 126, :time 6863305295, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 127, :time 6869736712, :type :ok, :process 1, :f :read-balance, :value 362, :node "n4"}
+{:index 128, :time 6877194295, :type :invoke, :process 2, :f :credit, :value 21}
+{:index 129, :time 6881612962, :type :ok, :process 2, :f :credit, :value 383, :node "n1"}
+{:index 130, :time 7019879587, :type :invoke, :process 0, :f :debit, :value 6}
+{:index 131, :time 7028376128, :type :ok, :process 0, :f :debit, :value 377, :node "n1"}
+{:index 132, :time 7141986837, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 133, :time 7147233545, :type :ok, :process 0, :f :read-balance, :value 377, :node "n3"}
+{:index 134, :time 7263000003, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 135, :time 7266205670, :type :ok, :process 1, :f :read-balance, :value 377, :node "n3"}
+{:index 136, :time 7404579503, :type :invoke, :process 2, :f :credit, :value 28}
+{:index 137, :time 7412110712, :type :ok, :process 2, :f :credit, :value 405, :node "n1"}
+{:index 138, :time 7531343545, :type :invoke, :process 0, :f :credit, :value 28}
+{:index 139, :time 7537324920, :type :ok, :process 0, :f :credit, :value 433, :node "n1"}
+{:index 140, :time 7714096087, :type :invoke, :process 0, :f :debit, :value 19}
+{:index 141, :time 7716477629, :type :ok, :process 0, :f :debit, :value 414, :node "n1"}
+{:index 142, :time 7906025795, :type :invoke, :process 1, :f :credit, :value 19}
+{:index 143, :time 7908706629, :type :ok, :process 1, :f :credit, :value 433, :node "n1"}
+{:index 144, :time 8003940587, :type :invoke, :process 2, :f :debit, :value 6}
+{:index 145, :time 8007923545, :type :ok, :process 2, :f :debit, :value 427, :node "n1"}
+{:index 146, :time 8201314254, :type :invoke, :process 0, :f :debit, :value 5}
+{:index 147, :time 8207842212, :type :ok, :process 0, :f :debit, :value 422, :node "n1"}
+{:index 148, :time 8257980796, :type :invoke, :process 0, :f :credit, :value 10}
+{:index 149, :time 8265067046, :type :ok, :process 0, :f :credit, :value 432, :node "n1"}
+{:index 150, :time 8452447837, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 151, :time 8456428462, :type :ok, :process 1, :f :read-balance, :value 432, :node "n5"}
+{:index 152, :time 8517990546, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 153, :time 8522271754, :type :ok, :process 2, :f :read-balance, :value 432, :node "n2"}
+{:index 154, :time 8630121587, :type :invoke, :process 0, :f :credit, :value 25}
+{:index 155, :time 8637593296, :type :ok, :process 0, :f :credit, :value 457, :node "n1"}
+{:index 156, :time 8725422837, :type :invoke, :process 0, :f :credit, :value 18}
+{:index 157, :time 8731926421, :type :ok, :process 0, :f :credit, :value 475, :node "n1"}
+{:index 158, :time 8914471087, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 159, :time 8919396254, :type :ok, :process 1, :f :read-balance, :value 475, :node "n4"}
+{:index 160, :time 9106065171, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 161, :time 9110127754, :type :ok, :process 2, :f :read-balance, :value 475, :node "n4"}
+{:index 162, :time 9266074296, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 163, :time 9270119963, :type :ok, :process 0, :f :read-balance, :value 475, :node "n4"}
+{:index 164, :time 9418254629, :type :invoke, :process 0, :f :credit, :value 27}
+{:index 165, :time 9425612963, :type :ok, :process 0, :f :credit, :value 502, :node "n1"}
+{:index 166, :time 9573487754, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 167, :time 9577301671, :type :ok, :process 1, :f :read-balance, :value 502, :node "n3"}
+{:index 168, :time 9588059129, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 169, :time 9590678671, :type :ok, :process 2, :f :read-balance, :value 502, :node "n3"}
+{:index 170, :time 9662941046, :type :invoke, :process 0, :f :credit, :value 10}
+{:index 171, :time 9668641880, :type :ok, :process 0, :f :credit, :value 512, :node "n1"}
+{:index 172, :time 9731467130, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 173, :time 9736245963, :type :ok, :process 0, :f :read-balance, :value 512, :node "n3"}
+{:index 174, :time 9877150588, :type :invoke, :process 1, :f :credit, :value 17}
+{:index 175, :time 9884278588, :type :ok, :process 1, :f :credit, :value 529, :node "n1"}
+{:index 176, :time 9925430505, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 177, :time 9928203171, :type :ok, :process 2, :f :read-balance, :value 529, :node "n4"}
+{:index 178, :time 10086576005, :type :invoke, :process 0, :f :debit, :value 11}
+{:index 179, :time 10094074046, :type :ok, :process 0, :f :debit, :value 518, :node "n1"}
+{:index 180, :time 10126208296, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 181, :time 10128056380, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 182, :time 10251030838, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 183, :time 10255050588, :type :ok, :process 2, :f :read-balance, :value 518, :node "n5"}
+{:index 184, :time 10274197505, :type :invoke, :process 0, :f :debit, :value 7}
+{:index 185, :time 10278796380, :type :ok, :process 0, :f :debit, :value 511, :node "n1"}
+{:index 186, :time 10408885463, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 187, :time 10414051130, :type :ok, :process 0, :f :read-balance, :value 511, :node "n5"}
+{:index 188, :time 10518834797, :type :invoke, :process 1, :f :debit, :value 10}
+{:index 189, :time 10524485505, :type :ok, :process 1, :f :debit, :value 501, :node "n1"}
+{:index 190, :time 10608253422, :type :invoke, :process 2, :f :credit, :value 13}
+{:index 191, :time 10614073088, :type :ok, :process 2, :f :credit, :value 514, :node "n1"}
+{:index 192, :time 10703274838, :type :invoke, :process 0, :f :credit, :value 14}
+{:index 193, :time 10709639172, :type :ok, :process 0, :f :credit, :value 528, :node "n1"}
+{:index 194, :time 10889120880, :type :invoke, :process 0, :f :debit, :value 13}
+{:index 195, :time 10894100963, :type :ok, :process 0, :f :debit, :value 515, :node "n1"}
+{:index 196, :time 11065070047, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 197, :time 11068398797, :type :ok, :process 1, :f :read-balance, :value 515, :node "n2"}
+{:index 198, :time 11224617130, :type :invoke, :process 2, :f :debit, :value 10}
+{:index 199, :time 11231619922, :type :ok, :process 2, :f :debit, :value 505, :node "n1"}
+{:index 200, :time 11259032089, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 201, :time 11261662089, :type :ok, :process 0, :f :read-balance, :value 505, :node "n4"}
+{:index 202, :time 11320100255, :type :invoke, :process 0, :f :credit, :value 14}
+{:index 203, :time 11325555547, :type :ok, :process 0, :f :credit, :value 519, :node "n1"}
+{:index 204, :time 11353526214, :type :invoke, :process 1, :f :credit, :value 28}
+{:index 205, :time 11360453047, :type :ok, :process 1, :f :credit, :value 547, :node "n1"}
+{:index 206, :time 11521972797, :type :invoke, :process 2, :f :credit, :value 10}
+{:index 207, :time 11524325214, :type :ok, :process 2, :f :credit, :value 557, :node "n1"}
+{:index 208, :time 11664054130, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 209, :time 11668397089, :type :ok, :process 0, :f :read-balance, :value 557, :node "n4"}
+{:index 210, :time 11748021672, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 211, :time 11749242172, :type :ok, :process 0, :f :read-balance, :value 557, :node "n3"}
+{:index 212, :time 11868995381, :type :invoke, :process 1, :f :credit, :value 24}
+{:index 213, :time 11871833881, :type :ok, :process 1, :f :credit, :value 581, :node "n1"}
+{:index 214, :time 11923174297, :type :invoke, :process 2, :f :credit, :value 26}
+{:index 215, :time 11924997381, :type :ok, :process 2, :f :credit, :value 607, :node "n1"}
+{:index 216, :time 12104622714, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 217, :time 12108624756, :type :ok, :process 0, :f :read-balance, :value 607, :node "n4"}
+{:index 218, :time 12267651422, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 219, :time 12271016797, :type :ok, :process 0, :f :read-balance, :value 607, :node "n5"}
+{:index 220, :time 12405736756, :type :invoke, :process 1, :f :debit, :value 19}
+{:index 221, :time 12412462964, :type :ok, :process 1, :f :debit, :value 588, :node "n1"}
+{:index 222, :time 12596260839, :type :invoke, :process 2, :f :debit, :value 6}
+{:index 223, :time 12602202548, :type :ok, :process 2, :f :debit, :value 582, :node "n1"}
+{:index 224, :time 12619199423, :type :invoke, :process 0, :f :credit, :value 13}
+{:index 225, :time 12622330423, :type :ok, :process 0, :f :credit, :value 595, :node "n1"}
+{:index 226, :time 12759263756, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 227, :time 12764588798, :type :ok, :process 0, :f :read-balance, :value 595, :node "n3"}
+{:index 228, :time 12918919631, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 229, :time 12923533798, :type :ok, :process 1, :f :read-balance, :value 595, :node "n3"}
+{:index 230, :time 12927502589, :type :invoke, :process 2, :f :debit, :value 14}
+{:index 231, :time 12931969214, :type :ok, :process 2, :f :debit, :value 581, :node "n1"}
+{:index 232, :time 13106126339, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 233, :time 13109518131, :type :ok, :process 0, :f :read-balance, :value 581, :node "n5"}
+{:index 234, :time 13268292590, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 235, :time 13273159631, :type :ok, :process 0, :f :read-balance, :value 581, :node "n2"}
+{:index 236, :time 13455660256, :type :invoke, :process 1, :f :credit, :value 25}
+{:index 237, :time 13462411715, :type :ok, :process 1, :f :credit, :value 606, :node "n1"}
+{:index 238, :time 13588800381, :type :invoke, :process 2, :f :debit, :value 5}
+{:index 239, :time 13595078590, :type :ok, :process 2, :f :debit, :value 601, :node "n1"}
+{:index 240, :time 13786199965, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 241, :time 13789782881, :type :ok, :process 0, :f :read-balance, :value 601, :node "n5"}
+{:index 242, :time 13896368548, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 243, :time 13899897715, :type :ok, :process 0, :f :read-balance, :value 601, :node "n5"}
+{:index 244, :time 14044048632, :type :invoke, :process 1, :f :debit, :value 10}
+{:index 245, :time 14050200048, :type :ok, :process 1, :f :debit, :value 591, :node "n1"}
+{:index 246, :time 14108432965, :type :invoke, :process 2, :f :credit, :value 12}
+{:index 247, :time 14117110215, :type :ok, :process 2, :f :credit, :value 603, :node "n1"}
+{:index 248, :time 14210385673, :type :invoke, :process 0, :f :credit, :value 16}
+{:index 249, :time 14217951590, :type :ok, :process 0, :f :credit, :value 619, :node "n1"}
+{:index 250, :time 14298626965, :type :invoke, :process 0, :f :credit, :value 28}
+{:index 251, :time 14307119007, :type :ok, :process 0, :f :credit, :value 647, :node "n1"}
+{:index 252, :time 14417078465, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 253, :time 14421659173, :type :invoke, :process 2, :f :credit, :value 27}
+{:index 254, :time 14422739423, :type :ok, :process 1, :f :read-balance, :value 647, :node "n4"}
+{:index 255, :time 14427504590, :type :ok, :process 2, :f :credit, :value 674, :node "n1"}
+{:index 256, :time 14447953340, :type :invoke, :process 0, :f :credit, :value 15}
+{:index 257, :time 14451353173, :type :ok, :process 0, :f :credit, :value 689, :node "n1"}
+{:index 258, :time 14515176715, :type :invoke, :process 0, :f :debit, :value 5}
+{:index 259, :time 14520135632, :type :ok, :process 0, :f :debit, :value 684, :node "n1"}
+{:index 260, :time 14629776049, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 261, :time 14634040049, :type :ok, :process 1, :f :read-balance, :value 684, :node "n4"}
+{:index 262, :time 14662931590, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 263, :time 14665804632, :type :ok, :process 2, :f :read-balance, :value 684, :node "n2"}
+{:index 264, :time 14761081007, :type :invoke, :process 0, :f :debit, :value 7}
+{:index 265, :time 14768364090, :type :ok, :process 0, :f :debit, :value 677, :node "n1"}
+{:index 266, :time 14790480549, :type :invoke, :process 0, :f :debit, :value 13}
+{:index 267, :time 14795547757, :type :ok, :process 0, :f :debit, :value 664, :node "n1"}
+{:index 268, :time 14987933465, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 269, :time 14991144840, :type :ok, :process 1, :f :read-balance, :value 664, :node "n4"}
+{:index 270, :time 15136372882, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 271, :time 15137311049, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 272, :time 15138789924, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 273, :time 15140737507, :type :ok, :process 2, :f :read-balance, :value 664, :node "n4"}
+{:index 274, :time 15227050257, :type :invoke, :process 1, :f :debit, :value 8}
+{:index 275, :time 15232866466, :type :ok, :process 1, :f :debit, :value 656, :node "n1"}
+{:index 276, :time 15260719466, :type :invoke, :process 2, :f :credit, :value 25}
+{:index 277, :time 15266527757, :type :ok, :process 2, :f :credit, :value 681, :node "n1"}
+{:index 278, :time 15335745174, :type :invoke, :process 0, :f :debit, :value 5}
+{:index 279, :time 15341493257, :type :ok, :process 0, :f :debit, :value 676, :node "n1"}
+{:index 280, :time 15471082716, :type :invoke, :process 0, :f :debit, :value 9}
+{:index 281, :time 15478306257, :type :ok, :process 0, :f :debit, :value 667, :node "n1"}
+{:index 282, :time 15599506799, :type :invoke, :process 1, :f :debit, :value 19}
+{:index 283, :time 15605329382, :type :ok, :process 1, :f :debit, :value 648, :node "n1"}
+{:index 284, :time 15647783507, :type :invoke, :process 2, :f :credit, :value 22}
+{:index 285, :time 15653424674, :type :ok, :process 2, :f :credit, :value 670, :node "n1"}
+{:index 286, :time 15693247299, :type :invoke, :process 0, :f :credit, :value 12}
+{:index 287, :time 15700077216, :type :ok, :process 0, :f :credit, :value 682, :node "n1"}
+{:index 288, :time 15869086466, :type :invoke, :process 0, :f :credit, :value 14}
+{:index 289, :time 15875989132, :type :ok, :process 0, :f :credit, :value 696, :node "n1"}
+{:index 290, :time 15946290008, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 291, :time 15948847133, :type :ok, :process 1, :f :read-balance, :value 696, :node "n2"}
+{:index 292, :time 15977006258, :type :invoke, :process 2, :f :credit, :value 21}
+{:index 293, :time 15981618549, :type :ok, :process 2, :f :credit, :value 717, :node "n1"}
+{:index 294, :time 16098830299, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 295, :time 16102252216, :type :ok, :process 0, :f :read-balance, :value 717, :node "n5"}
+{:index 296, :time 16301120466, :type :invoke, :process 0, :f :debit, :value 17}
+{:index 297, :time 16307544758, :type :ok, :process 0, :f :debit, :value 700, :node "n1"}
+{:index 298, :time 16331773716, :type :invoke, :process 1, :f :credit, :value 29}
+{:index 299, :time 16339581841, :type :ok, :process 1, :f :credit, :value 729, :node "n1"}
+{:index 300, :time 16511823966, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 301, :time 16515637299, :type :ok, :process 2, :f :read-balance, :value 729, :node "n5"}
+{:index 302, :time 16679384216, :type :invoke, :process 0, :f :debit, :value 16}
+{:index 303, :time 16686518758, :type :ok, :process 0, :f :debit, :value 713, :node "n1"}
+{:index 304, :time 16813056966, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 305, :time 16817288258, :type :ok, :process 0, :f :read-balance, :value 713, :node "n4"}
+{:index 306, :time 16928817425, :type :invoke, :process 1, :f :debit, :value 5}
+{:index 307, :time 16933990591, :type :ok, :process 1, :f :debit, :value 708, :node "n1"}
+{:index 308, :time 16975669008, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 309, :time 16978525091, :type :ok, :process 2, :f :read-balance, :value 708, :node "n3"}
+{:index 310, :time 17169608425, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 311, :time 17174536175, :type :ok, :process 0, :f :read-balance, :value 708, :node "n3"}
+{:index 312, :time 17354991925, :type :invoke, :process 0, :f :credit, :value 16}
+{:index 313, :time 17360566133, :type :ok, :process 0, :f :credit, :value 724, :node "n1"}
+{:index 314, :time 17480050967, :type :invoke, :process 1, :f :credit, :value 25}
+{:index 315, :time 17487110633, :type :ok, :process 1, :f :credit, :value 749, :node "n1"}
+{:index 316, :time 17672751633, :type :invoke, :process 2, :f :credit, :value 24}
+{:index 317, :time 17677314800, :type :ok, :process 2, :f :credit, :value 773, :node "n1"}
+{:index 318, :time 17855414342, :type :invoke, :process 0, :f :credit, :value 28}
+{:index 319, :time 17858994217, :type :ok, :process 0, :f :credit, :value 801, :node "n1"}
+{:index 320, :time 17878032592, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 321, :time 17879022967, :type :ok, :process 0, :f :read-balance, :value 801, :node "n2"}
+{:index 322, :time 17964842175, :type :invoke, :process 1, :f :debit, :value 19}
+{:index 323, :time 17970290883, :type :ok, :process 1, :f :debit, :value 782, :node "n1"}
+{:index 324, :time 18084077884, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 325, :time 18088340759, :type :ok, :process 2, :f :read-balance, :value 782, :node "n4"}
+{:index 326, :time 18250142550, :type :invoke, :process 0, :f :debit, :value 9}
+{:index 327, :time 18256395175, :type :ok, :process 0, :f :debit, :value 773, :node "n1"}
+{:index 328, :time 18437370175, :type :invoke, :process 0, :f :credit, :value 18}
+{:index 329, :time 18443478384, :type :ok, :process 0, :f :credit, :value 791, :node "n1"}
+{:index 330, :time 18571968050, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 331, :time 18575841717, :type :ok, :process 1, :f :read-balance, :value 791, :node "n5"}
+{:index 332, :time 18694531966, :type :invoke, :process 2, :f :credit, :value 21}
+{:index 333, :time 18701741091, :type :ok, :process 2, :f :credit, :value 812, :node "n1"}
+{:index 334, :time 18819186675, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 335, :time 18822653675, :type :ok, :process 0, :f :read-balance, :value 812, :node "n5"}
+{:index 336, :time 18822834633, :type :invoke, :process 0, :f :debit, :value 19}
+{:index 337, :time 18827249425, :type :ok, :process 0, :f :debit, :value 793, :node "n1"}
+{:index 338, :time 18873133300, :type :invoke, :process 1, :f :debit, :value 10}
+{:index 339, :time 18877892883, :type :ok, :process 1, :f :debit, :value 783, :node "n1"}
+{:index 340, :time 18949066258, :type :invoke, :process 2, :f :credit, :value 11}
+{:index 341, :time 18955593091, :type :ok, :process 2, :f :credit, :value 794, :node "n1"}
+{:index 342, :time 19142138008, :type :invoke, :process 0, :f :credit, :value 11}
+{:index 343, :time 19149183550, :type :ok, :process 0, :f :credit, :value 805, :node "n1"}
+{:index 344, :time 19267103716, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 345, :time 19271483008, :type :ok, :process 0, :f :read-balance, :value 805, :node "n4"}
+{:index 346, :time 19325483383, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 347, :time 19328143841, :type :ok, :process 1, :f :read-balance, :value 805, :node "n4"}
+{:index 348, :time 19460101758, :type :invoke, :process 2, :f :debit, :value 8}
+{:index 349, :time 19466538592, :type :ok, :process 2, :f :debit, :value 797, :node "n1"}
+{:index 350, :time 19538703800, :type :invoke, :process 0, :f :credit, :value 22}
+{:index 351, :time 19544493008, :type :ok, :process 0, :f :credit, :value 819, :node "n1"}
+{:index 352, :time 19730137675, :type :invoke, :process 0, :f :debit, :value 18}
+{:index 353, :time 19736127508, :type :ok, :process 0, :f :debit, :value 801, :node "n1"}
+{:index 354, :time 19854331342, :type :invoke, :process 1, :f :debit, :value 7}
+{:index 355, :time 19857055425, :type :invoke, :process 2, :f :credit, :value 28}
+{:index 356, :time 19862547675, :type :ok, :process 1, :f :debit, :value 794, :node "n1"}
+{:index 357, :time 19863117508, :type :ok, :process 2, :f :credit, :value 822, :node "n1"}
+{:index 358, :time 19891459217, :type :invoke, :process 0, :f :debit, :value 17}
+{:index 359, :time 19895807883, :type :ok, :process 0, :f :debit, :value 805, :node "n1"}
+{:index 360, :time 19911260217, :type :invoke, :process 0, :f :credit, :value 25}
+{:index 361, :time 19914850800, :type :ok, :process 0, :f :credit, :value 830, :node "n1"}
+{:index 362, :time 19915030133, :type :invoke, :process 1, :f :credit, :value 21}
+{:index 363, :time 19917683008, :type :ok, :process 1, :f :credit, :value 851, :node "n1"}
+{:index 364, :time 19969264300, :type :invoke, :process 2, :f :debit, :value 16}
+{:index 365, :time 19975179050, :type :ok, :process 2, :f :debit, :value 835, :node "n1"}
+{:index 366, :time 20122536384, :type :invoke, :process 0, :f :debit, :value 7}
+{:index 367, :time 20128543967, :type :ok, :process 0, :f :debit, :value 828, :node "n1"}
+{:index 368, :time 20141432800, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 369, :time 20142577759, :type :info, :process :nemesis, :f :stop, :value nil}
+{:index 370, :time 20220827050, :type :invoke, :process 2, :f :credit, :value 24}
+{:index 371, :time 20226677759, :type :ok, :process 2, :f :credit, :value 852, :node "n1"}
+{:index 372, :time 20282751842, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 373, :time 20286217550, :type :ok, :process 0, :f :read-balance, :value 852, :node "n4"}
+{:index 374, :time 20405183759, :type :invoke, :process 0, :f :debit, :value 6}
+{:index 375, :time 20412243217, :type :ok, :process 0, :f :debit, :value 846, :node "n1"}
+{:index 376, :time 20484547634, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 377, :time 20488625217, :type :ok, :process 1, :f :read-balance, :value 846, :node "n5"}
+{:index 378, :time 20546714842, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 379, :time 20548865842, :type :ok, :process 2, :f :read-balance, :value 846, :node "n5"}
+{:index 380, :time 20710779009, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 381, :time 20713235175, :type :ok, :process 0, :f :read-balance, :value 846, :node "n4"}
+{:index 382, :time 20855974801, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 383, :time 20859776634, :type :ok, :process 0, :f :read-balance, :value 846, :node "n4"}
+{:index 384, :time 20905283801, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 385, :time 20908488217, :type :ok, :process 1, :f :read-balance, :value 846, :node "n4"}
+{:index 386, :time 21088574009, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 387, :time 21092507717, :type :ok, :process 2, :f :read-balance, :value 846, :node "n5"}
+{:index 388, :time 21152311384, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 389, :time 21155880676, :type :ok, :process 0, :f :read-balance, :value 846, :node "n5"}
+{:index 390, :time 21262379259, :type :invoke, :process 0, :f :debit, :value 12}
+{:index 391, :time 21269050217, :type :ok, :process 0, :f :debit, :value 834, :node "n1"}
+{:index 392, :time 21278107301, :type :invoke, :process 1, :f :credit, :value 20}
+{:index 393, :time 21281043259, :type :ok, :process 1, :f :credit, :value 854, :node "n1"}
+{:index 394, :time 21293404134, :type :invoke, :process 2, :f :credit, :value 10}
+{:index 395, :time 21295469634, :type :ok, :process 2, :f :credit, :value 864, :node "n1"}
+{:index 396, :time 21449378426, :type :invoke, :process 0, :f :debit, :value 17}
+{:index 397, :time 21454264134, :type :ok, :process 0, :f :debit, :value 847, :node "n1"}
+{:index 398, :time 21612522718, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 399, :time 21616114884, :type :ok, :process 0, :f :read-balance, :value 847, :node "n5"}
+{:index 400, :time 21624934009, :type :invoke, :process 1, :f :debit, :value 14}
+{:index 401, :time 21629861676, :type :ok, :process 1, :f :debit, :value 833, :node "n1"}
+{:index 402, :time 21746654343, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 403, :time 21750770426, :type :ok, :process 2, :f :read-balance, :value 833, :node "n3"}
+{:index 404, :time 21771965926, :type :invoke, :process 0, :f :credit, :value 12}
+{:index 405, :time 21777250259, :type :ok, :process 0, :f :credit, :value 845, :node "n1"}
+{:index 406, :time 21858097384, :type :invoke, :process 0, :f :debit, :value 18}
+{:index 407, :time 21861437093, :type :ok, :process 0, :f :debit, :value 827, :node "n1"}
+{:index 408, :time 22029360468, :type :invoke, :process 1, :f :credit, :value 15}
+{:index 409, :time 22035041801, :type :ok, :process 1, :f :credit, :value 842, :node "n1"}
+{:index 410, :time 22092077176, :type :invoke, :process 2, :f :credit, :value 26}
+{:index 411, :time 22096022009, :type :ok, :process 2, :f :credit, :value 868, :node "n1"}
+{:index 412, :time 22239755551, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 413, :time 22243412385, :type :ok, :process 0, :f :read-balance, :value 868, :node "n3"}
+{:index 414, :time 22289961968, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 415, :time 22292013385, :type :ok, :process 0, :f :read-balance, :value 868, :node "n2"}
+{:index 416, :time 22317650051, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 417, :time 22320505676, :type :ok, :process 1, :f :read-balance, :value 868, :node "n3"}
+{:index 418, :time 22439131593, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 419, :time 22441805801, :type :ok, :process 2, :f :read-balance, :value 868, :node "n4"}
+{:index 420, :time 22629667843, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 421, :time 22633320593, :type :ok, :process 0, :f :read-balance, :value 868, :node "n3"}
+{:index 422, :time 22731681010, :type :invoke, :process 0, :f :debit, :value 19}
+{:index 423, :time 22740122551, :type :ok, :process 0, :f :debit, :value 849, :node "n1"}
+{:index 424, :time 22857312343, :type :invoke, :process 1, :f :credit, :value 18}
+{:index 425, :time 22865119510, :type :ok, :process 1, :f :credit, :value 867, :node "n1"}
+{:index 426, :time 22889291385, :type :invoke, :process 2, :f :credit, :value 21}
+{:index 427, :time 22893374260, :type :ok, :process 2, :f :credit, :value 888, :node "n1"}
+{:index 428, :time 22958992427, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 429, :time 22963945843, :type :ok, :process 0, :f :read-balance, :value 888, :node "n5"}
+{:index 430, :time 22992267802, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 431, :time 22995374593, :type :ok, :process 0, :f :read-balance, :value 888, :node "n4"}
+{:index 432, :time 23063326385, :type :invoke, :process 1, :f :credit, :value 25}
+{:index 433, :time 23070111427, :type :ok, :process 1, :f :credit, :value 913, :node "n1"}
+{:index 434, :time 23120128260, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 435, :time 23123129093, :type :ok, :process 2, :f :read-balance, :value 913, :node "n2"}
+{:index 436, :time 23224145427, :type :invoke, :process 0, :f :credit, :value 12}
+{:index 437, :time 23231245885, :type :ok, :process 0, :f :credit, :value 925, :node "n1"}
+{:index 438, :time 23354035427, :type :invoke, :process 0, :f :credit, :value 25}
+{:index 439, :time 23359677635, :type :ok, :process 0, :f :credit, :value 950, :node "n1"}
+{:index 440, :time 23372927343, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 441, :time 23375026427, :type :ok, :process 1, :f :read-balance, :value 950, :node "n3"}
+{:index 442, :time 23508600510, :type :invoke, :process 2, :f :debit, :value 17}
+{:index 443, :time 23516223843, :type :ok, :process 2, :f :debit, :value 933, :node "n1"}
+{:index 444, :time 23669250302, :type :invoke, :process 0, :f :credit, :value 18}
+{:index 445, :time 23676600635, :type :ok, :process 0, :f :credit, :value 951, :node "n1"}
+{:index 446, :time 23798252094, :type :invoke, :process 0, :f :credit, :value 28}
+{:index 447, :time 23804597510, :type :ok, :process 0, :f :credit, :value 979, :node "n1"}
+{:index 448, :time 23822053385, :type :invoke, :process 1, :f :credit, :value 20}
+{:index 449, :time 23826246344, :type :ok, :process 1, :f :credit, :value 999, :node "n1"}
+{:index 450, :time 24009230844, :type :invoke, :process 2, :f :debit, :value 11}
+{:index 451, :time 24016157594, :type :ok, :process 2, :f :debit, :value 988, :node "n1"}
+{:index 452, :time 24025872094, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 453, :time 24028285427, :type :ok, :process 0, :f :read-balance, :value 988, :node "n5"}
+{:index 454, :time 24119049427, :type :invoke, :process 0, :f :debit, :value 5}
+{:index 455, :time 24124806260, :type :ok, :process 0, :f :debit, :value 983, :node "n1"}
+{:index 456, :time 24167290385, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 457, :time 24170094260, :type :ok, :process 1, :f :read-balance, :value 983, :node "n4"}
+{:index 458, :time 24199229302, :type :invoke, :process 2, :f :debit, :value 18}
+{:index 459, :time 24204525469, :type :ok, :process 2, :f :debit, :value 965, :node "n1"}
+{:index 460, :time 24292071719, :type :invoke, :process 0, :f :credit, :value 26}
+{:index 461, :time 24296791636, :type :ok, :process 0, :f :credit, :value 991, :node "n1"}
+{:index 462, :time 24425054302, :type :invoke, :process 0, :f :debit, :value 17}
+{:index 463, :time 24430214302, :type :ok, :process 0, :f :debit, :value 974, :node "n1"}
+{:index 464, :time 24507149511, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 465, :time 24510140094, :type :ok, :process 1, :f :read-balance, :value 974, :node "n5"}
+{:index 466, :time 24617371511, :type :invoke, :process 2, :f :credit, :value 13}
+{:index 467, :time 24622228511, :type :ok, :process 2, :f :credit, :value 987, :node "n1"}
+{:index 468, :time 24816088094, :type :invoke, :process 0, :f :credit, :value 27}
+{:index 469, :time 24822745427, :type :ok, :process 0, :f :credit, :value 1014, :node "n1"}
+{:index 470, :time 24856846761, :type :invoke, :process 0, :f :debit, :value 18}
+{:index 471, :time 24863984802, :type :ok, :process 0, :f :debit, :value 996, :node "n1"}
+{:index 472, :time 24954705053, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 473, :time 24960444428, :type :ok, :process 1, :f :read-balance, :value 996, :node "n5"}
+{:index 474, :time 25087996511, :type :invoke, :process 2, :f :credit, :value 19}
+{:index 475, :time 25097664844, :type :ok, :process 2, :f :credit, :value 1015, :node "n1"}
+{:index 476, :time 25149392094, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 477, :time 25150689219, :type :info, :process :nemesis, :f :start, :value nil}
+{:index 478, :time 25276205719, :type :invoke, :process 1, :f :debit, :value 13}
+{:index 479, :time 25282185803, :type :ok, :process 1, :f :debit, :value 1002, :node "n1"}
+{:index 480, :time 25414398803, :type :invoke, :process 2, :f :debit, :value 11}
+{:index 481, :time 25420266719, :type :ok, :process 2, :f :debit, :value 991, :node "n1"}
+{:index 482, :time 25442046094, :type :invoke, :process 0, :f :credit, :value 29}
+{:index 483, :time 25446344719, :type :ok, :process 0, :f :credit, :value 1020, :node "n1"}
+{:index 484, :time 25576469303, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 485, :time 25579851344, :type :ok, :process 0, :f :read-balance, :value 1020, :node "n3"}
+{:index 486, :time 25666339011, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 487, :time 25670106886, :type :ok, :process 1, :f :read-balance, :value 1020, :node "n5"}
+{:index 488, :time 25777483470, :type :invoke, :process 2, :f :credit, :value 11}
+{:index 489, :time 25787173261, :type :ok, :process 2, :f :credit, :value 1031, :node "n1"}
+{:index 490, :time 25891741386, :type :invoke, :process 0, :f :credit, :value 27}
+{:index 491, :time 25895332095, :type :ok, :process 0, :f :credit, :value 1058, :node "n1"}
+{:index 492, :time 25911952303, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 493, :time 25915296720, :type :ok, :process 0, :f :read-balance, :value 1058, :node "n2"}
+{:index 494, :time 26059804720, :type :invoke, :process 1, :f :credit, :value 15}
+{:index 495, :time 26067447970, :type :ok, :process 1, :f :credit, :value 1073, :node "n1"}
+{:index 496, :time 26091626803, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 497, :time 26094442970, :type :ok, :process 2, :f :read-balance, :value 1073, :node "n2"}
+{:index 498, :time 26132774803, :type :invoke, :process 0, :f :credit, :value 29}
+{:index 499, :time 26146039886, :type :ok, :process 0, :f :credit, :value 1102, :node "n1"}
+{:index 500, :time 26314269845, :type :invoke, :process 0, :f :credit, :value 24}
+{:index 501, :time 26319213220, :type :invoke, :process 1, :f :debit, :value 11}
+{:index 502, :time 26320072970, :type :ok, :process 0, :f :credit, :value 1126, :node "n1"}
+{:index 503, :time 26324243761, :type :invoke, :process 2, :f :debit, :value 12}
+{:index 504, :time 26324756136, :type :ok, :process 1, :f :debit, :value 1115, :node "n1"}
+{:index 505, :time 26327253053, :type :ok, :process 2, :f :debit, :value 1103, :node "n1"}
+{:index 506, :time 26344319345, :type :invoke, :process 0, :f :debit, :value 16}
+{:index 507, :time 26346672887, :type :ok, :process 0, :f :debit, :value 1087, :node "n1"}
+{:index 508, :time 26390080262, :type :invoke, :process 0, :f :debit, :value 12}
+{:index 509, :time 26394582428, :type :ok, :process 0, :f :debit, :value 1075, :node "n1"}
+{:index 510, :time 26396166970, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 511, :time 26397469803, :type :ok, :process 1, :f :read-balance, :value 1075, :node "n3"}
+{:index 512, :time 26581157595, :type :invoke, :process 2, :f :debit, :value 6}
+{:index 513, :time 26586699595, :type :ok, :process 2, :f :debit, :value 1069, :node "n1"}
+{:index 514, :time 26783155053, :type :invoke, :process 0, :f :debit, :value 19}
+{:index 515, :time 26789769470, :type :ok, :process 0, :f :debit, :value 1050, :node "n1"}
+{:index 516, :time 26856057428, :type :invoke, :process 0, :f :credit, :value 25}
+{:index 517, :time 26861638137, :type :ok, :process 0, :f :credit, :value 1075, :node "n1"}
+{:index 518, :time 26889066595, :type :invoke, :process 1, :f :debit, :value 7}
+{:index 519, :time 26893576178, :type :ok, :process 1, :f :debit, :value 1068, :node "n1"}
+{:index 520, :time 26986375512, :type :invoke, :process 2, :f :debit, :value 15}
+{:index 521, :time 26993240178, :type :ok, :process 2, :f :debit, :value 1053, :node "n1"}
+{:index 522, :time 26993345012, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 523, :time 26996783845, :type :ok, :process 0, :f :read-balance, :value 1053, :node "n5"}
+{:index 524, :time 27159485095, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 525, :time 27161090804, :type :ok, :process 0, :f :read-balance, :value 1053, :node "n4"}
+{:index 526, :time 27210991679, :type :invoke, :process 1, :f :debit, :value 19}
+{:index 527, :time 27213113762, :type :ok, :process 1, :f :debit, :value 1034, :node "n1"}
+{:index 528, :time 27407994637, :type :invoke, :process 2, :f :debit, :value 14}
+{:index 529, :time 27412217887, :type :invoke, :process 0, :f :credit, :value 15}
+{:index 530, :time 27413932970, :type :ok, :process 2, :f :debit, :value 1020, :node "n1"}
+{:index 531, :time 27416900970, :type :ok, :process 0, :f :credit, :value 1035, :node "n1"}
+{:index 532, :time 27488045762, :type :invoke, :process 0, :f :debit, :value 15}
+{:index 533, :time 27492837262, :type :ok, :process 0, :f :debit, :value 1020, :node "n1"}
+{:index 534, :time 27510792929, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 535, :time 27513093345, :type :ok, :process 1, :f :read-balance, :value 1020, :node "n4"}
+{:index 536, :time 27684024762, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 537, :time 27686510845, :type :ok, :process 2, :f :read-balance, :value 1020, :node "n4"}
+{:index 538, :time 27698242179, :type :invoke, :process 0, :f :credit, :value 18}
+{:index 539, :time 27700763845, :type :ok, :process 0, :f :credit, :value 1038, :node "n1"}
+{:index 540, :time 27755436637, :type :invoke, :process 0, :f :debit, :value 6}
+{:index 541, :time 27757651471, :type :ok, :process 0, :f :debit, :value 1032, :node "n1"}
+{:index 542, :time 27954305054, :type :invoke, :process 1, :f :debit, :value 15}
+{:index 543, :time 27958831346, :type :ok, :process 1, :f :debit, :value 1017, :node "n1"}
+{:index 544, :time 27982034846, :type :invoke, :process 2, :f :debit, :value 13}
+{:index 545, :time 27985295804, :type :ok, :process 2, :f :debit, :value 1004, :node "n1"}
+{:index 546, :time 28059008596, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 547, :time 28061056221, :type :ok, :process 0, :f :read-balance, :value 1004, :node "n2"}
+{:index 548, :time 28256073512, :type :invoke, :process 0, :f :debit, :value 18}
+{:index 549, :time 28261777679, :type :ok, :process 0, :f :debit, :value 986, :node "n1"}
+{:index 550, :time 28400458846, :type :invoke, :process 1, :f :debit, :value 12}
+{:index 551, :time 28407360096, :type :ok, :process 1, :f :debit, :value 974, :node "n1"}
+{:index 552, :time 28497252679, :type :invoke, :process 2, :f :debit, :value 16}
+{:index 553, :time 28503822513, :type :ok, :process 2, :f :debit, :value 958, :node "n1"}
+{:index 554, :time 28509484304, :type :invoke, :process 0, :f :debit, :value 12}
+{:index 555, :time 28512554263, :type :ok, :process 0, :f :debit, :value 946, :node "n1"}
+{:index 556, :time 28580457721, :type :invoke, :process 0, :f :credit, :value 10}
+{:index 557, :time 28585537013, :type :ok, :process 0, :f :credit, :value 956, :node "n1"}
+{:index 558, :time 28641298679, :type :invoke, :process 1, :f :debit, :value 12}
+{:index 559, :time 28646898429, :type :ok, :process 1, :f :debit, :value 944, :node "n1"}
+{:index 560, :time 28811108804, :type :invoke, :process 2, :f :credit, :value 11}
+{:index 561, :time 28818646721, :type :ok, :process 2, :f :credit, :value 955, :node "n1"}
+{:index 562, :time 28851006263, :type :invoke, :process 0, :f :debit, :value 13}
+{:index 563, :time 28854279471, :type :ok, :process 0, :f :debit, :value 942, :node "n1"}
+{:index 564, :time 28972268846, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 565, :time 28977524096, :type :ok, :process 0, :f :read-balance, :value 942, :node "n2"}
+{:index 566, :time 28980188721, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 567, :time 28982593679, :type :ok, :process 1, :f :read-balance, :value 942, :node "n5"}
+{:index 568, :time 29140001888, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 569, :time 29143085221, :type :ok, :process 2, :f :read-balance, :value 942, :node "n5"}
+{:index 570, :time 29287206263, :type :invoke, :process 0, :f :debit, :value 14}
+{:index 571, :time 29293250221, :type :ok, :process 0, :f :debit, :value 928, :node "n1"}
+{:index 572, :time 29325851138, :type :invoke, :process 0, :f :read-balance, :value nil}
+{:index 573, :time 29328772388, :type :ok, :process 0, :f :read-balance, :value 928, :node "n2"}
+{:index 574, :time 29528554346, :type :invoke, :process 1, :f :read-balance, :value nil}
+{:index 575, :time 29532810471, :type :ok, :process 1, :f :read-balance, :value 928, :node "n3"}
+{:index 576, :time 29538875721, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 577, :time 29541365221, :type :ok, :process 2, :f :read-balance, :value 928, :node "n2"}
+{:index 578, :time 29712735346, :type :invoke, :process 0, :f :debit, :value 5}
+{:index 579, :time 29717463346, :type :ok, :process 0, :f :debit, :value 923, :node "n1"}
+{:index 580, :time 29842147763, :type :invoke, :process 0, :f :credit, :value 12}
+{:index 581, :time 29849048097, :type :ok, :process 0, :f :credit, :value 935, :node "n1"}
+{:index 582, :time 29966514305, :type :invoke, :process 1, :f :credit, :value 16}
+{:index 583, :time 29972803847, :type :ok, :process 1, :f :credit, :value 951, :node "n1"}
+{:index 584, :time 30015058555, :type :invoke, :process 2, :f :read-balance, :value nil}
+{:index 585, :time 30018578097, :type :ok, :process 2, :f :read-balance, :value 951, :node "n2"}

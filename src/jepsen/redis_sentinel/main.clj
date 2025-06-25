@@ -5,7 +5,8 @@
             [jepsen.redis-sentinel.tests.partition :as partition-tests]
             [jepsen.redis-sentinel.tests.failover :as failover-tests]
             [jepsen.redis-sentinel.tests.network :as network-tests]
-            [jepsen.redis-sentinel.tests.latency :as latency-tests]))
+            [jepsen.redis-sentinel.tests.latency :as latency-tests]
+            [jepsen.redis-sentinel.tests.bank :as bank-tests]))
 
 (defn verify-prerequisites []
   (info "Checking prerequisites...")
@@ -67,6 +68,9 @@
     ;; Latency & Timeout Tests
     "latency-injection" (latency-tests/run-latency-injection-test)
     "extreme-latency" (latency-tests/run-extreme-latency-injection-test)
+
+    ;; Bank Test
+    "bank-simple" (bank-tests/run-bank-simple-test)
     
     ;; Default case
     (do

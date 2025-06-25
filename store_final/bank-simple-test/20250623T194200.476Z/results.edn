@@ -1,0 +1,9 @@
+{:perf {:latency-graph {:valid? true},
+        :rate-graph {:valid? true},
+        :valid? true},
+ :latency-detailed {:valid? true},
+ :rate-detailed {:valid? true},
+ :timeline {:valid? true},
+ :clock-plot {:valid? true},
+ :unhandled-exceptions {:valid? true},
+ :valid? true}
