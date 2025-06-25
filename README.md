@@ -1,5 +1,5 @@
 # Setup
-
+Make sure that all of the .sh scripts have LF (linux) encodings
 ## Build containers
 ```bash
 docker-compose -f docker-compose-jepsen.yml build
